@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 import datetime
 from django.db.models import Q
 
-
 # class Answer(models.Model):
 #     is_correct = models.BooleanField()
 #     answer_key = models.CharField(max_length=5)
@@ -21,7 +20,6 @@ from django.db.models import Q
 #         except ValueError:
 #             a, b, c = self.answer_key
 #             return a, b, c
-
 
 
 USER_TYPES = (

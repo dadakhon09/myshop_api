@@ -7,13 +7,13 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.contrib.auth import authenticate, login, logout
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import generics, mixins
 from api.models import UserProfile, Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, \
     MediaPlan, Settings, USER_TYPES
-from api.serializers import PartnerSerializer, ProcessSerializer, PaymentSerializer, ActionSerializer, \
+from api.serializers import PartnerListSerializer, PartnerCreateSerializer, ProcessSerializer, PaymentSerializer, \
+    ActionCreateSerializer, ActionListSerializer, \
     ContractSerializer, DaySerializer, DiarySerializer, NegotiationSerializer, TariffSerializer, MediaPlanSerializer, \
-    SettingsSerializer
+    SettingsSerializer, ProcessCreateSerializer, ProcessListSerializer
 
 
 def home(request):
@@ -45,39 +45,39 @@ class UserLogin(APIView):
                          'user_type': profile.get_type_display()})
 
 
-class PartnerAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class PartnerCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = PartnerSerializer
+    serializer_class = PartnerCreateSerializer
 
-    def get_queryset(self):
-        return Partner.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class PartnerListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = PartnerListSerializer
+    queryset = Partner.objects.all()
 
 
 class PartnerRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = PartnerSerializer
+    serializer_class = PartnerListSerializer
 
     def get_queryset(self):
         return Partner.objects.all()
 
 
-class ProcessAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class ProcessCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = ProcessSerializer
+    serializer_class = ProcessCreateSerializer
 
-    def get_queryset(self):
-        return Process.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class ProcessListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ProcessListSerializer
+    queryset = Process.objects.all()
 
 
 class ProcessRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = ProcessSerializer
+    serializer_class = ProcessListSerializer
 
     def get_queryset(self):
         return Process.objects.all()
@@ -102,20 +102,21 @@ class PaymentRudView(generics.RetrieveUpdateDestroyAPIView):
         return Payment.objects.all()
 
 
-class ActionAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class ActionCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = ActionSerializer
+    serializer_class = ActionCreateSerializer
+    queryset = Action.objects.all()
 
-    def get_queryset(self):
-        return Action.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class ActionListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ActionCreateSerializer
+    queryset = Action.objects.all()
 
 
 class ActionRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = ActionSerializer
+    serializer_class = ActionListSerializer
 
     def get_queryset(self):
         return Action.objects.all()
