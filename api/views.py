@@ -10,10 +10,12 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework import generics, mixins
 from api.models import UserProfile, Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, \
     MediaPlan, Settings, USER_TYPES
-from api.serializers import PartnerListSerializer, PartnerCreateSerializer, ProcessSerializer, PaymentSerializer, \
-    ActionCreateSerializer, ActionListSerializer, \
-    ContractSerializer, DaySerializer, DiarySerializer, NegotiationSerializer, TariffSerializer, MediaPlanSerializer, \
-    SettingsSerializer, ProcessCreateSerializer, ProcessListSerializer
+from api.serializers import PartnerListSerializer, PartnerCreateSerializer, \
+    ActionCreateSerializer, ActionListSerializer, ProcessCreateSerializer, ProcessListSerializer, \
+    ContractCreateSerializer, ContractListSerializer, PaymentListSerializer, PaymentCreateSerializer, \
+    DayCreateSerializer, DayListSerializer, DiaryCreateSerializer, DiaryListSerializer, NegotiationCreateSerializer, \
+    NegotiationListSerializer, TariffCreateSerializer, TariffListSerializer, MediaPlanCreateSerializer, \
+    MediaPlanListSerializer, SettingsCreateSerializer, SettingsListSerializer, PartnerRUDSerializer
 
 
 def home(request):
@@ -58,7 +60,7 @@ class PartnerListAPIView(generics.ListAPIView):
 
 class PartnerRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = PartnerListSerializer
+    serializer_class = PartnerRUDSerializer
 
     def get_queryset(self):
         return Partner.objects.all()
@@ -83,20 +85,25 @@ class ProcessRudView(generics.RetrieveUpdateDestroyAPIView):
         return Process.objects.all()
 
 
-class PaymentAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class PaymentCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = PaymentSerializer
+    serializer_class = PaymentCreateSerializer
 
     def get_queryset(self):
         return Payment.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class PaymentListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = PaymentListSerializer
+
+    def get_queryset(self):
+        return Payment.objects.all()
 
 
 class PaymentRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = PaymentSerializer
+    serializer_class = PaymentListSerializer
 
     def get_queryset(self):
         return Payment.objects.all()
@@ -110,7 +117,7 @@ class ActionCreateAPIView(generics.CreateAPIView):
 
 class ActionListAPIView(generics.ListAPIView):
     lookup_field = 'id'
-    serializer_class = ActionCreateSerializer
+    serializer_class = ActionListSerializer
     queryset = Action.objects.all()
 
 
@@ -122,134 +129,169 @@ class ActionRudView(generics.RetrieveUpdateDestroyAPIView):
         return Action.objects.all()
 
 
-class ContractAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class ContractCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = ContractSerializer
+    serializer_class = ContractCreateSerializer
 
     def get_queryset(self):
         return Contract.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class ContractListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ContractListSerializer
+
+    def get_queryset(self):
+        return Contract.objects.all()
 
 
 class ContractRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = ContractSerializer
+    serializer_class = ContractListSerializer
 
     def get_queryset(self):
         return Contract.objects.all()
 
 
-class DayAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class DayCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = DaySerializer
+    serializer_class = DayCreateSerializer
 
     def get_queryset(self):
         return Day.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class DayListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DayListSerializer
+
+    def get_queryset(self):
+        return Day.objects.all()
 
 
 class DayRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = DaySerializer
+    serializer_class = DayListSerializer
 
     def get_queryset(self):
         return Day.objects.all()
 
 
-class DiaryAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class DiaryCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = DiarySerializer
+    serializer_class = DiaryCreateSerializer
 
     def get_queryset(self):
         return Diary.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class DiaryListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DiaryListSerializer
+
+    def get_queryset(self):
+        return Diary.objects.all()
 
 
 class DiaryRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = DiarySerializer
+    serializer_class = DiaryListSerializer
 
     def get_queryset(self):
         return Diary.objects.all()
 
 
-class NegotiationAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class NegotiationCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = NegotiationSerializer
+    serializer_class = NegotiationCreateSerializer
 
     def get_queryset(self):
         return Negotiation.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class NegotiationListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = NegotiationListSerializer
+
+    def get_queryset(self):
+        return Negotiation.objects.all()
 
 
 class NegotiationRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = NegotiationSerializer
+    serializer_class = NegotiationListSerializer
 
     def get_queryset(self):
         return Negotiation.objects.all()
 
 
-class TariffAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class TariffCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = TariffSerializer
+    serializer_class = TariffCreateSerializer
 
     def get_queryset(self):
         return Tariff.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class TariffListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = TariffListSerializer
+
+    def get_queryset(self):
+        return Tariff.objects.all()
 
 
 class TariffRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = TariffSerializer
+    serializer_class = TariffListSerializer
 
     def get_queryset(self):
         return Tariff.objects.all()
 
 
-class MediaPlanAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class MediaPlanCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = MediaPlanSerializer
+    serializer_class = MediaPlanCreateSerializer
 
     def get_queryset(self):
         return MediaPlan.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class MediaPlanListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = MediaPlanListSerializer
+
+    def get_queryset(self):
+        return MediaPlan.objects.all()
 
 
 class MediaPlanRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = MediaPlanSerializer
+    serializer_class = MediaPlanListSerializer
 
     def get_queryset(self):
         return MediaPlan.objects.all()
 
 
-class SettingsAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class SettingsCreateAPIView(generics.CreateAPIView):
     lookup_field = 'id'
-    serializer_class = SettingsSerializer
+    serializer_class = SettingsCreateSerializer
 
     def get_queryset(self):
         return Settings.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+
+class SettingsListAPIView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = SettingsListSerializer
+
+    def get_queryset(self):
+        return Settings.objects.all()
 
 
 class SettingsRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = SettingsSerializer
+    serializer_class = SettingsListSerializer
 
     def get_queryset(self):
         return Settings.objects.all()

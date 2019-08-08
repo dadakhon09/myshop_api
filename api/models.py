@@ -94,7 +94,7 @@ class Action(models.Model):
 class Negotiation(models.Model):
     created = models.DateTimeField(auto_now=True)
     description = models.CharField(max_length=255, blank=True)
-    contract = models.OneToOneField("Contract", on_delete=models.CASCADE, blank=True, null=True)
+    contract = models.OneToOneField('Contract', on_delete=models.CASCADE, blank=True, null=True)
     partner = models.ForeignKey(Partner, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, blank=True, null=True)
 
