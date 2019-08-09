@@ -1,21 +1,20 @@
 from django.shortcuts import render
-from myshop_api import settings
-from django.contrib.auth.models import User, Group
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
-from django.contrib.auth import authenticate, login, logout
-from rest_framework import generics, mixins
+from rest_framework.permissions import AllowAny
+from django.contrib.auth import authenticate
+from rest_framework import generics
 from api.models import UserProfile, Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, \
-    MediaPlan, Settings, USER_TYPES
+    MediaPlan, Settings
 from api.serializers import PartnerListSerializer, PartnerCreateSerializer, \
     ActionCreateSerializer, ActionListSerializer, ProcessCreateSerializer, ProcessListSerializer, \
     ContractCreateSerializer, ContractListSerializer, PaymentListSerializer, PaymentCreateSerializer, \
     DayCreateSerializer, DayListSerializer, DiaryCreateSerializer, DiaryListSerializer, NegotiationCreateSerializer, \
     NegotiationListSerializer, TariffCreateSerializer, TariffListSerializer, MediaPlanCreateSerializer, \
-    MediaPlanListSerializer, SettingsCreateSerializer, SettingsListSerializer, PartnerRUDSerializer
+    MediaPlanListSerializer, SettingsCreateSerializer, SettingsListSerializer, PartnerTransferSerializer, \
+    PartnerUpdateSerializer
 
 
 def home(request):
@@ -58,9 +57,25 @@ class PartnerListAPIView(generics.ListAPIView):
     queryset = Partner.objects.all()
 
 
-class PartnerRudView(generics.RetrieveUpdateDestroyAPIView):
+class PartnerTransferAPIView(generics.RetrieveUpdateAPIView):
     lookup_field = 'id'
-    serializer_class = PartnerRUDSerializer
+    serializer_class = PartnerTransferSerializer
+
+    def get_queryset(self):
+        return Partner.objects.all()
+
+
+class PartnerUpdateAPIView(generics.RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = PartnerUpdateSerializer
+
+    def get_queryset(self):
+        return Partner.objects.all()
+
+
+class PartnerDeleteAPIView(generics.RetrieveDestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = PartnerListSerializer
 
     def get_queryset(self):
         return Partner.objects.all()

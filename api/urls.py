@@ -1,15 +1,17 @@
 from django.urls import path
-from api.views import UserLogin, PartnerRudView, ProcessRudView, ProcessCreateAPIView, ProcessListAPIView, \
+from api.views import UserLogin, ProcessRudView, ProcessCreateAPIView, ProcessListAPIView, \
     PaymentRudView, ActionCreateAPIView, ActionRudView, ContractRudView, DayRudView, DiaryRudView, NegotiationRudView, \
     TariffRudView, MediaPlanRudView, SettingsRudView, PartnerListAPIView, PartnerCreateAPIView, ActionListAPIView, \
     PaymentCreateAPIView, PaymentListAPIView, ContractCreateAPIView, ContractListAPIView, DayCreateAPIView, \
     DayListAPIView, DiaryCreateAPIView, DiaryListAPIView, NegotiationListAPIView, NegotiationCreateAPIView, \
     TariffCreateAPIView, TariffListAPIView, MediaPlanCreateAPIView, MediaPlanListAPIView, SettingsCreateAPIView, \
-    SettingsListAPIView
+    SettingsListAPIView, PartnerUpdateAPIView, PartnerDeleteAPIView, PartnerTransferAPIView
 
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
-    path('partner/list/<int:id>/', PartnerRudView.as_view(), name='partner-rud'),
+    path('partner/update/<int:id>/', PartnerUpdateAPIView.as_view(), name='partner-update'),
+    path('partner/transfer/<int:id>/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
+    path('partner/delete/<int:id>/', PartnerDeleteAPIView.as_view(), name='partner-delete'),
     path('partner/create/', PartnerCreateAPIView.as_view(), name='partner-create'),
     path('partner/list/', PartnerListAPIView.as_view(), name='partner-list'),
     path('process/list/<int:id>/', ProcessRudView.as_view(), name='process-rud'),
