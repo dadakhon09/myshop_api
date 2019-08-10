@@ -1,12 +1,21 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from api.models import Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, MediaPlan, Settings
+from api.models import Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, MediaPlan, \
+    Settings, UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username')
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'type')
 
 
 class PartnerListSerializer(serializers.ModelSerializer):
@@ -27,44 +36,34 @@ class PartnerCreateSerializer(serializers.ModelSerializer):
             'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address',
             'transfered', 'transfered_date')
 
-    def create(self, validated_data):
-        p = Partner.objects.create(**validated_data)
-        p.moder = self.context['request'].user
-        p.save()
-        print(self.context['request'])
-        return p
+    # def create(self, validated_data):
+    #     p = Partner.objects.create(**validated_data)
+    #     p.moder = self.context['request'].user
+    #     p.save()
+    #     print(self.context['request'])
+    #     return p
 
 
 class PartnerTransferSerializer(serializers.ModelSerializer):
-    moder = UserSerializer()
-
     class Meta:
         model = Partner
         fields = (
-            'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'moder',
-            'transfered', 'transfered_date')
+            'id', 'moder')
 
     def update(self, instance, validated_data):
-        instance.last_moder = validated_data.get(instance.moder)
-        instance.moder = self.context['request'].user
-        print(instance)
-        print(self.context['request'].POST)
+        instance.last_moder = instance.moder
+        instance.moder = validated_data['moder']
         return instance
 
 
 class PartnerUpdateSerializer(serializers.ModelSerializer):
-    moder = UserSerializer()
+    # moder = UserProfileSerializer()
 
     class Meta:
         model = Partner
         fields = (
-            'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'moder',
+            'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address',
             'transfered', 'transfered_date')
-
-    def update(self, instance, validated_data):
-        print(instance.ooo)
-        print(self.context['request'].POST)
-        return ''
 
 
 class ActionListSerializer(serializers.ModelSerializer):
@@ -183,7 +182,7 @@ class SettingsListSerializer(serializers.ModelSerializer):
 
 
 class DayListSerializer(serializers.ModelSerializer):
-    moder = UserSerializer()
+    moder = UserProfileSerializer()
 
     class Meta:
         model = Day

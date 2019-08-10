@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from django.db.models import Q
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # class Answer(models.Model):
 #     is_correct = models.BooleanField()
@@ -21,7 +24,6 @@ from django.db.models import Q
 #             a, b, c = self.answer_key
 #             return a, b, c
 
-
 USER_TYPES = (
     (0, 'Manager'),
     (1, 'MediaManager'),
@@ -31,10 +33,15 @@ USER_TYPES = (
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    type = models.IntegerField(null=False, blank=False, choices=USER_TYPES)
+    type = models.IntegerField(null=True, blank=True, choices=USER_TYPES)
 
     def __str__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=User)
+def wtf(sender, instance, **kwargs):
+    UserProfile.objects.get_or_create(user=instance)
 
 
 class Partner(models.Model):

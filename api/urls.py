@@ -5,15 +5,20 @@ from api.views import UserLogin, ProcessRudView, ProcessCreateAPIView, ProcessLi
     PaymentCreateAPIView, PaymentListAPIView, ContractCreateAPIView, ContractListAPIView, DayCreateAPIView, \
     DayListAPIView, DiaryCreateAPIView, DiaryListAPIView, NegotiationListAPIView, NegotiationCreateAPIView, \
     TariffCreateAPIView, TariffListAPIView, MediaPlanCreateAPIView, MediaPlanListAPIView, SettingsCreateAPIView, \
-    SettingsListAPIView, PartnerUpdateAPIView, PartnerDeleteAPIView, PartnerTransferAPIView
+    SettingsListAPIView, PartnerUpdateAPIView, PartnerDeleteAPIView, PartnerTransferAPIView, UserListAPIView, \
+    PartnerDetailAPIView, UserLogout, UserCreate
 
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
+    path('logout/', UserLogout.as_view(), name='logout'),
+    path('create-user/', UserCreate.as_view(), name='create-user'),
+    path('users/list/', UserListAPIView.as_view(), name='users-list'),
     path('partner/update/<int:id>/', PartnerUpdateAPIView.as_view(), name='partner-update'),
     path('partner/transfer/<int:id>/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
     path('partner/delete/<int:id>/', PartnerDeleteAPIView.as_view(), name='partner-delete'),
     path('partner/create/', PartnerCreateAPIView.as_view(), name='partner-create'),
     path('partner/list/', PartnerListAPIView.as_view(), name='partner-list'),
+    path('partner/list/<int:id>/', PartnerDetailAPIView.as_view(), name='partner-list-id'),
     path('process/list/<int:id>/', ProcessRudView.as_view(), name='process-rud'),
     path('process/create/', ProcessCreateAPIView.as_view(), name='process-create'),
     path('process/list/', ProcessListAPIView.as_view(), name='process-list'),
