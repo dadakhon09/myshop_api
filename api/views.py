@@ -24,6 +24,26 @@ def home(request):
     return render(request, 'home.html')
 
 
+@permission_classes((IsAdminUser,))
+class UserCreate(APIView):
+    def post(self, request):
+        data = request.data
+        username = data['username']
+        password = data['password']
+        type = data['data']
+
+        user_check = User.objects.filter(username=username)
+        if not user_check:
+            new_user = User.objects.create_user(username, password)
+            token, _ = Token.objects.get_or_create(user=new_user)
+            new_user.userprofile.type = type
+            new_user.userprofile.save()
+            new_user.save()
+            return Response("User is created")
+        else:
+            return Response("We have already the same username")
+
+
 @permission_classes((AllowAny,))
 class UserLogin(APIView):
     def post(self, request):
@@ -53,23 +73,6 @@ class UserLogout(APIView):
             Response("Please login first")
         return Response("Successfully logged out")
 
-@permission_classes((IsAdminUser,))
-class UserCreate(APIView):
-    def post(self, request):
-        data = request.data
-        username = data['username']
-        password = data['password']
-
-        user_check = User.objects.filter(username=username)
-        if not user_check:
-            new_user = User.objects.create_user(username, password)
-            token, _ = Token.objects.get_or_create(user=new_user)
-            new_user.userprofile.type = 1
-            new_user.userprofile.save()
-            new_user.save()
-            return Response("User is created")
-        else:
-            return Response("We have already the same username")
 
 
 class UserListAPIView(generics.ListAPIView):
@@ -91,7 +94,7 @@ class PartnerCreateAPIView(generics.CreateAPIView):
 class PartnerListAPIView(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
-    queryset = Partner.objects.all()
+    queryset = Partner.objects.all().order_by('id')
 
 
 class PartnerDetailAPIView(generics.ListAPIView):
