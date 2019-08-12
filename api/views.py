@@ -74,7 +74,6 @@ class UserLogout(APIView):
         return Response("Successfully logged out")
 
 
-
 class UserListAPIView(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = UserProfileSerializer
@@ -106,7 +105,7 @@ class PartnerDetailAPIView(generics.ListAPIView):
         return p
 
 
-class PartnerTransferAPIView(generics.RetrieveUpdateAPIView):
+class PartnerTransferAPIView(generics.CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerTransferSerializer
 

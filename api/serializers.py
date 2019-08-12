@@ -44,16 +44,32 @@ class PartnerCreateSerializer(serializers.ModelSerializer):
     #     return p
 
 
+# class PartnerTransferSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Partner
+#         fields = (
+#             'id', 'moder')
+#
+#     def update(self, instance, validated_data):
+#         instance.last_moder = instance.moder
+#         instance.moder = validated_data['moder']
+#         return instance
+
 class PartnerTransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
-        fields = (
-            'id', 'moder')
+        fields = ()
 
-    def update(self, instance, validated_data):
-        instance.last_moder = instance.moder
-        instance.moder = validated_data['moder']
-        return instance
+    def create(self, validated_data):
+        request = self.context['request']
+        partners = request.data.getlist('partner')
+        for partner in partners:
+            p = Partner.objects.get(id=int(partner))
+            p.last_moder = p.moder
+            p.moder = User.objects.get(id=request.data.get('user_id'))
+            p.save()
+
+        return request
 
 
 class PartnerUpdateSerializer(serializers.ModelSerializer):
