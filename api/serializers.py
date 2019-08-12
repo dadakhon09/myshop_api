@@ -1,16 +1,16 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from api.models import Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, MediaPlan, \
     Settings, UserProfile
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username')
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(ModelSerializer):
     user = UserSerializer()
 
     class Meta:
@@ -18,7 +18,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'type')
 
 
-class PartnerListSerializer(serializers.ModelSerializer):
+class PartnerListSerializer(ModelSerializer):
     moder = UserSerializer()
     last_moder = UserSerializer()
 
@@ -29,7 +29,7 @@ class PartnerListSerializer(serializers.ModelSerializer):
             'last_moder', 'transfered', 'transfered_date')
 
 
-class PartnerCreateSerializer(serializers.ModelSerializer):
+class PartnerCreateSerializer(ModelSerializer):
     class Meta:
         model = Partner
         fields = (
@@ -44,7 +44,7 @@ class PartnerCreateSerializer(serializers.ModelSerializer):
     #     return p
 
 
-# class PartnerTransferSerializer(serializers.ModelSerializer):
+# class PartnerTransferSerializer(ModelSerializer):
 #     class Meta:
 #         model = Partner
 #         fields = (
@@ -55,7 +55,7 @@ class PartnerCreateSerializer(serializers.ModelSerializer):
 #         instance.moder = validated_data['moder']
 #         return instance
 
-class PartnerTransferSerializer(serializers.ModelSerializer):
+class PartnerTransferSerializer(ModelSerializer):
     class Meta:
         model = Partner
         fields = ()
@@ -68,11 +68,10 @@ class PartnerTransferSerializer(serializers.ModelSerializer):
             p.last_moder = p.moder
             p.moder = User.objects.get(id=request.data.get('user_id'))
             p.save()
-
         return request
 
 
-class PartnerUpdateSerializer(serializers.ModelSerializer):
+class PartnerUpdateSerializer(ModelSerializer):
     # moder = UserProfileSerializer()
 
     class Meta:
@@ -82,7 +81,7 @@ class PartnerUpdateSerializer(serializers.ModelSerializer):
             'transfered', 'transfered_date')
 
 
-class ActionListSerializer(serializers.ModelSerializer):
+class ActionListSerializer(ModelSerializer):
     subject = PartnerListSerializer()
     actor = UserSerializer()
 
@@ -91,7 +90,7 @@ class ActionListSerializer(serializers.ModelSerializer):
         fields = ('id', 'actor', 'action', 'subject', 'action_date', 'comment')
 
 
-class ActionCreateSerializer(serializers.ModelSerializer):
+class ActionCreateSerializer(ModelSerializer):
     class Meta:
         model = Action
         fields = ('id', 'actor', 'action', 'subject', 'comment')
@@ -101,19 +100,28 @@ class ActionCreateSerializer(serializers.ModelSerializer):
         return a
 
 
-class TariffCreateSerializer(serializers.ModelSerializer):
+class ActionUpdateSerializer(ModelSerializer):
+    subject = PartnerListSerializer()
+    actor = UserSerializer()
+
+    class Meta:
+        model = Action
+        fields = ('id', 'action', 'subject', 'comment')
+
+
+class TariffCreateSerializer(ModelSerializer):
     class Meta:
         model = Tariff
         fields = ('id', 'duration', 'name')
 
 
-class TariffListSerializer(serializers.ModelSerializer):
+class TariffListSerializer(ModelSerializer):
     class Meta:
         model = Tariff
         fields = ('id', 'duration', 'name')
 
 
-class ContractListSerializer(serializers.ModelSerializer):
+class ContractListSerializer(ModelSerializer):
     tariff = TariffListSerializer()
 
     class Meta:
@@ -122,13 +130,21 @@ class ContractListSerializer(serializers.ModelSerializer):
                   'created')
 
 
-class ContractCreateSerializer(serializers.ModelSerializer):
+class ContractUpdateSerializer(ModelSerializer):
+    tariff = TariffListSerializer()
+
     class Meta:
         model = Contract
         fields = ('id', 'price', 'signing_date', 'activation_date', 'duration', 'tariff', 'tariff_price', 'description')
 
 
-class NegotiationListSerializer(serializers.ModelSerializer):
+class ContractCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = ('id', 'price', 'signing_date', 'activation_date', 'duration', 'tariff', 'tariff_price', 'description')
+
+
+class NegotiationListSerializer(ModelSerializer):
     contract = ContractListSerializer()
     partner = PartnerListSerializer()
 
@@ -137,19 +153,28 @@ class NegotiationListSerializer(serializers.ModelSerializer):
         fields = ('id', 'created', 'description', 'contract', 'partner', 'status')
 
 
-class NegotiationCreateSerializer(serializers.ModelSerializer):
+class NegotiationUpdateSerializer(ModelSerializer):
+    contract = ContractListSerializer()
+    partner = PartnerListSerializer()
+
     class Meta:
         model = Negotiation
         fields = ('id', 'description', 'contract', 'partner', 'status')
 
 
-class ProcessCreateSerializer(serializers.ModelSerializer):
+class NegotiationCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Negotiation
+        fields = ('id', 'description', 'contract', 'partner', 'status')
+
+
+class ProcessCreateSerializer(ModelSerializer):
     class Meta:
         model = Process
         fields = ('id', 'negotiation', 'cause', 'destination_date', 'description', 'status')
 
 
-class ProcessListSerializer(serializers.ModelSerializer):
+class ProcessListSerializer(ModelSerializer):
     negotiation = NegotiationListSerializer()
 
     class Meta:
@@ -157,13 +182,21 @@ class ProcessListSerializer(serializers.ModelSerializer):
         fields = ('id', 'negotiation', 'cause', 'created', 'destination_date', 'description', 'status')
 
 
-class MediaPlanCreateSerializer(serializers.ModelSerializer):
+class ProcessUpdateSerializer(ModelSerializer):
+    negotiation = NegotiationListSerializer()
+
+    class Meta:
+        model = Process
+        fields = ('id', 'negotiation', 'cause', 'destination_date', 'description', 'status')
+
+
+class MediaPlanCreateSerializer(ModelSerializer):
     class Meta:
         model = MediaPlan
         fields = ('id', 'contract', 'current_month', 'document', 'description')
 
 
-class MediaPlanListSerializer(serializers.ModelSerializer):
+class MediaPlanListSerializer(ModelSerializer):
     contract = ContractListSerializer()
 
     class Meta:
@@ -171,13 +204,21 @@ class MediaPlanListSerializer(serializers.ModelSerializer):
         fields = ('id', 'contract', 'current_month', 'document', 'description', 'created')
 
 
-class PaymentCreateSerializer(serializers.ModelSerializer):
+class MediaPlanUpdateSerializer(ModelSerializer):
+    contract = ContractListSerializer()
+
+    class Meta:
+        model = MediaPlan
+        fields = ('id', 'contract', 'current_month', 'document', 'description')
+
+
+class PaymentCreateSerializer(ModelSerializer):
     class Meta:
         model = Payment
         fields = ('id', 'contract', 'cash', 'pay_day')
 
 
-class PaymentListSerializer(serializers.ModelSerializer):
+class PaymentListSerializer(ModelSerializer):
     contract = ContractListSerializer()
 
     class Meta:
@@ -185,19 +226,27 @@ class PaymentListSerializer(serializers.ModelSerializer):
         fields = ('id', 'contract', 'cash', 'created', 'pay_day')
 
 
-class SettingsCreateSerializer(serializers.ModelSerializer):
+class PaymentUpdateSerializer(ModelSerializer):
+    contract = ContractListSerializer()
+
+    class Meta:
+        model = Payment
+        fields = ('id', 'contract', 'cash', 'pay_day')
+
+
+class SettingsCreateSerializer(ModelSerializer):
     class Meta:
         model = Settings
         fields = ('id', 'settings')
 
 
-class SettingsListSerializer(serializers.ModelSerializer):
+class SettingsListSerializer(ModelSerializer):
     class Meta:
         model = Settings
         fields = ('id', 'settings')
 
 
-class DayListSerializer(serializers.ModelSerializer):
+class DayListSerializer(ModelSerializer):
     moder = UserProfileSerializer()
 
     class Meta:
@@ -205,13 +254,21 @@ class DayListSerializer(serializers.ModelSerializer):
         fields = ('id', 'created', 'day_date', 'moder', 'done', 'start_time', 'end_time')
 
 
-class DayCreateSerializer(serializers.ModelSerializer):
+class DayUpdateSerializer(ModelSerializer):
+    moder = UserProfileSerializer()
+
     class Meta:
         model = Day
         fields = ('id', 'day_date', 'moder', 'done', 'start_time', 'end_time')
 
 
-class DiaryListSerializer(serializers.ModelSerializer):
+class DayCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Day
+        fields = ('id', 'day_date', 'moder', 'done', 'start_time', 'end_time')
+
+
+class DiaryListSerializer(ModelSerializer):
     moder = UserSerializer()
     partner = PartnerListSerializer()
     process = ProcessListSerializer()
@@ -225,7 +282,21 @@ class DiaryListSerializer(serializers.ModelSerializer):
             'day')
 
 
-class DiaryCreateSerializer(serializers.ModelSerializer):
+class DiaryUpdateSerializer(ModelSerializer):
+    moder = UserSerializer()
+    partner = PartnerListSerializer()
+    process = ProcessListSerializer()
+    day = DayListSerializer()
+
+    class Meta:
+        model = Diary
+        fields = (
+            'id', 'moder', 'cause', 'partner', 'other', 'result', 'destination_date', 'description',
+            'process',
+            'day')
+
+
+class DiaryCreateSerializer(ModelSerializer):
     class Meta:
         model = Diary
         fields = (

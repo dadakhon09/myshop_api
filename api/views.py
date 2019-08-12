@@ -2,13 +2,13 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import render
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate
-from rest_framework import generics
 from api.models import UserProfile, Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, \
     MediaPlan, Settings
 from api.serializers import PartnerListSerializer, PartnerCreateSerializer, \
@@ -17,7 +17,9 @@ from api.serializers import PartnerListSerializer, PartnerCreateSerializer, \
     DayCreateSerializer, DayListSerializer, DiaryCreateSerializer, DiaryListSerializer, NegotiationCreateSerializer, \
     NegotiationListSerializer, TariffCreateSerializer, TariffListSerializer, MediaPlanCreateSerializer, \
     MediaPlanListSerializer, SettingsCreateSerializer, SettingsListSerializer, PartnerTransferSerializer, \
-    PartnerUpdateSerializer, UserProfileSerializer
+    PartnerUpdateSerializer, UserProfileSerializer, MediaPlanUpdateSerializer, NegotiationUpdateSerializer, \
+    DiaryUpdateSerializer, DayUpdateSerializer, ContractUpdateSerializer, ActionUpdateSerializer, \
+    PaymentUpdateSerializer, ProcessUpdateSerializer
 
 
 def home(request):
@@ -74,13 +76,13 @@ class UserLogout(APIView):
         return Response("Successfully logged out")
 
 
-class UserListAPIView(generics.ListAPIView):
+class UserListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
 
 
-class PartnerCreateAPIView(generics.CreateAPIView):
+class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
 
@@ -90,13 +92,13 @@ class PartnerCreateAPIView(generics.CreateAPIView):
         instance.save()
 
 
-class PartnerListAPIView(generics.ListAPIView):
+class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
     queryset = Partner.objects.all().order_by('id')
 
 
-class PartnerDetailAPIView(generics.ListAPIView):
+class PartnerDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
 
@@ -105,7 +107,7 @@ class PartnerDetailAPIView(generics.ListAPIView):
         return p
 
 
-class PartnerTransferAPIView(generics.CreateAPIView):
+class PartnerTransferAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerTransferSerializer
 
@@ -113,7 +115,7 @@ class PartnerTransferAPIView(generics.CreateAPIView):
         return Partner.objects.all()
 
 
-class PartnerUpdateAPIView(generics.RetrieveUpdateAPIView):
+class PartnerUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerUpdateSerializer
 
@@ -121,7 +123,7 @@ class PartnerUpdateAPIView(generics.RetrieveUpdateAPIView):
         return Partner.objects.all()
 
 
-class PartnerDeleteAPIView(generics.RetrieveDestroyAPIView):
+class PartnerDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
 
@@ -129,26 +131,43 @@ class PartnerDeleteAPIView(generics.RetrieveDestroyAPIView):
         return Partner.objects.all()
 
 
-class ProcessCreateAPIView(generics.CreateAPIView):
+class ProcessCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ProcessCreateSerializer
 
 
-class ProcessListAPIView(generics.ListAPIView):
+class ProcessListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
     queryset = Process.objects.all()
 
 
-class ProcessRudView(generics.RetrieveUpdateDestroyAPIView):
+class ProcessUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = ProcessUpdateSerializer
+
+    def get_queryset(self):
+        return Partner.objects.all()
+
+
+class ProcessDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
 
     def get_queryset(self):
-        return Process.objects.all()
+        return Partner.objects.all()
 
 
-class PaymentCreateAPIView(generics.CreateAPIView):
+class ProcessDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ProcessListSerializer
+
+    def get_queryset(self):
+        p = Process.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class PaymentCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PaymentCreateSerializer
 
@@ -156,7 +175,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         return Payment.objects.all()
 
 
-class PaymentListAPIView(generics.ListAPIView):
+class PaymentListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PaymentListSerializer
 
@@ -164,7 +183,15 @@ class PaymentListAPIView(generics.ListAPIView):
         return Payment.objects.all()
 
 
-class PaymentRudView(generics.RetrieveUpdateDestroyAPIView):
+class PaymentUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = PaymentUpdateSerializer
+
+    def get_queryset(self):
+        return Payment.objects.all()
+
+
+class PaymentDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = PaymentListSerializer
 
@@ -172,19 +199,36 @@ class PaymentRudView(generics.RetrieveUpdateDestroyAPIView):
         return Payment.objects.all()
 
 
-class ActionCreateAPIView(generics.CreateAPIView):
+class PaymentDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = PaymentListSerializer
+
+    def get_queryset(self):
+        p = Payment.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class ActionCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ActionCreateSerializer
     queryset = Action.objects.all()
 
 
-class ActionListAPIView(generics.ListAPIView):
+class ActionListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ActionListSerializer
     queryset = Action.objects.all()
 
 
-class ActionRudView(generics.RetrieveUpdateDestroyAPIView):
+class ActionUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = ActionUpdateSerializer
+
+    def get_queryset(self):
+        return Action.objects.all()
+
+
+class ActionDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ActionListSerializer
 
@@ -192,7 +236,16 @@ class ActionRudView(generics.RetrieveUpdateDestroyAPIView):
         return Action.objects.all()
 
 
-class ContractCreateAPIView(generics.CreateAPIView):
+class ActionDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ActionListSerializer
+
+    def get_queryset(self):
+        p = Action.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class ContractCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ContractCreateSerializer
 
@@ -200,7 +253,7 @@ class ContractCreateAPIView(generics.CreateAPIView):
         return Contract.objects.all()
 
 
-class ContractListAPIView(generics.ListAPIView):
+class ContractListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ContractListSerializer
 
@@ -208,7 +261,15 @@ class ContractListAPIView(generics.ListAPIView):
         return Contract.objects.all()
 
 
-class ContractRudView(generics.RetrieveUpdateDestroyAPIView):
+class ContractUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = ContractUpdateSerializer
+
+    def get_queryset(self):
+        return Contract.objects.all()
+
+
+class ContractDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ContractListSerializer
 
@@ -216,7 +277,16 @@ class ContractRudView(generics.RetrieveUpdateDestroyAPIView):
         return Contract.objects.all()
 
 
-class DayCreateAPIView(generics.CreateAPIView):
+class ContractDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ContractListSerializer
+
+    def get_queryset(self):
+        p = Contract.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class DayCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DayCreateSerializer
 
@@ -224,7 +294,7 @@ class DayCreateAPIView(generics.CreateAPIView):
         return Day.objects.all()
 
 
-class DayListAPIView(generics.ListAPIView):
+class DayListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
 
@@ -232,7 +302,15 @@ class DayListAPIView(generics.ListAPIView):
         return Day.objects.all()
 
 
-class DayRudView(generics.RetrieveUpdateDestroyAPIView):
+class DayUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = DayUpdateSerializer
+
+    def get_queryset(self):
+        return Day.objects.all()
+
+
+class DayDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
 
@@ -240,7 +318,16 @@ class DayRudView(generics.RetrieveUpdateDestroyAPIView):
         return Day.objects.all()
 
 
-class DiaryCreateAPIView(generics.CreateAPIView):
+class DayDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DayListSerializer
+
+    def get_queryset(self):
+        p = Day.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class DiaryCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DiaryCreateSerializer
 
@@ -248,7 +335,7 @@ class DiaryCreateAPIView(generics.CreateAPIView):
         return Diary.objects.all()
 
 
-class DiaryListAPIView(generics.ListAPIView):
+class DiaryListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
 
@@ -256,7 +343,15 @@ class DiaryListAPIView(generics.ListAPIView):
         return Diary.objects.all()
 
 
-class DiaryRudView(generics.RetrieveUpdateDestroyAPIView):
+class DiaryUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = DiaryUpdateSerializer
+
+    def get_queryset(self):
+        return Diary.objects.all()
+
+
+class DiaryDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
 
@@ -264,7 +359,16 @@ class DiaryRudView(generics.RetrieveUpdateDestroyAPIView):
         return Diary.objects.all()
 
 
-class NegotiationCreateAPIView(generics.CreateAPIView):
+class DiaryDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DiaryListSerializer
+
+    def get_queryset(self):
+        p = Diary.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class NegotiationCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationCreateSerializer
 
@@ -272,7 +376,7 @@ class NegotiationCreateAPIView(generics.CreateAPIView):
         return Negotiation.objects.all()
 
 
-class NegotiationListAPIView(generics.ListAPIView):
+class NegotiationListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
 
@@ -280,7 +384,15 @@ class NegotiationListAPIView(generics.ListAPIView):
         return Negotiation.objects.all()
 
 
-class NegotiationRudView(generics.RetrieveUpdateDestroyAPIView):
+class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = NegotiationUpdateSerializer
+
+    def get_queryset(self):
+        return Negotiation.objects.all()
+
+
+class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
 
@@ -288,7 +400,16 @@ class NegotiationRudView(generics.RetrieveUpdateDestroyAPIView):
         return Negotiation.objects.all()
 
 
-class TariffCreateAPIView(generics.CreateAPIView):
+class NegotiationDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = NegotiationListSerializer
+
+    def get_queryset(self):
+        p = Negotiation.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class TariffCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = TariffCreateSerializer
 
@@ -296,7 +417,7 @@ class TariffCreateAPIView(generics.CreateAPIView):
         return Tariff.objects.all()
 
 
-class TariffListAPIView(generics.ListAPIView):
+class TariffListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
 
@@ -304,7 +425,7 @@ class TariffListAPIView(generics.ListAPIView):
         return Tariff.objects.all()
 
 
-class TariffRudView(generics.RetrieveUpdateDestroyAPIView):
+class TariffUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
 
@@ -312,7 +433,24 @@ class TariffRudView(generics.RetrieveUpdateDestroyAPIView):
         return Tariff.objects.all()
 
 
-class MediaPlanCreateAPIView(generics.CreateAPIView):
+class TariffDeleteAPIView(RetrieveDestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = TariffListSerializer
+
+    def get_queryset(self):
+        return Tariff.objects.all()
+
+
+class TariffDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = TariffListSerializer
+
+    def get_queryset(self):
+        p = Tariff.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class MediaPlanCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanCreateSerializer
 
@@ -320,7 +458,7 @@ class MediaPlanCreateAPIView(generics.CreateAPIView):
         return MediaPlan.objects.all()
 
 
-class MediaPlanListAPIView(generics.ListAPIView):
+class MediaPlanListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanListSerializer
 
@@ -328,7 +466,15 @@ class MediaPlanListAPIView(generics.ListAPIView):
         return MediaPlan.objects.all()
 
 
-class MediaPlanRudView(generics.RetrieveUpdateDestroyAPIView):
+class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = MediaPlanUpdateSerializer
+
+    def get_queryset(self):
+        return MediaPlan.objects.all()
+
+
+class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanListSerializer
 
@@ -336,7 +482,16 @@ class MediaPlanRudView(generics.RetrieveUpdateDestroyAPIView):
         return MediaPlan.objects.all()
 
 
-class SettingsCreateAPIView(generics.CreateAPIView):
+class MediaPLanDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = MediaPlanListSerializer
+
+    def get_queryset(self):
+        p = MediaPlan.objects.filter(id=self.kwargs['id'])
+        return p
+
+
+class SettingsCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsCreateSerializer
 
@@ -344,7 +499,7 @@ class SettingsCreateAPIView(generics.CreateAPIView):
         return Settings.objects.all()
 
 
-class SettingsListAPIView(generics.ListAPIView):
+class SettingsListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
 
@@ -352,9 +507,26 @@ class SettingsListAPIView(generics.ListAPIView):
         return Settings.objects.all()
 
 
-class SettingsRudView(generics.RetrieveUpdateDestroyAPIView):
+class SettingsUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
 
     def get_queryset(self):
         return Settings.objects.all()
+
+
+class SettingsDeleteAPIView(RetrieveDestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = SettingsListSerializer
+
+    def get_queryset(self):
+        return Settings.objects.all()
+
+
+class SettingsDetailAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = SettingsListSerializer
+
+    def get_queryset(self):
+        p = Settings.objects.filter(id=self.kwargs['id'])
+        return p

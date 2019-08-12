@@ -2,8 +2,9 @@ venv
 migrations/
 media/
 db.sqlite3
+landing/.idea
 __pycache__/
-.idea
+.idea/
 *.log
 *.pot
 *.pyc
