@@ -2,7 +2,7 @@ venv
 migrations/
 media/
 db.sqlite3
-landing/.idea
+landing.iml
 __pycache__/
 .idea/
 *.log

@@ -30,6 +30,12 @@ USER_TYPES = (
     (2, 'Admin')
 )
 
+STATUS = (
+    (0, 'inprocess'),
+    (1, 'yescontract'),
+    (2, 'cancelled')
+)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -103,7 +109,7 @@ class Negotiation(models.Model):
     description = models.CharField(max_length=255, blank=True)
     contract = models.OneToOneField('Contract', on_delete=models.CASCADE, blank=True, null=True)
     partner = models.ForeignKey(Partner, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50, blank=True, null=True)
+    status = models.IntegerField(choices=STATUS, blank=True, null=True)
 
     class Meta:
         db_table = 'negotiations'
@@ -163,7 +169,7 @@ class Process(models.Model):
     created = models.DateTimeField(auto_now=True)
     destination_date = models.DateField(null=True, blank=True)
     description = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=255, default='empty')
+    status = models.IntegerField(choices=STATUS)
 
     class Meta:
         db_table = 'processes'

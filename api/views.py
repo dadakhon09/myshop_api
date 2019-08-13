@@ -213,6 +213,11 @@ class ActionCreateAPIView(CreateAPIView):
     serializer_class = ActionCreateSerializer
     queryset = Action.objects.all()
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.actor = self.request.user
+        instance.save()
+
 
 class ActionListAPIView(ListAPIView):
     lookup_field = 'id'
@@ -293,6 +298,11 @@ class DayCreateAPIView(CreateAPIView):
     def get_queryset(self):
         return Day.objects.all()
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.moder = self.request.user
+        instance.save()
+
 
 class DayListAPIView(ListAPIView):
     lookup_field = 'id'
@@ -333,6 +343,11 @@ class DiaryCreateAPIView(CreateAPIView):
 
     def get_queryset(self):
         return Diary.objects.all()
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.moder = self.request.user
+        instance.save()
 
 
 class DiaryListAPIView(ListAPIView):
