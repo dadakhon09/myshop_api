@@ -9,6 +9,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate
+# from .pagination import UserPageNumberPagination
+from rest_framework.pagination import PageNumberPagination
+
 from api.models import UserProfile, Partner, Process, Payment, Action, Contract, Day, Diary, Negotiation, Tariff, \
     MediaPlan, Settings
 from api.serializers import PartnerListSerializer, PartnerCreateSerializer, \
