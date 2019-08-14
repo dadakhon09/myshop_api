@@ -35,7 +35,7 @@ class UserCreate(APIView):
         data = request.data
         username = data['username']
         password = data['password']
-        type = data['data']
+        type = data['type']
 
         user_check = User.objects.filter(username=username)
         if not user_check:
