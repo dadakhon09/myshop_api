@@ -26,7 +26,9 @@ class PartnerListByModerAPIView(ListAPIView):
     serializer_class = PartnerListSerializer
 
     def get_queryset(self):
-        p = Partner.objects.all().filter(moder=self.kwargs['slug'])
+        print(self.kwargs)
+        p = Partner.objects.filter(moder__username=self.kwargs['slug'])
+        return p
 
 
 class PartnerDetailAPIView(ListAPIView):

@@ -28,7 +28,7 @@ def wtf(sender, instance, created, **kwargs):
         if UserProfile.objects.filter(slug=slug).exists():
             pass
         else:
-            slug = f'{slug}-{instance.id}'
+            slug = slug
         up = UserProfile(user=instance, slug=slug)
         up.save()
         # if not instance.slug:
