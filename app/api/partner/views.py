@@ -1,5 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 
+from app.model.action import Action
 from app.model.partner import Partner
 from app.api.partner.serializers import PartnerCreateSerializer, PartnerListSerializer, PartnerTransferSerializer, \
     PartnerUpdateSerializer
@@ -12,6 +13,9 @@ class PartnerCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.moder = self.request.user
+        Action.objects.create(actor=self.request.user, action='partner_create', subject=instance,
+                              comment='string')
+
         instance.save()
 
 

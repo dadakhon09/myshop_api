@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 
+from app.model.action import Action
 from app.model.partner import Partner
 from app.api.users.serializers import UserSerializer
 
@@ -23,24 +24,6 @@ class PartnerCreateSerializer(ModelSerializer):
             'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'transfered',
             'transfered_date')
 
-    # def create(self, validated_data):
-    #     p = partner.objects.create(**validated_data)
-    #     p.moder = self.context['request'].user
-    #     p.save()
-    #     print(self.context['request'])
-    #     return p
-
-
-# class PartnerTransferSerializer(ModelSerializer):
-#     class Meta:
-#         model = partner
-#         fields = (
-#             'id', 'moder')
-#
-#     def update(self, instance, validated_data):
-#         instance.last_moder = instance.moder
-#         instance.moder = validated_data['moder']
-#         return instance
 
 class PartnerTransferSerializer(ModelSerializer):
     class Meta:
@@ -55,6 +38,8 @@ class PartnerTransferSerializer(ModelSerializer):
             p.last_moder = p.moder
             p.moder = User.objects.get(id=request.data.get('user_id'))
             p.save()
+            Action.objects.create(actor=self.context['request'].user, action='partner_transfer', subject=partner,
+                                  comment='string')
         return request
 
 
@@ -65,3 +50,6 @@ class PartnerUpdateSerializer(ModelSerializer):
             'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'transfered',
             'transfered_date')
 
+    def update(self, instance, validated_data):
+        Action.objects.create(actor=self.context['request'].user, action='partner_update',subject=instance, comment='string')
+        return instance
