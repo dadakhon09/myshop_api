@@ -232,7 +232,7 @@ class Settings(models.Model):
 class Day(models.Model):
     created = models.DateTimeField(auto_now=True)
     day_date = models.DateField(blank=True, null=True)
-    moder = models.ForeignKey(User, related_name='day_owner', on_delete=models.CASCADE)
+    moder = models.ForeignKey(User, related_name='day_owner', on_delete=models.CASCADE, null=True)
     done = models.BooleanField(default=False)
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
@@ -246,7 +246,7 @@ class Day(models.Model):
 
 class Diary(models.Model):
     created = models.DateTimeField(auto_now=True)
-    moder = models.ForeignKey(User, related_name='diary_owner', on_delete=models.CASCADE)
+    moder = models.ForeignKey(User, related_name='diary_owner', on_delete=models.CASCADE, null=True)
     cause = models.CharField(max_length=255)
     partner = models.ForeignKey(Partner, related_name='action_with', on_delete=models.CASCADE, blank=True, null=True)
     other = models.CharField(max_length=255, blank=True, null=True)

@@ -1,17 +1,27 @@
 from django.urls import path
-from api.views import UserLogin, ProcessCreateAPIView, ProcessListAPIView, ActionCreateAPIView, \
-    PartnerListAPIView, PartnerCreateAPIView, ActionListAPIView, \
-    PaymentCreateAPIView, PaymentListAPIView, ContractCreateAPIView, ContractListAPIView, DayCreateAPIView, \
-    DayListAPIView, DiaryCreateAPIView, DiaryListAPIView, NegotiationListAPIView, NegotiationCreateAPIView, \
-    TariffCreateAPIView, TariffListAPIView, MediaPlanCreateAPIView, MediaPlanListAPIView, SettingsCreateAPIView, \
-    SettingsListAPIView, PartnerUpdateAPIView, PartnerDeleteAPIView, PartnerTransferAPIView, UserListAPIView, \
-    PartnerDetailAPIView, UserLogout, UserCreate, ProcessUpdateAPIView, ProcessDeleteAPIView, PaymentDeleteAPIView, \
-    PaymentUpdateAPIView, ActionUpdateAPIView, ActionDeleteAPIView, ContractUpdateAPIView, ContractDeleteAPIView, \
-    DayUpdateAPIView, DayDeleteAPIView, DiaryUpdateAPIView, DiaryDeleteAPIView, NegotiationUpdateAPIView, \
-    NegotiationDeleteAPIView, TariffUpdateAPIView, TariffDeleteAPIView, MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, \
-    SettingsUpdateAPIView, SettingsDeleteAPIView, ProcessDetailAPIView, PaymentDetailAPIView, ActionDetailAPIView, \
-    ContractDetailAPIView, DayDetailAPIView, DiaryDetailAPIView, NegotiationDetailAPIView, TariffDetailAPIView, \
-    SettingsDetailAPIView, MediaPLanDetailAPIView
+
+from api.action.action import ActionUpdateAPIView, ActionDeleteAPIView, ActionCreateAPIView, ActionListAPIView, \
+    ActionDetailAPIView
+from api.contract.contract import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
+    ContractListAPIView, ContractDetailAPIView
+from api.day.day import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, DayListAPIView, DayDetailAPIView
+from api.diary.diary import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListAPIView, \
+    DiaryDetailAPIView
+from api.media_plan.mediaplan import MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, MediaPlanCreateAPIView, \
+    MediaPlanListAPIView, MediaPLanDetailAPIView
+from api.negotiation.negotiation import NegotiationUpdateAPIView, NegotiationDeleteAPIView, NegotiationCreateAPIView, \
+    NegotiationListAPIView, NegotiationDetailAPIView
+from api.partner.partner import PartnerUpdateAPIView, PartnerTransferAPIView, PartnerDeleteAPIView, \
+    PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView
+from api.payment.payment import PaymentUpdateAPIView, PaymentDeleteAPIView, PaymentCreateAPIView, PaymentListAPIView, \
+    PaymentDetailAPIView
+from api.process.process import ProcessUpdateAPIView, ProcessDeleteAPIView, ProcessCreateAPIView, ProcessListAPIView, \
+    ProcessDetailAPIView
+from api.settings.settings import SettingsUpdateAPIView, SettingsDeleteAPIView, SettingsCreateAPIView, \
+    SettingsListAPIView, SettingsDetailAPIView
+from api.tariff.tariff import TariffUpdateAPIView, TariffDeleteAPIView, TariffCreateAPIView, TariffListAPIView, \
+    TariffDetailAPIView
+from api.users.users import UserLogin, UserLogout, UserCreate, UserListAPIView
 
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
@@ -19,7 +29,7 @@ urlpatterns = [
     path('create-user/', UserCreate.as_view(), name='create-user'),
     path('users/list/', UserListAPIView.as_view(), name='users-list'),
     path('partner/update/<int:id>/', PartnerUpdateAPIView.as_view(), name='partner-update'),
-    path('partner/transfer/<int:id>/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
+    path('partner/transfer/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
     path('partner/delete/<int:id>/', PartnerDeleteAPIView.as_view(), name='partner-delete'),
     path('partner/create/', PartnerCreateAPIView.as_view(), name='partner-create'),
     path('partner/list/', PartnerListAPIView.as_view(), name='partner-list'),
