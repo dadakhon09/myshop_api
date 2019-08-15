@@ -13,9 +13,7 @@ class PartnerCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.moder = self.request.user
-        Action.objects.create(actor=self.request.user, action='partner_create', subject=instance,
-                              comment='string')
-
+        Action.objects.create(actor=self.request.user, action='partner_create', subject=instance, comment='string')
         instance.save()
 
 
