@@ -1,9 +1,12 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
+from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
 
 from app.model.action import Action
 from app.model.partner import Partner
 from app.api.partner.serializers import PartnerCreateSerializer, PartnerListSerializer, PartnerTransferSerializer, \
     PartnerUpdateSerializer
+from app.permissions import IsOwnerOrReadOnly
 
 
 class PartnerCreateAPIView(CreateAPIView):
@@ -13,8 +16,8 @@ class PartnerCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.moder = self.request.user
-        Action.objects.create(actor=self.request.user, action='partner_create', subject=instance, comment='string')
         instance.save()
+        Action.objects.create(actor=self.request.user, action=f'partner {instance} created', subject=instance)
 
 
 class PartnerListAPIView(ListAPIView):
@@ -49,13 +52,27 @@ class PartnerTransferAPIView(CreateAPIView):
     def get_queryset(self):
         return Partner.objects.all()
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        partner = Partner.objects.get(id=instance.data.get("partner"))
+        Action.objects.create(actor=self.request.user,
+                              action=f'partner {partner} transferred to user {User.objects.get(id=instance.data.get("user_id"))}',
+                              subject=partner)
+
 
 class PartnerUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerUpdateSerializer
+    permission_classes = [IsOwnerOrReadOnly, ]
 
     def get_queryset(self):
         return Partner.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'partner {instance} updated ',
+                              subject=instance)
 
 
 class PartnerDeleteAPIView(RetrieveDestroyAPIView):
@@ -65,11 +82,7 @@ class PartnerDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Partner.objects.all()
 
-    def delete(self, request, *args, **kwargs):
-        id = self.kwargs['id']
-        print(request)
-        Action.objects.create(actor=self.request.user, action=f'partner{id} delete',
-         subject=self.request.partner, comment='string')
-        return self.destroy(request, *args, **kwargs)
-
-
+    def perform_destroy(self, instance):
+        Action.objects.create(actor=self.request.user, action=f'partner {instance} deleted',
+                              subject=instance)
+        return instance

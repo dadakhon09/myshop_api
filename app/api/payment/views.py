@@ -1,5 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 
+from app.model.action import Action
 from app.model.payment import Payment
 from app.api.payment.serializers import PaymentCreateSerializer, PaymentListSerializer, PaymentUpdateSerializer
 
@@ -10,6 +11,11 @@ class PaymentCreateAPIView(CreateAPIView):
 
     def get_queryset(self):
         return Payment.objects.all()
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'payment {instance} created', subject=instance)
 
 
 class PaymentListAPIView(ListAPIView):
@@ -27,6 +33,11 @@ class PaymentUpdateAPIView(RetrieveUpdateAPIView):
     def get_queryset(self):
         return Payment.objects.all()
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'payment {instance} updated', subject=instance)
+
 
 class PaymentDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
@@ -34,6 +45,11 @@ class PaymentDeleteAPIView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         return Payment.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'payment {instance} deleted', subject=instance)
 
 
 class PaymentDetailAPIView(ListAPIView):

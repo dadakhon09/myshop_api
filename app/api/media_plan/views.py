@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from app.api.media_plan.serializers import MediaPlanCreateSerializer, MediaPlanListSerializer, MediaPlanUpdateSerializer
+from app.model.action import Action
 from app.model.media_plan import MediaPlan
 
 
@@ -10,6 +11,11 @@ class MediaPlanCreateAPIView(CreateAPIView):
 
     def get_queryset(self):
         return MediaPlan.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'media plan {instance} created', subject=instance)
 
 
 class MediaPlanListAPIView(ListAPIView):
@@ -27,6 +33,11 @@ class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
     def get_queryset(self):
         return MediaPlan.objects.all()
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'media plan {instance} updated', subject=instance)
+
 
 class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
@@ -34,6 +45,11 @@ class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         return MediaPlan.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'media plan {instance} deleted', subject=instance)
 
 
 class MediaPLanDetailAPIView(ListAPIView):

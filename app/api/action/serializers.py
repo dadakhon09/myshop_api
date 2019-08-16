@@ -6,18 +6,17 @@ from app.api.users.serializers import UserSerializer
 
 
 class ActionListSerializer(ModelSerializer):
-    subject = PartnerListSerializer()
     actor = UserSerializer()
 
     class Meta:
         model = Action
-        fields = ('id', 'actor', 'action', 'subject', 'action_date', 'comment')
+        fields = ('id', 'actor', 'action', 'subject', 'action_date')
 
 
 class ActionCreateSerializer(ModelSerializer):
     class Meta:
         model = Action
-        fields = ('id', 'action', 'subject', 'comment')
+        fields = ('id', 'action', 'subject')
 
     def create(self, validated_data):
         a = Action.objects.create(**validated_data)
@@ -27,5 +26,5 @@ class ActionCreateSerializer(ModelSerializer):
 class ActionUpdateSerializer(ModelSerializer):
     class Meta:
         model = Action
-        fields = ('id', 'action', 'comment')
+        fields = ('id', 'action')
 

@@ -1,5 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 
+from app.model.action import Action
 from app.model.process import Process
 from app.api.process.serializers import ProcessCreateSerializer, ProcessListSerializer, ProcessUpdateSerializer
 
@@ -7,6 +8,14 @@ from app.api.process.serializers import ProcessCreateSerializer, ProcessListSeri
 class ProcessCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ProcessCreateSerializer
+
+    def get_queryset(self):
+        return Process.objects.all()
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'process {instance} created', subject=instance)
 
 
 class ProcessListAPIView(ListAPIView):
@@ -22,6 +31,11 @@ class ProcessUpdateAPIView(RetrieveUpdateAPIView):
     def get_queryset(self):
         return Process.objects.all()
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'process {instance} updated', subject=instance)
+
 
 class ProcessDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
@@ -29,6 +43,11 @@ class ProcessDeleteAPIView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         return Process.objects.all()
+
+    def perform_destroy(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'process {instance} deleted', subject=instance)
 
 
 class ProcessDetailAPIView(ListAPIView):

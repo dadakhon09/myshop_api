@@ -38,8 +38,6 @@ class PartnerTransferSerializer(ModelSerializer):
             p.last_moder = p.moder
             p.moder = User.objects.get(id=request.data.get('user_id'))
             p.save()
-            Action.objects.create(actor=self.context['request'].user, action='partner_transfer', subject=partner,
-                                  comment='string')
         return request
 
 
@@ -49,7 +47,3 @@ class PartnerUpdateSerializer(ModelSerializer):
         fields = (
             'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'transfered',
             'transfered_date')
-
-    def update(self, instance, validated_data):
-        Action.objects.create(actor=self.context['request'].user, action='partner_update',subject=instance, comment='string')
-        return instance
