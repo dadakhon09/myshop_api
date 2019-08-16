@@ -66,3 +66,12 @@ class PartnerDeleteAPIView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         return Partner.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        id = self.kwargs['id']
+        print(request)
+        Action.objects.create(actor=self.request.user, action=f'partner{id} delete',
+         subject=self.request.partner, comment='string')
+        return self.destroy(request, *args, **kwargs)
+
+
