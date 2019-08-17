@@ -17,7 +17,7 @@ class NegotiationCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'negotiation {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'negotiation {instance} created', subject=instance)
 
 
 class NegotiationListAPIView(ListAPIView):
@@ -38,7 +38,7 @@ class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'negotiation {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'negotiation {instance} updated', subject=instance)
 
 
 class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
@@ -51,7 +51,7 @@ class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
     def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'negotiation {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'negotiation {instance} deleted', subject=instance)
 
 
 class NegotiationDetailAPIView(ListAPIView):

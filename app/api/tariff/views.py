@@ -16,7 +16,7 @@ class TariffCreateAPIView(CreateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'tariff {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'tariff {instance} created', subject=instance)
 
 
 class TariffListAPIView(ListAPIView):
@@ -37,7 +37,7 @@ class TariffUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'tariff {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'tariff {instance} updated', subject=instance)
 
 
 class TariffDeleteAPIView(RetrieveDestroyAPIView):
@@ -50,7 +50,7 @@ class TariffDeleteAPIView(RetrieveDestroyAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'tariff {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'tariff {instance} deleted', subject=instance)
 
 
 class TariffDetailAPIView(ListAPIView):

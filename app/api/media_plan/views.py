@@ -16,7 +16,7 @@ class MediaPlanCreateAPIView(CreateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'media plan {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'media plan {instance} created', subject=instance)
 
 
 class MediaPlanListAPIView(ListAPIView):
@@ -37,7 +37,7 @@ class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'media plan {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'media plan {instance} updated', subject=instance)
 
 
 class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
@@ -50,7 +50,7 @@ class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'media plan {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'media plan {instance} deleted', subject=instance)
 
 
 class MediaPLanDetailAPIView(ListAPIView):

@@ -18,8 +18,7 @@ class DiaryCreateAPIView(CreateAPIView):
         instance = serializer.save()
         instance.moder = self.request.user
         instance.save()
-
-        Action.objects.create(actor=self.request.user, action=f'diary {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'diary {instance} created', subject=instance)
 
 
 class DiaryListAPIView(ListAPIView):
@@ -28,6 +27,15 @@ class DiaryListAPIView(ListAPIView):
 
     def get_queryset(self):
         return Diary.objects.all()
+
+
+class DiaryListByModerAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DiaryListSerializer
+
+    def get_queryset(self):
+        p = Diary.objects.filter(moder__username=self.kwargs['slug'])
+        return p
 
 
 class DiaryUpdateAPIView(RetrieveUpdateAPIView):
@@ -40,7 +48,7 @@ class DiaryUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'diary {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'diary {instance} updated', subject=instance)
 
 
 class DiaryDeleteAPIView(RetrieveDestroyAPIView):
@@ -53,7 +61,7 @@ class DiaryDeleteAPIView(RetrieveDestroyAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'diary {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'diary {instance} deleted', subject=instance)
 
 
 class DiaryDetailAPIView(ListAPIView):
