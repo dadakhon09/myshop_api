@@ -1,6 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 from django.contrib.auth.models import User
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from app.model.action import Action
 from app.model.partner import Partner
@@ -24,6 +24,7 @@ class PartnerCreateAPIView(CreateAPIView):
 class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
     queryset = Partner.objects.all().order_by('id')
 
 
