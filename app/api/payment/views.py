@@ -8,6 +8,7 @@ from app.api.payment.serializers import PaymentCreateSerializer, PaymentListSeri
 class PaymentCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PaymentCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Payment.objects.all()

@@ -8,6 +8,7 @@ from app.api.settings.serializers import SettingsCreateSerializer, SettingsListS
 class SettingsCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Settings.objects.all()

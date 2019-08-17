@@ -9,6 +9,7 @@ class DayCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DayCreateSerializer
     queryset = Day.objects.all()
+    permission_classes = ()
 
     def perform_create(self, serializer):
         instance = serializer.save()

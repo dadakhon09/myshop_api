@@ -8,6 +8,7 @@ from app.api.tariff.serializers import TariffCreateSerializer, TariffListSeriali
 class TariffCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = TariffCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Tariff.objects.all()

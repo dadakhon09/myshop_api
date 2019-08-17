@@ -8,6 +8,7 @@ from app.model.contract import Contract
 class ContractCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ContractCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Contract.objects.all()

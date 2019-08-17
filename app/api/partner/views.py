@@ -12,6 +12,7 @@ from app.permissions import IsOwnerOrReadOnly
 class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
+    permission_classes = ()
 
     def perform_create(self, serializer):
         instance = serializer.save()
@@ -63,7 +64,6 @@ class PartnerTransferAPIView(CreateAPIView):
 class PartnerUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerUpdateSerializer
-    permission_classes = [IsOwnerOrReadOnly, ]
 
     def get_queryset(self):
         return Partner.objects.all()

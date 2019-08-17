@@ -8,6 +8,7 @@ from app.model.media_plan import MediaPlan
 class MediaPlanCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return MediaPlan.objects.all()

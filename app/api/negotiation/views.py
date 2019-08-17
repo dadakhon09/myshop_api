@@ -9,6 +9,7 @@ from app.api.negotiation.serializers import NegotiationCreateSerializer, Negotia
 class NegotiationCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Negotiation.objects.all()
