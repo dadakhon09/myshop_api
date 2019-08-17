@@ -47,7 +47,6 @@ class UserLogin(APIView):
         return Response({'token': token.key,
                          'user_id': user.id,
                          'username': user.username,
-                         'is_superuser': user.is_superuser,
                          'user_type': profile.get_type_display()})
 
 
