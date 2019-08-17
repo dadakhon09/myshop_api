@@ -15,8 +15,8 @@ from app.api.partner.views import PartnerUpdateAPIView, PartnerTransferAPIView, 
     PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView, PartnerListByModerAPIView
 from app.api.payment.views import PaymentUpdateAPIView, PaymentDeleteAPIView, PaymentCreateAPIView, PaymentListAPIView, \
     PaymentDetailAPIView
-from app.api.process.views import ProcessUpdateAPIView, ProcessDeleteAPIView, ProcessCreateAPIView, ProcessListAPIView, \
-    ProcessDetailAPIView
+from app.api.process.views import ProcessUpdateAPIView, ProcessDeleteAPIView, ProcessCreateAPIView, \
+    ProcessAllListAPIView, ProcessTodayListAPIView, ProcessDetailAPIView
 from app.api.settings.views import SettingsUpdateAPIView, SettingsDeleteAPIView, SettingsCreateAPIView, \
     SettingsListAPIView, SettingsDetailAPIView
 from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, TariffCreateAPIView, TariffListAPIView, \
@@ -38,7 +38,8 @@ urlpatterns = [
     path('process/update/<int:id>/', ProcessUpdateAPIView.as_view(), name='process-update'),
     path('process/delete/<int:id>/', ProcessDeleteAPIView.as_view(), name='process-delete'),
     path('process/create/', ProcessCreateAPIView.as_view(), name='process-create'),
-    path('process/list/', ProcessListAPIView.as_view(), name='process-list'),
+    path('process/list/today/', ProcessTodayListAPIView.as_view(), name='process-today-list'),
+    path('process/list/', ProcessAllListAPIView.as_view(), name='process-all-list'),
     path('process/list/<int:id>/', ProcessDetailAPIView.as_view(), name='process-list-id'),
     path('payment/update/<int:id>/', PaymentUpdateAPIView.as_view(), name='payment-update'),
     path('payment/delete/<int:id>/', PaymentDeleteAPIView.as_view(), name='payment-delete'),

@@ -1,15 +1,22 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from app.api.contract.serializers import ContractCreateSerializer, ContractListSerializer, ContractUpdateSerializer
+from app.model.action import Action
 from app.model.contract import Contract
 
 
 class ContractCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ContractCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Contract.objects.all()
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'contract {instance} created', subject=instance)
 
 
 class ContractListAPIView(ListAPIView):
@@ -27,6 +34,11 @@ class ContractUpdateAPIView(RetrieveUpdateAPIView):
     def get_queryset(self):
         return Contract.objects.all()
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'contract {instance} updated ', subject=instance)
+
 
 class ContractDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
@@ -34,6 +46,10 @@ class ContractDeleteAPIView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         return Contract.objects.all()
+
+    def perform_destroy(self, instance):
+        Action.objects.create(actor=self.request.user, action=f'contract {instance} deleted', subject=instance)
+        return instance
 
 
 class ContractDetailAPIView(ListAPIView):

@@ -21,7 +21,7 @@ class UserCreate(APIView):
 
         user_check = User.objects.filter(username=username)
         if not user_check:
-            new_user = User.objects.create_user(username, password)
+            new_user = User.objects.create_user(username=username, password=password)
             token, _ = Token.objects.get_or_create(user=new_user)
             new_user.userprofile.type = type
             new_user.userprofile.save()

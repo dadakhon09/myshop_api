@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
 from app.api.day.serializers import DayListSerializer
-from app.model.dairy import Diary
+from app.model.diary import Diary
 from app.api.partner.serializers import PartnerListSerializer
 from app.api.process.serializers import ProcessListSerializer
 from app.api.users.serializers import UserSerializer

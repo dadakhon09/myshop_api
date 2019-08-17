@@ -3,7 +3,7 @@ from django.contrib import admin
 # admin.site.register(Answer)
 from app.model.action import Action
 from app.model.contract import Contract
-from app.model.dairy import Diary
+from app.model.diary import Diary
 from app.model.day import Day
 from app.model.media_plan import MediaPlan
 from app.model.negotiation import Negotiation

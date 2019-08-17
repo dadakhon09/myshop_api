@@ -1,12 +1,14 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from app.api.diary.serializers import DiaryCreateSerializer, DiaryListSerializer, DiaryUpdateSerializer
-from app.model.dairy import Diary
+from app.model.action import Action
+from app.model.diary import Diary
 
 
 class DiaryCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DiaryCreateSerializer
+    permission_classes = ()
 
     def get_queryset(self):
         return Diary.objects.all()
@@ -15,6 +17,7 @@ class DiaryCreateAPIView(CreateAPIView):
         instance = serializer.save()
         instance.moder = self.request.user
         instance.save()
+        Action.objects.create(actor=self.request.user, action=f'diary {instance} created', subject=instance)
 
 
 class DiaryListAPIView(ListAPIView):
@@ -32,6 +35,11 @@ class DiaryUpdateAPIView(RetrieveUpdateAPIView):
     def get_queryset(self):
         return Diary.objects.all()
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'diary {instance} updated', subject=instance)
+
 
 class DiaryDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
@@ -39,6 +47,11 @@ class DiaryDeleteAPIView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         return Diary.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.save()
+        Action.objects.create(actor=self.request.user, action=f'diary {instance} deleted', subject=instance)
 
 
 class DiaryDetailAPIView(ListAPIView):
