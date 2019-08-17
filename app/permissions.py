@@ -2,8 +2,6 @@ from rest_framework.permissions import BasePermission
 
 
 class IsOwnerOrReadOnly(BasePermission):
-    message = "You don't own this post"
-
     my_safe_methods = ['PUT', 'GET', 'DELETE', 'OPTIONS']
 
     def has_permission(self, request, view):

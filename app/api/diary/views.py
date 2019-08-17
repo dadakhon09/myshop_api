@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from app.api.diary.serializers import DiaryCreateSerializer, DiaryListSerializer, DiaryUpdateSerializer
+from app.model import Process
 from app.model.action import Action
 from app.model.diary import Diary
 
@@ -17,6 +18,7 @@ class DiaryCreateAPIView(CreateAPIView):
         instance = serializer.save()
         instance.moder = self.request.user
         instance.save()
+
         Action.objects.create(actor=self.request.user, action=f'diary {instance} created', subject=instance)
 
 
