@@ -6,9 +6,9 @@ from django.utils.text import slugify
 
 
 USER_TYPES = (
-    (0, 'Manager'),
-    (1, 'MediaManager'),
-    (2, 'Admin')
+    (0, 0),
+    (1, 1),
+    (2, 2)
 )
 
 
