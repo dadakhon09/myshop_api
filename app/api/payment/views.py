@@ -47,7 +47,7 @@ class PaymentDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Payment.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
         Action.objects.create(actor=self.request.user, action=f'payment {instance} deleted', subject=instance)

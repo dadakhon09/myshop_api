@@ -31,12 +31,3 @@ def wtf(sender, instance, created, **kwargs):
             slug = slug
         up = UserProfile(user=instance, slug=slug)
         up.save()
-        # if not instance.slug:
-        #     slug = slugify(instance.user.username)
-        #     if UserProfile.objects.filter(slug=slug).exists():
-        #         instance.slug = f'{slug}-{instance.id}'
-        #     else:
-        #         instance.slug = slug
-        #     instance.save()
-        # UserProfile.objects.get_or_create(user=instance)
-
