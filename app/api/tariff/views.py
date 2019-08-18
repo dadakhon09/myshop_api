@@ -13,7 +13,7 @@ class TariffCreateAPIView(CreateAPIView):
     def get_queryset(self):
         return Tariff.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_create(self, serializer):
         instance = serializer.save()
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'tariff {instance} created', subject=instance)
@@ -47,7 +47,7 @@ class TariffDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Tariff.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'tariff {instance} deleted', subject=instance)

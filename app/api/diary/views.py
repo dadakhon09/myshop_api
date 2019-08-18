@@ -29,13 +29,17 @@ class DiaryListAPIView(ListAPIView):
         return Diary.objects.all()
 
 
-class DiaryListByModerAPIView(ListAPIView):
+class DiaryListByModerAPIView(ListAPIView, CreateAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
 
     def get_queryset(self):
         p = Diary.objects.filter(moder__username=self.kwargs['slug'])
         return p
+
+    # def perform_create(self, serializer):
+    #     d = Day.objects.get_or_create(moder__username=self.kwargs['slug'])
+    #     return d
 
 
 class DiaryUpdateAPIView(RetrieveUpdateAPIView):
@@ -58,7 +62,7 @@ class DiaryDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Diary.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'diary {instance} deleted', subject=instance)

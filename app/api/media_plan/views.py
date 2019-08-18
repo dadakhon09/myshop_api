@@ -13,7 +13,7 @@ class MediaPlanCreateAPIView(CreateAPIView):
     def get_queryset(self):
         return MediaPlan.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_create(self, serializer):
         instance = serializer.save()
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'media plan {instance} created', subject=instance)
@@ -47,7 +47,7 @@ class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return MediaPlan.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'media plan {instance} deleted', subject=instance)
