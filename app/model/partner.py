@@ -14,8 +14,8 @@ class Partner(models.Model):
     created = models.DateTimeField(auto_now=True)
     moder = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     last_moder = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='last_moder')
-    transfered = models.BooleanField(default=False)
-    transfered_date = models.DateField(blank=True, null=True)
+    transferred = models.BooleanField(default=False)
+    transferred_date = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'partners'
