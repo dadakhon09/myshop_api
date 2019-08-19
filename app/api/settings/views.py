@@ -16,7 +16,7 @@ class SettingsCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'settings {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'settings {instance} created', subject=instance)
 
 
 class SettingsListAPIView(ListAPIView):
@@ -37,7 +37,7 @@ class SettingsUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'settings {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'settings {instance} updated', subject=instance)
 
 
 class SettingsDeleteAPIView(RetrieveDestroyAPIView):
@@ -47,10 +47,10 @@ class SettingsDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Settings.objects.all()
 
-    def perform_update(self, serializer):
+    def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'settings {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'settings {instance} deleted', subject=instance)
 
 
 class SettingsDetailAPIView(ListAPIView):

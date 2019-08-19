@@ -15,15 +15,24 @@ class DayCreateAPIView(CreateAPIView):
         instance = serializer.save()
         instance.moder = self.request.user
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'day {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'day {instance} created', subject=instance)
 
 
-class DayListAPIView(ListAPIView):
+class DayListByIdAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
 
     def get_queryset(self):
         return Day.objects.all()
+
+
+class DayListByModerAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DayListSerializer
+
+    def get_queryset(self):
+        p = Day.objects.filter(moder__username=self.kwargs['slug'])
+        return p
 
 
 class DayUpdateAPIView(RetrieveUpdateAPIView):
@@ -36,7 +45,7 @@ class DayUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'day {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'day {instance} updated', subject=instance)
 
 
 class DayDeleteAPIView(RetrieveDestroyAPIView):
@@ -49,7 +58,7 @@ class DayDeleteAPIView(RetrieveDestroyAPIView):
     def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'day {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'day {instance} deleted', subject=instance)
 
 class DayDetailAPIView(ListAPIView):
     lookup_field = 'id'

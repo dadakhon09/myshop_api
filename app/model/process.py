@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from app.model.negotiation import Negotiation
 
@@ -13,6 +14,7 @@ STATUS = (
 class Process(models.Model):
     negotiation = models.ForeignKey(Negotiation, on_delete=models.CASCADE)
     cause = models.CharField(max_length=255)
+    moder = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now=True)
     destination_date = models.DateField(null=True, blank=True)
     description = models.TextField(blank=True, null=True)

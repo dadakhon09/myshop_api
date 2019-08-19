@@ -16,7 +16,7 @@ class ContractCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'contract {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'contract {instance} created', subject=instance)
 
 
 class ContractListAPIView(ListAPIView):
@@ -37,7 +37,7 @@ class ContractUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'contract {instance} updated ', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'contract {instance} updated ', subject=instance)
 
 
 class ContractDeleteAPIView(RetrieveDestroyAPIView):
@@ -48,7 +48,7 @@ class ContractDeleteAPIView(RetrieveDestroyAPIView):
         return Contract.objects.all()
 
     def perform_destroy(self, instance):
-        Action.objects.create(actor=self.request.user, action=f'contract {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'contract {instance} deleted', subject=instance)
         return instance
 
 

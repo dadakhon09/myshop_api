@@ -16,7 +16,7 @@ class PaymentCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'payment {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'payment {instance} created', subject=instance)
 
 
 class PaymentListAPIView(ListAPIView):
@@ -37,7 +37,7 @@ class PaymentUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'payment {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'payment {instance} updated', subject=instance)
 
 
 class PaymentDeleteAPIView(RetrieveDestroyAPIView):
@@ -50,7 +50,7 @@ class PaymentDeleteAPIView(RetrieveDestroyAPIView):
     def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'payment {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'payment {instance} deleted', subject=instance)
 
 
 class PaymentDetailAPIView(ListAPIView):

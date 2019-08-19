@@ -20,14 +20,28 @@ class ProcessCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save()
+        instance.moder = self.request.user
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'process {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'process {instance} created', subject=instance)
 
 
 class ProcessTodayListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
-    queryset = Process.objects.all().filter(destination_date=now.today())
+    
+    def get_queryset(self):
+        p = Process.objects.filter(moder__username=self.kwargs['slug'], destination_date=now.today())
+        return p
+
+
+class ProcessListByModerAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ProcessListSerializer
+
+    def get_queryset(self):
+        print(self.kwargs)
+        p = Process.objects.filter(moder__username=self.kwargs['slug'])
+        return p
 
 
 class ProcessAllListAPIView(ListAPIView):
@@ -46,7 +60,7 @@ class ProcessUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'process {instance} updated', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'process {instance} updated', subject=instance)
 
 
 class ProcessDeleteAPIView(RetrieveDestroyAPIView):
@@ -59,7 +73,7 @@ class ProcessDeleteAPIView(RetrieveDestroyAPIView):
     def perform_destroy(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'process {instance} deleted', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'process {instance} deleted', subject=instance)
 
 
 class ProcessDetailAPIView(ListAPIView):
