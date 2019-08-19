@@ -1,15 +1,18 @@
+import datetime
+
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.api.diary.serializers import DiaryCreateSerializer, DiaryListSerializer, DiaryUpdateSerializer
-from app.model import Process
 from app.model.action import Action
+from app.model.day import Day
 from app.model.diary import Diary
 
 
 class DiaryCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DiaryCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Diary.objects.all()
@@ -26,20 +29,19 @@ class DiaryListAPIView(ListAPIView):
     serializer_class = DiaryListSerializer
 
     def get_queryset(self):
-        return Diary.objects.all()
-
-
-class DiaryListByModerAPIView(ListAPIView, CreateAPIView):
-    lookup_field = 'id'
-    serializer_class = DiaryListSerializer
-
-    def get_queryset(self):
-        p = Diary.objects.filter(moder__username=self.kwargs['slug'])
+        d, _ = Day.objects.get_or_create(moder=self.request.user, day_date=datetime.datetime.today())
+        p = Diary.objects.filter(moder=self.request.user)
         return p
 
-    # def perform_create(self, serializer):
-    #     d = Day.objects.get_or_create(moder__username=self.kwargs['slug'])
-    #     return d
+
+# class DiaryListByModerAPIView(ListAPIView):
+#     lookup_field = 'id'
+#     serializer_class = DiaryListSerializer
+#
+#     def get_queryset(self):
+#         d, _ = Day.objects.get_or_create(moder=self.request.user, day_date=datetime.datetime.today())
+#         p = Diary.objects.filter(moder__username=self.kwargs['slug'])
+#         return p
 
 
 class DiaryUpdateAPIView(RetrieveUpdateAPIView):

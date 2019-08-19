@@ -6,11 +6,11 @@ from app.api.users.serializers import UserSerializer
 
 
 class ActionListSerializer(ModelSerializer):
-    actor = UserSerializer()
+    moder = UserSerializer()
 
     class Meta:
         model = Action
-        fields = ('id', 'actor', 'action', 'subject', 'action_date')
+        fields = ('id', 'moder', 'action', 'subject', 'action_date')
 
 
 class ActionCreateSerializer(ModelSerializer):

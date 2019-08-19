@@ -4,8 +4,9 @@ from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, Actio
     ActionDetailAPIView
 from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
     ContractListAPIView, ContractDetailAPIView
-from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, DayListByIdAPIView, DayListByModerAPIView, DayDetailAPIView
-from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListAPIView, DiaryListByModerAPIView, DiaryDetailAPIView
+from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, DayListByIdAPIView, \
+    DayListByModerAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView
+from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListAPIView, DiaryDetailAPIView
 from app.api.media_plan.views import MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, MediaPlanCreateAPIView, \
     MediaPlanListAPIView, MediaPLanDetailAPIView
 from app.api.negotiation.views import NegotiationUpdateAPIView, NegotiationDeleteAPIView, NegotiationCreateAPIView, \
@@ -21,6 +22,7 @@ from app.api.settings.views import SettingsUpdateAPIView, SettingsDeleteAPIView,
 from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, TariffCreateAPIView, TariffListAPIView, \
     TariffDetailAPIView
 from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIView
+
 
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
@@ -60,13 +62,15 @@ urlpatterns = [
     path('day/delete/<int:id>/', DayDeleteAPIView.as_view(), name='day-delete'),
     path('day/create/', DayCreateAPIView.as_view(), name='day-create'),
     path('day/list/', DayListByIdAPIView.as_view(), name='day-list'),
-    path('day/list/<str:slug>/', DayListByModerAPIView.as_view(), name='day-list-by-moder'),
     path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),
+    path('day/list/<str:slug>/', DayListByModerAPIView.as_view(), name='day-list-by-moder'),
+    path('day/list/<int:id>/start/', DayGetStartedAPIView.as_view(), name='day-start'),
+    path('day/list/<int:id>/end/', DayGetEndedAPIView.as_view(), name='day-end'),
     path('diary/update/<int:id>/', DiaryUpdateAPIView.as_view(), name='diary-update'),
     path('diary/delete/<int:id>/', DiaryDeleteAPIView.as_view(), name='diary-delete'),
     path('diary/create/', DiaryCreateAPIView.as_view(), name='diary-create'),
     path('diary/list/', DiaryListAPIView.as_view(), name='diary-list'),
-    path('diary/list/<str:slug>/', DiaryListByModerAPIView.as_view(), name='diary-list-by-moder'),
+    # path('diary/list/<str:slug>/', DiaryListByModerAPIView.as_view(), name='diary-list-by-moder'),
     path('diary/list/<int:id>/', DiaryDetailAPIView.as_view(), name='diary-list-id'),
     path('negotiation/update/<int:id>/', NegotiationUpdateAPIView.as_view(), name='negotiation-update'),
     path('negotiation/delete/<int:id>/', NegotiationDeleteAPIView.as_view(), name='negotiation-delete'),

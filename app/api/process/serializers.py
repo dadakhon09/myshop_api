@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
+from app.api.users.serializers import UserSerializer
 from app.model.process import Process
 from app.api.negotiation.serializers import NegotiationListSerializer
 
@@ -12,10 +13,11 @@ class ProcessCreateSerializer(ModelSerializer):
 
 class ProcessListSerializer(ModelSerializer):
     negotiation = NegotiationListSerializer()
+    moder = UserSerializer()
 
     class Meta:
         model = Process
-        fields = ('id', 'negotiation', 'cause', 'created', 'destination_date', 'description', 'status')
+        fields = ('id', 'moder', 'negotiation', 'cause', 'created', 'destination_date', 'description', 'status')
 
 
 class ProcessUpdateSerializer(ModelSerializer):

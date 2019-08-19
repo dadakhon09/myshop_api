@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.model.action import Action
 from app.model.settings import Settings
@@ -8,7 +9,7 @@ from app.api.settings.serializers import SettingsCreateSerializer, SettingsListS
 class SettingsCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Settings.objects.all()

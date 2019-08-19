@@ -22,3 +22,15 @@ class DayCreateSerializer(ModelSerializer):
     class Meta:
         model = Day
         fields = ('id', 'day_date', 'done', 'start_time', 'end_time')
+
+
+class DayStartSerializer(ModelSerializer):
+    class Meta:
+        model = Day
+        fields = ('id', 'day_date', 'start_time')
+
+
+class DayEndSerializer(ModelSerializer):
+    class Meta:
+        model = Day
+        fields = ('id', 'day_date', 'done', 'end_time')

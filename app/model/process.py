@@ -17,7 +17,7 @@ class Process(models.Model):
     moder = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now=True)
     destination_date = models.DateField(null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField()
     status = models.IntegerField(choices=STATUS)
 
     class Meta:
@@ -25,5 +25,5 @@ class Process(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return self.description
+        return self.description or 'asd'
 

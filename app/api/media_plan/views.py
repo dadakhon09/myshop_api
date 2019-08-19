@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.api.media_plan.serializers import MediaPlanCreateSerializer, MediaPlanListSerializer, MediaPlanUpdateSerializer
 from app.model.action import Action
@@ -8,7 +9,7 @@ from app.model.media_plan import MediaPlan
 class MediaPlanCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return MediaPlan.objects.all()
