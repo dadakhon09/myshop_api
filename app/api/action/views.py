@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.api.action.serializers import ActionCreateSerializer, ActionListSerializer, ActionUpdateSerializer
 from app.model.action import Action
@@ -8,7 +9,7 @@ class ActionCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ActionCreateSerializer
     queryset = Action.objects.all()
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         instance = serializer.save()

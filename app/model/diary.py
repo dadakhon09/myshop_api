@@ -12,7 +12,7 @@ class Diary(models.Model):
     cause = models.CharField(max_length=255)
     partner = models.ForeignKey(Partner, related_name='action_with', on_delete=models.CASCADE, blank=True, null=True)
     other = models.CharField(max_length=255, blank=True, null=True)
-    result = models.TextField(blank=True, null=True)
+    result = models.TextField(blank=True, null=True, default='None')
     destination_date = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     process = models.ForeignKey(Process, related_name='action', on_delete=models.CASCADE, blank=True, null=True)

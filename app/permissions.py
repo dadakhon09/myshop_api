@@ -5,7 +5,6 @@ class IsOwnerOrReadOnly(BasePermission):
     my_safe_methods = ['PUT', 'GET', 'PATCH', 'DELETE', 'OPTIONS']
 
     def has_permission(self, request, view):
-        print('permission called')
         if request.method in self.my_safe_methods:
             return True
         return False

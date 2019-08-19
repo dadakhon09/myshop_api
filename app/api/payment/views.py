@@ -1,4 +1,5 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.model.action import Action
 from app.model.payment import Payment
@@ -8,7 +9,7 @@ from app.api.payment.serializers import PaymentCreateSerializer, PaymentListSeri
 class PaymentCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PaymentCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Payment.objects.all()

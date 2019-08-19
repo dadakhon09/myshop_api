@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.api.contract.serializers import ContractCreateSerializer, ContractListSerializer, ContractUpdateSerializer
 from app.model.action import Action
@@ -8,7 +9,7 @@ from app.model.contract import Contract
 class ContractCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ContractCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Contract.objects.all()

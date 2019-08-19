@@ -1,4 +1,5 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.model.action import Action
 from app.model.tariff import Tariff
@@ -8,7 +9,7 @@ from app.api.tariff.serializers import TariffCreateSerializer, TariffListSeriali
 class TariffCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = TariffCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Tariff.objects.all()

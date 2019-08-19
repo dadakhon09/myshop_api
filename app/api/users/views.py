@@ -11,7 +11,7 @@ from app.model.users import UserProfile
 from app.api.users.serializers import UserProfileSerializer
 
 
-@permission_classes((IsAdminUser,))
+@permission_classes((IsAdminUser, IsAuthenticated))
 class UserCreate(APIView):
     def post(self, request):
         data = request.data

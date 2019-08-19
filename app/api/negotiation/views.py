@@ -1,15 +1,16 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
-from app.model.action import Action
-from app.model.negotiation import Negotiation
 from app.api.negotiation.serializers import NegotiationCreateSerializer, NegotiationListSerializer, \
     NegotiationUpdateSerializer
+from app.model.action import Action
+from app.model.negotiation import Negotiation
 
 
 class NegotiationCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Negotiation.objects.all()

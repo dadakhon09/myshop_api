@@ -12,7 +12,7 @@ from app.permissions import IsOwnerOrReadOnly
 class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
-    permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         instance = serializer.save()
