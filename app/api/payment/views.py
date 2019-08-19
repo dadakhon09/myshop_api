@@ -31,6 +31,7 @@ class PaymentListAPIView(ListAPIView):
 class PaymentUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = PaymentUpdateSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Payment.objects.all()
@@ -44,6 +45,7 @@ class PaymentUpdateAPIView(RetrieveUpdateAPIView):
 class PaymentDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = PaymentListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Payment.objects.all()

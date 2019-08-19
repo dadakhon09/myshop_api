@@ -31,6 +31,7 @@ class SettingsListAPIView(ListAPIView):
 class SettingsUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Settings.objects.all()
@@ -44,6 +45,7 @@ class SettingsUpdateAPIView(RetrieveUpdateAPIView):
 class SettingsDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Settings.objects.all()
