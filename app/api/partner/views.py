@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -56,6 +58,8 @@ class PartnerTransferAPIView(CreateAPIView):
     def perform_create(self, serializer):
         instance = serializer.save()
         partner = Partner.objects.get(id=instance.data.get("partner"))
+        partner.transferred = True
+        partner.transferred_date = datetime.datetime.now()
         Action.objects.create(actor=self.request.user,
                               action=f'partner {partner} transferred to user {User.objects.get(id=instance.data.get("user_id"))}',
                               subject=partner)

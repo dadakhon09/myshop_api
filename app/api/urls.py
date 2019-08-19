@@ -92,5 +92,4 @@ urlpatterns = [
     path('settings/create/', SettingsCreateAPIView.as_view(), name='settings-create'),
     path('settings/list/', SettingsListAPIView.as_view(), name='settings-list'),
     path('settings/list/<int:id>/', SettingsDetailAPIView.as_view(), name='settings-list-id'),
-
 ]
