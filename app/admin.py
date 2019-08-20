@@ -5,7 +5,7 @@ from app.model.action import Action
 from app.model.contract import Contract
 from app.model.diary import Diary
 from app.model.day import Day
-from app.model.media_plan import MediaPlan
+from app.model.media_plan import MediaPlan, Document
 from app.model.negotiation import Negotiation
 from app.model.partner import Partner
 from app.model.payment import Payment
@@ -23,6 +23,7 @@ admin.site.register(Contract)
 admin.site.register(Process)
 admin.site.register(Tariff)
 admin.site.register(MediaPlan)
+admin.site.register(Document)
 admin.site.register(Settings)
 admin.site.register(Diary)
 admin.site.register(Day)

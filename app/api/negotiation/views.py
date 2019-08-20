@@ -32,6 +32,7 @@ class NegotiationListAPIView(ListAPIView):
 class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationUpdateSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Negotiation.objects.all()
@@ -45,6 +46,7 @@ class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
 class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Negotiation.objects.all()

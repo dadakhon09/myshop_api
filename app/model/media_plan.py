@@ -5,8 +5,7 @@ from app.model.contract import Contract
 
 class MediaPlan(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    current_month = models.IntegerField()
-    document = models.FileField(upload_to='')
+    current_month = models.IntegerField(blank=True, null=True)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
 
@@ -17,3 +16,13 @@ class MediaPlan(models.Model):
     def __str__(self):
         return self.description
 
+class Document(models.Model):
+    document = models.FileField(upload_to='media', blank=True, null=True)
+    mediaplan = models.ForeignKey('MediaPlan', on_delete=models.CASCADE, related_name='documents')
+
+    class Meta:
+        db_table = 'documents'
+        ordering = ['-id']
+
+    def __str__(self):
+        return self.document.name

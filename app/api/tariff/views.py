@@ -31,6 +31,7 @@ class TariffListAPIView(ListAPIView):
 class TariffUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Tariff.objects.all()
@@ -44,6 +45,7 @@ class TariffUpdateAPIView(RetrieveUpdateAPIView):
 class TariffDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Tariff.objects.all()
