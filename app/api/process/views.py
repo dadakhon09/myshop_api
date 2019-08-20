@@ -8,6 +8,7 @@ from app.model.action import Action
 from app.model.day import Day
 from app.model.process import Process
 from app.api.process.serializers import ProcessCreateSerializer, ProcessListSerializer, ProcessUpdateSerializer
+from app.permissions import IsOwnerOrReadOnly
 
 now = datetime.datetime.now()
 
@@ -26,9 +27,8 @@ class ProcessCreateAPIView(CreateAPIView):
         cause = self.request.data['cause']
         destination_date = self.request.data['destination_date']
         description = self.request.data['description']
-        print(self.request.data)
-        print(partner)
         instance.moder = self.request.user
+        instance.day = datetime.datetime.today()
         instance.save()
         day = Day.objects.get(moder=self.request.user, day_date=datetime.datetime.today())
         Diary.objects.create(moder=self.request.user, partner_id=int(partner), destination_date=destination_date,
@@ -41,7 +41,7 @@ class ProcessTodayListAPIView(ListAPIView):
     serializer_class = ProcessListSerializer
 
     def get_queryset(self):
-        p = Process.objects.filter(moder__username=self.kwargs['slug'], destination_date=now.today())
+        p = Process.objects.filter(moder=self.request.user, destination_date=now.today())
         return p
 
 
@@ -50,8 +50,7 @@ class ProcessListByModerAPIView(ListAPIView):
     serializer_class = ProcessListSerializer
 
     def get_queryset(self):
-        print(self.kwargs)
-        p = Process.objects.filter(moder__username=self.kwargs['slug'])
+        p = Process.objects.filter(moder=self.request.user)
         return p
 
 

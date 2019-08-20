@@ -13,7 +13,7 @@ class ActionCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        instance.actor = self.request.user
+        instance.moder = self.request.user
         instance.save()
 
 

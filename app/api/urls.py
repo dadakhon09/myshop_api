@@ -6,13 +6,15 @@ from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView,
     ContractListAPIView, ContractDetailAPIView
 from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, DayListByIdAPIView, \
     DayListByModerAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView
-from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListAPIView, DiaryDetailAPIView
+from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListAPIView, \
+    DiaryDetailAPIView, DiaryListTodayAPIView
 from app.api.media_plan.views import MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, MediaPlanCreateAPIView, \
     MediaPlanListAPIView, MediaPLanDetailAPIView
 from app.api.negotiation.views import NegotiationUpdateAPIView, NegotiationDeleteAPIView, NegotiationCreateAPIView, \
     NegotiationListAPIView, NegotiationDetailAPIView
 from app.api.partner.views import PartnerUpdateAPIView, PartnerTransferAPIView, PartnerDeleteAPIView, \
-    PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView, PartnerListByModerAPIView
+    PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView, PartnerListByModerAPIView, \
+    PartnerTransferredListAPIView
 from app.api.payment.views import PaymentUpdateAPIView, PaymentDeleteAPIView, PaymentCreateAPIView, PaymentListAPIView, \
     PaymentDetailAPIView
 from app.api.process.views import ProcessUpdateAPIView, ProcessDeleteAPIView, ProcessCreateAPIView, \
@@ -23,7 +25,6 @@ from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, Tarif
     TariffDetailAPIView
 from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIView
 
-
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
     path('logout/', UserLogout.as_view(), name='logout'),
@@ -33,16 +34,17 @@ urlpatterns = [
     path('partner/transfer/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
     path('partner/delete/<int:id>/', PartnerDeleteAPIView.as_view(), name='partner-delete'),
     path('partner/create/', PartnerCreateAPIView.as_view(), name='partner-create'),
-    path('partner/list/', PartnerListAPIView.as_view(), name='partner-list'),
+    path('partner/list/all/', PartnerListAPIView.as_view(), name='partner-list'),
     path('partner/list/<int:id>/', PartnerDetailAPIView.as_view(), name='partner-list-id'),
-    path('partner/list/<str:slug>/', PartnerListByModerAPIView.as_view(), name='partner-list-moder'),
+    path('partner/list/my/', PartnerListByModerAPIView.as_view(), name='partner-list-moder'),
+    path('partner/list/transferred/', PartnerTransferredListAPIView.as_view(), name='partner-list-transferred'),  # for notification
     path('process/update/<int:id>/', ProcessUpdateAPIView.as_view(), name='process-update'),
     path('process/delete/<int:id>/', ProcessDeleteAPIView.as_view(), name='process-delete'),
     path('process/create/', ProcessCreateAPIView.as_view(), name='process-create'),
-    path('process/list/<str:slug>/today/', ProcessTodayListAPIView.as_view(), name='process-today-list'),
+    path('process/list/today/', ProcessTodayListAPIView.as_view(), name='process-today-list'),
     path('process/list/', ProcessAllListAPIView.as_view(), name='process-all-list'),
     path('process/list/<int:id>/', ProcessDetailAPIView.as_view(), name='process-list-id'),
-    path('process/list/<str:slug>/', ProcessListByModerAPIView.as_view(), name='process-list-by-moder'),
+    path('process/list/my/', ProcessListByModerAPIView.as_view(), name='process-list-by-moder'),
     path('payment/update/<int:id>/', PaymentUpdateAPIView.as_view(), name='payment-update'),
     path('payment/delete/<int:id>/', PaymentDeleteAPIView.as_view(), name='payment-delete'),
     path('payment/create/', PaymentCreateAPIView.as_view(), name='payment-create'),
@@ -63,14 +65,14 @@ urlpatterns = [
     path('day/create/', DayCreateAPIView.as_view(), name='day-create'),
     path('day/list/', DayListByIdAPIView.as_view(), name='day-list'),
     path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),
-    path('day/list/<str:slug>/', DayListByModerAPIView.as_view(), name='day-list-by-moder'),
+    path('day/list/my/', DayListByModerAPIView.as_view(), name='day-list-by-moder'),
     path('day/list/<int:id>/start/', DayGetStartedAPIView.as_view(), name='day-start'),
     path('day/list/<int:id>/end/', DayGetEndedAPIView.as_view(), name='day-end'),
     path('diary/update/<int:id>/', DiaryUpdateAPIView.as_view(), name='diary-update'),
     path('diary/delete/<int:id>/', DiaryDeleteAPIView.as_view(), name='diary-delete'),
     path('diary/create/', DiaryCreateAPIView.as_view(), name='diary-create'),
     path('diary/list/', DiaryListAPIView.as_view(), name='diary-list'),
-    # path('diary/list/<str:slug>/', DiaryListByModerAPIView.as_view(), name='diary-list-by-moder'),
+    path('diary/list/today/', DiaryListTodayAPIView.as_view(), name='diary-list-today'),  # for notification
     path('diary/list/<int:id>/', DiaryDetailAPIView.as_view(), name='diary-list-id'),
     path('negotiation/update/<int:id>/', NegotiationUpdateAPIView.as_view(), name='negotiation-update'),
     path('negotiation/delete/<int:id>/', NegotiationDeleteAPIView.as_view(), name='negotiation-delete'),

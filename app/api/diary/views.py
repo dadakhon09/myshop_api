@@ -7,6 +7,7 @@ from app.api.diary.serializers import DiaryCreateSerializer, DiaryListSerializer
 from app.model.action import Action
 from app.model.day import Day
 from app.model.diary import Diary
+from app.permissions import IsOwnerOrReadOnly
 
 
 class DiaryCreateAPIView(CreateAPIView):
@@ -31,6 +32,16 @@ class DiaryListAPIView(ListAPIView):
     def get_queryset(self):
         d, _ = Day.objects.get_or_create(moder=self.request.user, day_date=datetime.datetime.today())
         p = Diary.objects.filter(moder=self.request.user)
+        return p
+
+
+class DiaryListTodayAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DiaryListSerializer
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+
+    def get_queryset(self):
+        p = Diary.objects.filter(moder=self.request.user, destination_date=datetime.datetime.today())
         return p
 
 

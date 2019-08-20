@@ -20,7 +20,7 @@ class MediaPlanCreateSerializer(ModelSerializer):
         documents = self.context['request'].FILES.getlist('documents')
         if documents:
             for d in documents:
-                doc = Document.objects.create(document=d, mediaplan=m)
+                Document.objects.create(document=d, mediaplan=m)
         m.save()
         return m
 
