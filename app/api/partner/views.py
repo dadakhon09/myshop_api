@@ -20,7 +20,7 @@ class PartnerCreateAPIView(CreateAPIView):
         instance = serializer.save()
         instance.moder = self.request.user
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'partner {instance} created', subject=instance)
+        Action.objects.create(moder=self.request.user, action=f'partner {instance} created', subject=instance)
 
 
 class PartnerListAPIView(ListAPIView):
@@ -35,7 +35,16 @@ class PartnerListByModerAPIView(ListAPIView):
     serializer_class = PartnerListSerializer
 
     def get_queryset(self):
-        p = Partner.objects.filter(moder__username=self.kwargs['slug'])
+        p = Partner.objects.filter(moder=self.request.user)
+        return p
+
+
+class PartnerTransferredListAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = PartnerListSerializer
+
+    def get_queryset(self):
+        p = Partner.objects.filter(moder=self.request.user, transferred=True)
         return p
 
 
@@ -44,25 +53,34 @@ class PartnerDetailAPIView(ListAPIView):
     serializer_class = PartnerListSerializer
 
     def get_queryset(self):
+        d = Partner.objects.get(id=self.kwargs['id'])
         p = Partner.objects.filter(id=self.kwargs['id'])
+        print(d)
+        print(p)
+        if self.request.user == d.moder:
+            d.transferred = False
+            d.save()
         return p
 
 
 class PartnerTransferAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerTransferSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Partner.objects.all()
-
-    def perform_create(self, serializer):
-        instance = serializer.save()
-        partner = Partner.objects.get(id=instance.data.get("partner"))
-        partner.transferred = True
-        partner.transferred_date = datetime.datetime.now()
-        Action.objects.create(actor=self.request.user,
-                              action=f'partner {partner} transferred to user {User.objects.get(id=instance.data.get("user_id"))}',
-                              subject=partner)
+    #
+    # def perform_create(self, serializer):
+    #     instance = serializer.save()
+    #     user = User.objects.get(id=instance.data.get('user_id'))
+    #     partner = Partner.objects.get(id=instance.data.get('partner'))
+    #     partner.transferred = True
+    #     partner.transferred_date = datetime.datetime.now()
+    #     partner.save()
+    #     Action.objects.create(moder=self.request.user,
+    #                           action=f'partner {partner} transferred to user {user}',
+    #                           subject=partner)
 
 
 class PartnerUpdateAPIView(RetrieveUpdateAPIView):
@@ -75,7 +93,7 @@ class PartnerUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.save()
-        Action.objects.create(actor=self.request.user, action=f'partner {instance} updated ',
+        Action.objects.create(moder=self.request.user, action=f'partner {instance} updated ',
                               subject=instance)
 
 
@@ -87,6 +105,6 @@ class PartnerDeleteAPIView(RetrieveDestroyAPIView):
         return Partner.objects.all()
 
     def perform_destroy(self, instance):
-        Action.objects.create(actor=self.request.user, action=f'partner {instance} deleted',
+        Action.objects.create(moder=self.request.user, action=f'partner {instance} deleted',
                               subject=instance)
         return instance

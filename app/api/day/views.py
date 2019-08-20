@@ -41,7 +41,7 @@ class DayListByModerAPIView(ListAPIView):
     serializer_class = DayListSerializer
 
     def get_queryset(self):
-        p = Day.objects.filter(moder__username=self.kwargs['slug'])
+        p = Day.objects.filter(moder=self.request.user)
         return p
 
 
@@ -102,8 +102,9 @@ class DayGetEndedAPIView(RetrieveUpdateAPIView):
         diaries = Diary.objects.filter(moder=self.request.user)
         for d in diaries:
             if d.result is None and d.day.day_date == datetime.datetime.today().date():
-                print('Please do all your work then u can go home')
+
                 return Response(status=400)
         instance.end_time = datetime.datetime.now()
+        instance.done = True
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'day {instance} ended', subject=instance)
