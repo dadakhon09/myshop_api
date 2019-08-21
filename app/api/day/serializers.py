@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
-from app.model.day import Day
 from app.api.users.serializers import UserSerializer
+from app.model.day import Day
 
 
 class DayListSerializer(ModelSerializer):
@@ -21,7 +21,7 @@ class DayUpdateSerializer(ModelSerializer):
 class DayCreateSerializer(ModelSerializer):
     class Meta:
         model = Day
-        fields = ('id', 'day_date', 'done', 'start_time', 'end_time')
+        fields = 'id'
 
 
 class DayStartSerializer(ModelSerializer):

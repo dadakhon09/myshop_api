@@ -14,7 +14,12 @@ from app.permissions import IsOwnerOrReadOnly, IsMediaManager
 class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
-    permission_classes = (IsAuthenticated,)
+
+    def get_permissions(self):
+        if self.request.user.is_superuser:
+            return [IsAdminUser, IsAuthenticated]
+        if self.request.user.userprofile.type == 1:
+            return [IsMediaManager, IsAuthenticated]
 
     def perform_create(self, serializer):
         instance = serializer.save()
@@ -26,7 +31,7 @@ class PartnerCreateAPIView(CreateAPIView):
 class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser, IsMediaManager)
+    permission_classes = (IsMediaManager, )
     queryset = Partner.objects.all().order_by('id')
 
 

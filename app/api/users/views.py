@@ -64,3 +64,4 @@ class UserListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
+

@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from app.api.negotiation.serializers import NegotiationCreateSerializer, NegotiationListSerializer, \
     NegotiationUpdateSerializer
+from app.model import Partner
 from app.model.action import Action
 from app.model.negotiation import Negotiation
 
@@ -27,6 +28,15 @@ class NegotiationListAPIView(ListAPIView):
 
     def get_queryset(self):
         return Negotiation.objects.all()
+
+
+class NegotiationListByPartnerAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = NegotiationListSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['id']
+        return Negotiation.objects.filter(partner_id=pk)
 
 
 class NegotiationUpdateAPIView(RetrieveUpdateAPIView):

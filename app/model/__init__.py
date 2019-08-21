@@ -9,7 +9,8 @@ from .process import Process
 from .settings import Settings
 from .tariff import Tariff
 from .users import UserProfile
+from .manager import Manager
 
 __all__ = ['Action', 'Contract', 'Diary', 'MediaPlan', 'Negotiation',
-           'Partner', 'Payment', 'Process', 'Settings', 'Tariff', 'UserProfile']
+           'Partner', 'Payment', 'Process', 'Settings', 'Tariff', 'UserProfile', 'Manager']
 
