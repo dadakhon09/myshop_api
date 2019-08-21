@@ -1,5 +1,6 @@
 import datetime
 
+from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -7,8 +8,8 @@ from django.db import models
 class Partner(models.Model):
     ooo = models.CharField(max_length=255, unique=True)
     contact_name = models.CharField(max_length=255, blank=True)
-    stationary_phone = models.CharField(max_length=255, blank=True)
-    mobile_phone = models.CharField(max_length=255, blank=True)
+    stationary_phone = PhoneNumberField(blank=True, null=True)
+    mobile_phone = PhoneNumberField(blank=True, null=True)
     comment = models.TextField(blank=True)
     address = models.TextField(blank=True)
     created = models.DateTimeField(auto_now=True)

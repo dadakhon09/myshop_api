@@ -3,7 +3,7 @@ import datetime
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from app.model import Diary
+from app.model import Diary, Negotiation
 from app.model.action import Action
 from app.model.day import Day
 from app.model.process import Process
@@ -22,16 +22,21 @@ class ProcessCreateAPIView(CreateAPIView):
         return Process.objects.all()
 
     def perform_create(self, serializer):
+        partner_id = ''
         instance = serializer.save()
-        partner = self.request.data['partner']
+        p = self.request.data['partner_id']
         cause = self.request.data['cause']
         destination_date = self.request.data['destination_date']
         description = self.request.data['description']
+        if p:
+            partner_id = p
+        n = Negotiation.objects.get(partner_id=partner_id)
+        print(n)
         instance.moder = self.request.user
         instance.day = datetime.datetime.today()
         instance.save()
         day = Day.objects.get(moder=self.request.user, day_date=datetime.datetime.today())
-        Diary.objects.create(moder=self.request.user, partner_id=int(partner), destination_date=destination_date,
+        Diary.objects.create(moder=self.request.user, partner_id=int(partner_id), destination_date=destination_date,
                              cause=cause, description=description, day=day)
         Action.objects.create(moder=self.request.user, action=f'process {instance} created', subject=instance)
 

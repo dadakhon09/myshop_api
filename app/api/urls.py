@@ -6,7 +6,7 @@ from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView,
     ContractListAPIView, ContractDetailAPIView
 from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, DayListByIdAPIView, \
     DayListByModerAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView
-from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListAPIView, \
+from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListMyAPIView, \
     DiaryDetailAPIView, DiaryListTodayAPIView
 from app.api.media_plan.views import MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, MediaPlanCreateAPIView, \
     MediaPlanListAPIView, MediaPLanDetailAPIView
@@ -71,7 +71,7 @@ urlpatterns = [
     path('diary/update/<int:id>/', DiaryUpdateAPIView.as_view(), name='diary-update'),
     path('diary/delete/<int:id>/', DiaryDeleteAPIView.as_view(), name='diary-delete'),
     path('diary/create/', DiaryCreateAPIView.as_view(), name='diary-create'),
-    path('diary/list/', DiaryListAPIView.as_view(), name='diary-list'),
+    path('diary/list/my/', DiaryListMyAPIView.as_view(), name='diary-list-my'),
     path('diary/list/today/', DiaryListTodayAPIView.as_view(), name='diary-list-today'),  # for notification
     path('diary/list/<int:id>/', DiaryDetailAPIView.as_view(), name='diary-list-id'),
     path('negotiation/update/<int:id>/', NegotiationUpdateAPIView.as_view(), name='negotiation-update'),
