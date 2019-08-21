@@ -7,8 +7,8 @@ from app.model.contract import Contract
 
 
 class MediaPlan(models.Model):
-    contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    current_month = models.DecimalField(decimal_places=0, max_digits=12,
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, blank=True)
+    current_month = models.DecimalField(decimal_places=0, max_digits=2,
                                         validators=[MinValueValidator(Decimal('0.01'))], null=True, blank=True)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
