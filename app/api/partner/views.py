@@ -55,8 +55,6 @@ class PartnerDetailAPIView(ListAPIView):
     def get_queryset(self):
         d = Partner.objects.get(id=self.kwargs['id'])
         p = Partner.objects.filter(id=self.kwargs['id'])
-        print(d)
-        print(p)
         if self.request.user == d.moder:
             d.transferred = False
             d.save()
