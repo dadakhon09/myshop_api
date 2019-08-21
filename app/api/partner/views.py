@@ -8,7 +8,7 @@ from app.model.action import Action
 from app.model.partner import Partner
 from app.api.partner.serializers import PartnerCreateSerializer, PartnerListSerializer, PartnerTransferSerializer, \
     PartnerUpdateSerializer
-from app.permissions import IsOwnerOrReadOnly
+from app.permissions import IsOwnerOrReadOnly, IsMediaManager
 
 
 class PartnerCreateAPIView(CreateAPIView):
@@ -26,7 +26,7 @@ class PartnerCreateAPIView(CreateAPIView):
 class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAuthenticated, IsAdminUser, IsMediaManager)
     queryset = Partner.objects.all().order_by('id')
 
 

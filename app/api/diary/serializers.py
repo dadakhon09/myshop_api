@@ -31,4 +31,4 @@ class DiaryCreateSerializer(ModelSerializer):
     class Meta:
         model = Diary
         fields = (
-            'id', 'cause', 'partner', 'destination_date', 'description', 'day')
+            'id', 'cause', 'partner', 'destination_date', 'description')

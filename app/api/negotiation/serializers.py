@@ -23,4 +23,4 @@ class NegotiationUpdateSerializer(ModelSerializer):
 class NegotiationCreateSerializer(ModelSerializer):
     class Meta:
         model = Negotiation
-        fields = ('id', 'description', 'contract', 'partner', 'status')
+        fields = ('id', 'description', 'partner', 'status')

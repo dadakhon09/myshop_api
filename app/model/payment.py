@@ -1,3 +1,6 @@
+from _decimal import Decimal
+
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from app.model.contract import Contract
@@ -5,7 +8,8 @@ from app.model.contract import Contract
 
 class Payment(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    cash = models.CharField(max_length=255)
+    cash = models.DecimalField(decimal_places=0, max_digits=12, validators=[MinValueValidator(Decimal('0.01'))],
+                               null=True, blank=True)
     created = models.DateTimeField(auto_now=True)
     pay_day = models.DateField(blank=True, null=True)
 
@@ -14,5 +18,4 @@ class Payment(models.Model):
         ordering = ['created']
 
     def __str__(self):
-        return self.created
-
+        return self.contract.description

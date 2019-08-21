@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'rest_framework',
+    'phonenumber_field',
 
     'app',
 ]

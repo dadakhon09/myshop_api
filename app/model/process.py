@@ -12,13 +12,13 @@ STATUS = (
 
 
 class Process(models.Model):
-    negotiation = models.ForeignKey(Negotiation, on_delete=models.CASCADE)
-    cause = models.CharField(max_length=255)
     moder = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    cause = models.CharField(max_length=255)
+    negotiation = models.ForeignKey(Negotiation, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now=True)
     destination_date = models.DateField(null=True, blank=True)
     description = models.TextField()
-    status = models.IntegerField(choices=STATUS)
+    status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
         db_table = 'processes'
