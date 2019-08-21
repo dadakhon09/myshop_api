@@ -4,14 +4,15 @@ from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, Actio
     ActionDetailAPIView
 from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
     ContractListAPIView, ContractDetailAPIView
-from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, DayListByIdAPIView, \
-    DayListByModerAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView
+from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, \
+    DayListByModerAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView, DayListAllAPIView
 from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListMyAPIView, \
     DiaryDetailAPIView, DiaryListTodayAPIView
+from app.api.managers.views import ManagerDetailAPIView
 from app.api.media_plan.views import MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, MediaPlanCreateAPIView, \
     MediaPlanListAPIView, MediaPLanDetailAPIView
 from app.api.negotiation.views import NegotiationUpdateAPIView, NegotiationDeleteAPIView, NegotiationCreateAPIView, \
-    NegotiationListAPIView, NegotiationDetailAPIView
+    NegotiationListAPIView, NegotiationDetailAPIView, NegotiationListByPartnerAPIView
 from app.api.partner.views import PartnerUpdateAPIView, PartnerTransferAPIView, PartnerDeleteAPIView, \
     PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView, PartnerListByModerAPIView, \
     PartnerTransferredListAPIView
@@ -28,6 +29,7 @@ from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIVi
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
     path('logout/', UserLogout.as_view(), name='logout'),
+<<<<<<< HEAD
     path('create-user/', UserCreate.as_view(), name='create-user'), # for admin
     path('users/list/', UserListAPIView.as_view(), name='users-list'), # all users list 
     path('partner/update/<int:id>/', PartnerUpdateAPIView.as_view(), name='partner-update'), # edit  one partner by id 
@@ -39,6 +41,21 @@ urlpatterns = [
     path('partner/list/my/', PartnerListByModerAPIView.as_view(), name='partner-list-moder'),# one's partner list
     path('partner/list/transferred/', PartnerTransferredListAPIView.as_view(), name='partner-list-transferred'),  # for notification
     path('process/update/<int:id>/', ProcessUpdateAPIView.as_view(), name='process-update'), 
+=======
+    path('create-user/', UserCreate.as_view(), name='create-user'),
+    path('users/list/', UserListAPIView.as_view(), name='users-list'),
+    path('manager/<int:id>/', ManagerDetailAPIView.as_view(), name='manager-detail'),
+    path('partner/update/<int:id>/', PartnerUpdateAPIView.as_view(), name='partner-update'),
+    path('partner/transfer/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
+    path('partner/delete/<int:id>/', PartnerDeleteAPIView.as_view(), name='partner-delete'),
+    path('partner/create/', PartnerCreateAPIView.as_view(), name='partner-create'),
+    path('partner/list/all/', PartnerListAPIView.as_view(), name='partner-list'),
+    path('partner/list/<int:id>/', PartnerDetailAPIView.as_view(), name='partner-list-id'),
+    path('partner/list/my/', PartnerListByModerAPIView.as_view(), name='partner-list-moder'),
+    path('partner/list/transferred/', PartnerTransferredListAPIView.as_view(), name='partner-list-transferred'),
+    # for notification
+    path('process/update/<int:id>/', ProcessUpdateAPIView.as_view(), name='process-update'),
+>>>>>>> c4391ffead73c1dc3a9edec5ff71ad0f05781323
     path('process/delete/<int:id>/', ProcessDeleteAPIView.as_view(), name='process-delete'),
     path('process/create/', ProcessCreateAPIView.as_view(), name='process-create'), #'partner'
     path('process/list/today/', ProcessTodayListAPIView.as_view(), name='process-today-list'),
@@ -50,6 +67,7 @@ urlpatterns = [
     path('payment/create/', PaymentCreateAPIView.as_view(), name='payment-create'),
     path('payment/list/', PaymentListAPIView.as_view(), name='payment-list'),
     path('payment/list/<int:id>/', PaymentDetailAPIView.as_view(), name='payment-list-id'),
+<<<<<<< HEAD
     path('action/update/<int:id>/', ActionUpdateAPIView.as_view(), name='action-update'), #---
     path('action/delete/<int:id>/', ActionDeleteAPIView.as_view(), name='action-delete'),# ---
     path('action/create/', ActionCreateAPIView.as_view(), name='action-create'),#---
@@ -65,6 +83,23 @@ urlpatterns = [
     path('day/create/', DayCreateAPIView.as_view(), name='day-create'),# automatic
     path('day/list/', DayListByIdAPIView.as_view(), name='day-list'),#---
     path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),#---
+=======
+    path('action/update/<int:id>/', ActionUpdateAPIView.as_view(), name='action-update'),
+    path('action/delete/<int:id>/', ActionDeleteAPIView.as_view(), name='action-delete'),
+    path('action/create/', ActionCreateAPIView.as_view(), name='action-create'),
+    path('action/list/', ActionListAPIView.as_view(), name='action-list'),
+    path('action/list/<int:id>/', ActionDetailAPIView.as_view(), name='action-list-id'),
+    path('contract/update/<int:id>/', ContractUpdateAPIView.as_view(), name='contract-update'),
+    path('contract/delete/<int:id>/', ContractDeleteAPIView.as_view(), name='contract-delete'),
+    path('contract/create/', ContractCreateAPIView.as_view(), name='contract-create'),
+    path('contract/list/', ContractListAPIView.as_view(), name='contract-list'),
+    path('contract/list/<int:id>/', ContractDetailAPIView.as_view(), name='contract-list-id'),
+    path('day/update/<int:id>/', DayUpdateAPIView.as_view(), name='day-update'),
+    path('day/delete/<int:id>/', DayDeleteAPIView.as_view(), name='day-delete'),
+    path('day/create/', DayCreateAPIView.as_view(), name='day-create'),
+    path('day/list/all/', DayListAllAPIView.as_view(), name='day-list'),
+    path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),
+>>>>>>> c4391ffead73c1dc3a9edec5ff71ad0f05781323
     path('day/list/my/', DayListByModerAPIView.as_view(), name='day-list-by-moder'),
     path('day/list/<int:id>/start/', DayGetStartedAPIView.as_view(), name='day-start'),
     path('day/list/<int:id>/end/', DayGetEndedAPIView.as_view(), name='day-end'),
@@ -78,6 +113,8 @@ urlpatterns = [
     path('negotiation/delete/<int:id>/', NegotiationDeleteAPIView.as_view(), name='negotiation-delete'),
     path('negotiation/create/', NegotiationCreateAPIView.as_view(), name='negotiation-create'),
     path('negotiation/list/', NegotiationListAPIView.as_view(), name='negotiation-list'),
+    path('negotiation/list/partner/<int:id>/', NegotiationListByPartnerAPIView.as_view(),
+         name='negotiation-list-by-partner'),
     path('negotiation/list/<int:id>/', NegotiationDetailAPIView.as_view(), name='negotiation-list-id'),
     path('tariff/update/<int:id>/', TariffUpdateAPIView.as_view(), name='tariff-update'),
     path('tariff/delete/<int:id>/', TariffDeleteAPIView.as_view(), name='tariff-delete'),

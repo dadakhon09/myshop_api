@@ -34,7 +34,7 @@ class PartnerTransferSerializer(ModelSerializer):
 
     def create(self, validated_data):
         request = self.context['request']
-        partners = request.data.getlist('partner')
+        partners = request.data.getlist('partner_id')
         user = User.objects.get(id=request.data.get('user_id'))
         for partner in partners:
             p = Partner.objects.get(id=int(partner))

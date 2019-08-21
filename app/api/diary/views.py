@@ -21,13 +21,11 @@ class DiaryCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        negotiation_list = []
         cause = self.request.data['cause']
         negotiation_id = self.request.data['negotiation_id']
         destination_date = self.request.data['destination_date']
         description = self.request.data['description']
         partner_id = self.request.data['partner_id']
-        negotiations = Negotiation.objects.filter(partner_id=partner_id)
         instance.partner = Partner.objects.get(id=partner_id)
         instance.moder = self.request.user
         day = Day.objects.get(moder=self.request.user, day_date=datetime.datetime.today())

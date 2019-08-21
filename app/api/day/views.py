@@ -28,7 +28,7 @@ class DayCreateAPIView(CreateAPIView):
         Action.objects.create(moder=self.request.user, action=f'day {instance} created', subject=instance)
 
 
-class DayListByIdAPIView(ListAPIView):
+class DayListAllAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
 
