@@ -22,7 +22,7 @@ class MediaPlan(models.Model):
 
 
 class Document(models.Model):
-    document = models.FileField(upload_to='media', blank=True, null=True)
+    document = models.FileField(upload_to='', blank=True, null=True)
     mediaplan = models.ForeignKey('MediaPlan', on_delete=models.CASCADE, related_name='documents')
 
     class Meta:

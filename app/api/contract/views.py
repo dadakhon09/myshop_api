@@ -1,9 +1,13 @@
+import datetime
+
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from app.api.contract.serializers import ContractCreateSerializer, ContractListSerializer, ContractUpdateSerializer
+from app.model import Payment
 from app.model.action import Action
 from app.model.contract import Contract
+from app.model.day import Day
 
 
 class ContractCreateAPIView(CreateAPIView):
