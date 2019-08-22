@@ -31,4 +31,5 @@ class Contract(models.Model):
         return paid_cash
 
     def debt(self):
+
         return int(self.price) - self.paid()

@@ -5,7 +5,7 @@ from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, Actio
 from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
     ContractListAPIView, ContractDetailAPIView
 from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, \
-    DayListByModerAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView, DayListAllAPIView
+    DayListMyAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView, DayListAllAPIView
 from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListMyAPIView, \
     DiaryDetailAPIView, DiaryListTodayAPIView
 from app.api.managers.views import ManagerDetailAPIView
@@ -68,9 +68,9 @@ urlpatterns = [
     path('day/create/', DayCreateAPIView.as_view(), name='day-create'),
     path('day/list/all/', DayListAllAPIView.as_view(), name='day-list'),
     path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),
-    path('day/list/my/', DayListByModerAPIView.as_view(), name='day-list-by-moder'),
-    path('day/list/<int:id>/start/', DayGetStartedAPIView.as_view(), name='day-start'),
-    path('day/list/<int:id>/end/', DayGetEndedAPIView.as_view(), name='day-end'),
+    path('day/list/my/', DayListMyAPIView.as_view(), name='day-list-my'),
+    path('day/list/my/start/', DayGetStartedAPIView.as_view(), name='day-start'),
+    path('day/list/my/end/', DayGetEndedAPIView.as_view(), name='day-end'),
     path('diary/update/<int:id>/', DiaryUpdateAPIView.as_view(), name='diary-update'),
     path('diary/delete/<int:id>/', DiaryDeleteAPIView.as_view(), name='diary-delete'),
     path('diary/create/', DiaryCreateAPIView.as_view(), name='diary-create'),

@@ -16,19 +16,16 @@ class DiaryListSerializer(ModelSerializer):
     class Meta:
         model = Diary
         fields = (
-            'id', 'created', 'moder', 'cause', 'partner', 'other', 'result', 'destination_date', 'description',
-            'process', 'day')
+            'id', 'created', 'moder', 'cause', 'partner', 'other', 'result', 'destination_date', 'description', 'day')
 
 
 class DiaryUpdateSerializer(ModelSerializer):
     class Meta:
         model = Diary
-        fields = (
-            'id', 'cause', 'other', 'result', 'destination_date', 'description')
+        fields = ('id', 'cause', 'other', 'result', 'destination_date', 'description')
 
 
 class DiaryCreateSerializer(ModelSerializer):
     class Meta:
         model = Diary
-        fields = (
-            'id', 'cause', 'partner', 'destination_date', 'description')
+        fields = ('id', 'cause', 'partner', 'destination_date', 'description')

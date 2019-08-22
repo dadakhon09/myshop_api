@@ -36,7 +36,7 @@ class DayListAllAPIView(ListAPIView):
         return Day.objects.all()
 
 
-class DayListByModerAPIView(ListAPIView):
+class DayListMyAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
 
@@ -83,11 +83,14 @@ class DayDetailAPIView(ListAPIView):
 class DayGetStartedAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = DayStartSerializer
-    queryset = Day.objects.all()
+
+    def get_queryset(self):
+        return Day.objects.filter(moder=self.request.user)
 
     def perform_update(self, serializer):
         instance = serializer.save()
         instance.start_time = datetime.datetime.now()
+
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'day {instance} started', subject=instance)
 
@@ -95,14 +98,15 @@ class DayGetStartedAPIView(RetrieveUpdateAPIView):
 class DayGetEndedAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = DayEndSerializer
-    queryset = Day.objects.all()
+
+    def get_queryset(self):
+        return Day.objects.filter(moder=self.request.user)
 
     def perform_update(self, serializer):
         instance = serializer.save()
         diaries = Diary.objects.filter(moder=self.request.user)
         for d in diaries:
             if d.result is None and d.day.day_date == datetime.datetime.today().date():
-
                 return Response(status=400)
         instance.end_time = datetime.datetime.now()
         instance.done = True
