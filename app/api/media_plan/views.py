@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from app.api.media_plan.serializers import MediaPlanCreateSerializer, MediaPlanListSerializer, MediaPlanUpdateSerializer
 from app.model.action import Action
 from app.model.media_plan import MediaPlan
+from app.model.contract import Contract
 
 
 class MediaPlanCreateAPIView(CreateAPIView):
@@ -16,6 +17,13 @@ class MediaPlanCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save()
+        print(instance.data)
+        c = Contract.objects.get(id=instance.data.contract_id)
+        print(c)
+        if documents:
+            for d in documents:
+                Document.objects.create(document=d, mediaplan=m)
+        
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'media plan {instance} created', subject=instance)
 
