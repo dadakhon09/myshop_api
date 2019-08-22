@@ -46,3 +46,16 @@ class ActionDetailAPIView(ListAPIView):
     def get_queryset(self):
         p = Action.objects.filter(id=self.kwargs['id'])
         return p
+
+
+class ActionListByManagerAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ActionListSerializer
+    queryset = Action.objects.filter(moder__userprofile__type__exact=0)
+
+
+class ActionListByMediaManagerAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = ActionListSerializer
+    queryset = Action.objects.filter(moder__userprofile__type__exact=1)
+

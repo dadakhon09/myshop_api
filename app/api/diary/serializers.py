@@ -10,7 +10,6 @@ from app.api.users.serializers import UserSerializer
 class DiaryListSerializer(ModelSerializer):
     moder = UserSerializer()
     partner = PartnerListSerializer()
-    process = ProcessListSerializer()
     day = DayListSerializer()
 
     class Meta:

@@ -2,13 +2,13 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.decorators import permission_classes
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from app.model.users import UserProfile
-from app.api.users.serializers import UserProfileSerializer
+from app.api.users.serializers import UserProfileSerializer, UserFullSerializer
 
 
 @permission_classes((IsAdminUser, IsAuthenticated))
@@ -65,3 +65,16 @@ class UserListAPIView(ListAPIView):
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
 
+
+class UserUpdateAPIView(RetrieveUpdateAPIView):
+    lookup_field = 'id'
+    serializer_class = UserFullSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsAdminUser, )
+
+
+class UserDeleteAPIView(RetrieveDestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = UserFullSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsAdminUser, )

@@ -1,14 +1,15 @@
 from django.urls import path
 
 from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, ActionCreateAPIView, ActionListAPIView, \
-    ActionDetailAPIView
+    ActionDetailAPIView, ActionListByManagerAPIView, ActionListByMediaManagerAPIView
 from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
     ContractListAPIView, ContractDetailAPIView
 from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, \
     DayListMyAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView, DayListAllAPIView
 from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListMyAPIView, \
     DiaryDetailAPIView, DiaryListTodayAPIView
-from app.api.managers.views import ManagerDetailAPIView
+from app.api.managers.views import ManagerDetailAPIView, MediaManagerDetailAPIView, MediaManagerListAPIView, \
+    ManagerListAPIView
 from app.api.media_plan.views import MediaPlanUpdateAPIView, MediaPlanDeleteAPIView, MediaPlanCreateAPIView, \
     MediaPlanListAPIView, MediaPLanDetailAPIView
 from app.api.negotiation.views import NegotiationUpdateAPIView, NegotiationDeleteAPIView, NegotiationCreateAPIView, \
@@ -24,15 +25,22 @@ from app.api.settings.views import SettingsUpdateAPIView, SettingsDeleteAPIView,
     SettingsListAPIView, SettingsDetailAPIView
 from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, TariffCreateAPIView, TariffListAPIView, \
     TariffDetailAPIView
-from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIView
+from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIView, UserUpdateAPIView, UserDeleteAPIView
 
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='login'),
     path('logout/', UserLogout.as_view(), name='logout'),
     path('create-user/', UserCreate.as_view(), name='create-user'),
     path('users/list/', UserListAPIView.as_view(), name='users-list'),
-    path('manager/<int:id>/', ManagerDetailAPIView.as_view(), name='manager-detail'),
-    path('partner/update/<int:id>/', PartnerUpdateAPIView.as_view(), name='partner-update'),
+    path('manager/list/', ManagerListAPIView.as_view(), name='managers-list'),
+    path('mediamanager/list/', MediaManagerListAPIView.as_view(), name='mediamanagers-list'),
+    path('manager/list/<int:id>/', ManagerDetailAPIView.as_view(), name='manager-detail'),
+    path('mediamanager/list/<int:id>/', MediaManagerDetailAPIView.as_view(), name='media-manager-detail'),
+    path('manager/list/<int:id>/update/', UserUpdateAPIView.as_view(), name='user-update'),
+    path('mediamanager/list/<int:id>/update/', UserUpdateAPIView.as_view(), name='user-update'),
+    path('manager/list/<int:id>/delete/', UserDeleteAPIView.as_view(), name='user-delete'),
+    path('mediamanager/list/<int:id>/delete/', UserDeleteAPIView.as_view(), name='user-delete'),
+    path('partner/list/<int:id>/update/', PartnerUpdateAPIView.as_view(), name='partner-update'),
     path('partner/transfer/', PartnerTransferAPIView.as_view(), name='partner-transfer'),
     path('partner/delete/<int:id>/', PartnerDeleteAPIView.as_view(), name='partner-delete'),
     path('partner/create/', PartnerCreateAPIView.as_view(), name='partner-create'),
@@ -58,6 +66,9 @@ urlpatterns = [
     path('action/create/', ActionCreateAPIView.as_view(), name='action-create'),
     path('action/list/', ActionListAPIView.as_view(), name='action-list'),
     path('action/list/<int:id>/', ActionDetailAPIView.as_view(), name='action-list-id'),
+    path('action/list/manager/<int:id>/', ActionListByManagerAPIView.as_view(), name='action-list-manager'),
+    path('action/list/mediamanager/<int:id>/', ActionListByMediaManagerAPIView.as_view(),
+         name='action-list-mediamanager'),
     path('contract/update/<int:id>/', ContractUpdateAPIView.as_view(), name='contract-update'),
     path('contract/delete/<int:id>/', ContractDeleteAPIView.as_view(), name='contract-delete'),
     path('contract/create/', ContractCreateAPIView.as_view(), name='contract-create'),
