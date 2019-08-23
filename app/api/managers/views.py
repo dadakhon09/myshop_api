@@ -45,20 +45,6 @@ class MediaManagerListAPIView(ListAPIView):
     queryset = User.objects.filter(userprofile__type__exact=1)
 
 
-# class MediaManagerUpdateAPIView(RetrieveUpdateAPIView):
-#     lookup_field = 'id'
-#     serializer_class = UserFullSerializer
-#     queryset = User.objects.all()
-#     permission_classes = (IsAdminUser, )
-#
-#
-# class ManagerUpdateAPIView(RetrieveUpdateAPIView):
-#     lookup_field = 'id'
-#     serializer_class = UserFullSerializer
-#     queryset = User.objects.all()
-#     permission_classes = (IsAdminUser, )
-
-
 class ManagerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserSerializer

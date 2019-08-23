@@ -1,7 +1,8 @@
 from django.urls import path
 
 from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, ActionCreateAPIView, ActionListAPIView, \
-    ActionDetailAPIView, ActionListByManagerAPIView, ActionListByMediaManagerAPIView
+    ActionDetailAPIView, ActionListByManagerAPIView, ActionListByMediaManagerAPIView, ActionListByMediaManagerIdAPIView, \
+    ActionListByManagerIdAPIView
 from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
     ContractListAPIView, ContractDetailAPIView
 from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, \
@@ -20,7 +21,8 @@ from app.api.partner.views import PartnerUpdateAPIView, PartnerTransferAPIView, 
 from app.api.payment.views import PaymentUpdateAPIView, PaymentDeleteAPIView, PaymentCreateAPIView, PaymentListAPIView, \
     PaymentDetailAPIView
 from app.api.process.views import ProcessUpdateAPIView, ProcessDeleteAPIView, ProcessCreateAPIView, \
-    ProcessAllListAPIView, ProcessTodayListAPIView, ProcessListByModerAPIView, ProcessDetailAPIView, EventAllListAPIView, EventMyListAPIView
+    ProcessAllListAPIView, ProcessTodayListAPIView, ProcessListByModerAPIView, ProcessDetailAPIView, \
+    EventAllListAPIView, EventMyListAPIView
 from app.api.settings.views import SettingsUpdateAPIView, SettingsDeleteAPIView, SettingsCreateAPIView, \
     SettingsListAPIView, SettingsDetailAPIView
 from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, TariffCreateAPIView, TariffListAPIView, \
@@ -68,9 +70,13 @@ urlpatterns = [
     path('action/create/', ActionCreateAPIView.as_view(), name='action-create'),
     path('action/list/all/', ActionListAPIView.as_view(), name='action-list'),
     path('action/list/<int:id>/', ActionDetailAPIView.as_view(), name='action-list-id'),
-    path('action/list/manager/<int:id>/', ActionListByManagerAPIView.as_view(), name='action-list-manager'),
-    path('action/list/mediamanager/<int:id>/', ActionListByMediaManagerAPIView.as_view(),
+    path('action/list/manager/', ActionListByManagerAPIView.as_view(), name='action-list-manager'),
+    path('action/list/mediamanager/', ActionListByMediaManagerAPIView.as_view(),
          name='action-list-mediamanager'),
+    path('action/list/manager/<int:id>/', ActionListByManagerIdAPIView.as_view(),
+         name='action-list-manager-id'),
+    path('action/list/mediamanager/<int:id>/', ActionListByMediaManagerIdAPIView.as_view(),
+         name='action-list-mediamanager-id'),
     path('contract/list/<int:id>/update/', ContractUpdateAPIView.as_view(), name='contract-update'),
     path('contract/list/<int:id>/delete/', ContractDeleteAPIView.as_view(), name='contract-delete'),
     path('contract/create/', ContractCreateAPIView.as_view(), name='contract-create'),

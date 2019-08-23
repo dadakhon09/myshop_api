@@ -52,7 +52,7 @@ class UserLogin(APIView):
 
 @permission_classes((IsAuthenticated,))
 class UserLogout(APIView):
-    def get(self, request, format=None):
+    def get(self, request):
         if request.user:
             request.user.auth_token.delete()
         else:
@@ -78,3 +78,4 @@ class UserDeleteAPIView(RetrieveDestroyAPIView):
     serializer_class = UserFullSerializer
     queryset = User.objects.all()
     permission_classes = (IsAdminUser, )
+
