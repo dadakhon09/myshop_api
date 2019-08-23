@@ -1,5 +1,6 @@
-from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView, \
+    RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from app.model.action import Action
 from app.model.settings import Settings
@@ -23,6 +24,7 @@ class SettingsCreateAPIView(CreateAPIView):
 class SettingsListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser )
 
     def get_queryset(self):
         return Settings.objects.all()
@@ -31,21 +33,21 @@ class SettingsListAPIView(ListAPIView):
 class SettingsUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
-        return Settings.objects.all()
+        return Settings.objects.filter(id=1)
 
-    def perform_update(self, serializer):
-        instance = serializer.save()
-        instance.save()
-        Action.objects.create(moder=self.request.user, action=f'settings {instance} updated', subject=instance)
+    # def perform_update(self, serializer):
+    #     instance = serializer.save()
+    #     instance.save()
+    #     Action.objects.create(moder=self.request.user, action=f'settings {instance} updated', subject=instance)
 
 
 class SettingsDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Settings.objects.all()
@@ -59,6 +61,7 @@ class SettingsDeleteAPIView(RetrieveDestroyAPIView):
 class SettingsDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         p = Settings.objects.filter(id=self.kwargs['id'])

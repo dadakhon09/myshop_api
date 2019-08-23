@@ -1,9 +1,11 @@
+from datetime import datetime, timedelta
+
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from app.api.negotiation.serializers import NegotiationCreateSerializer, NegotiationListSerializer, \
     NegotiationUpdateSerializer
-from app.model import Partner
+from app.model import Partner, Settings
 from app.model.action import Action
 from app.model.negotiation import Negotiation
 
@@ -25,9 +27,22 @@ class NegotiationCreateAPIView(CreateAPIView):
 class NegotiationListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Negotiation.objects.all()
+
+
+class NegotiationListByDurabilityAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = NegotiationListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
+
+    def get_queryset(self):
+        s = Settings.objects.get(id=1)
+        durability = int(s.negotiation_durability)
+        return Negotiation.objects.all().filter(created__lt=datetime.today() - timedelta(days=30 * durability),
+                                                status__range=(0, 1))
 
 
 class NegotiationListByPartnerAPIView(ListAPIView):
@@ -42,7 +57,7 @@ class NegotiationListByPartnerAPIView(ListAPIView):
 class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationUpdateSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Negotiation.objects.all()
@@ -56,7 +71,7 @@ class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
 class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Negotiation.objects.all()
