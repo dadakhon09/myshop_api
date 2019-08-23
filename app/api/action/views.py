@@ -56,14 +56,14 @@ class ActionListByManagerAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ActionListSerializer
     permission_classes = (IsAuthenticated, IsAdminUser)
-    queryset = Action.objects.filter(moder__userprofile__type__exact=0)
+    queryset = Action.objects.filter(moder__userprofile__type__exact=1)
 
 
 class ActionListByMediaManagerAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ActionListSerializer
     permission_classes = (IsAuthenticated, IsAdminUser)
-    queryset = Action.objects.filter(moder__userprofile__type__exact=1)
+    queryset = Action.objects.filter(moder__userprofile__type__exact=0)
 
 
 class ActionListByManagerIdAPIView(ListAPIView):
@@ -72,7 +72,7 @@ class ActionListByManagerIdAPIView(ListAPIView):
     permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
-        return Action.objects.filter(moder=self.kwargs['id'], moder__userprofile__type__exact=1)
+        return Action.objects.filter(moder=self.kwargs['id'], moder__userprofile__type__exact=0)
 
 
 class ActionListByMediaManagerIdAPIView(ListAPIView):
@@ -81,4 +81,4 @@ class ActionListByMediaManagerIdAPIView(ListAPIView):
     permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
-        return Action.objects.filter(moder=self.kwargs['id'], moder__userprofile__type__exact=0)
+        return Action.objects.filter(moder=self.kwargs['id'], moder__userprofile__type__exact=1)

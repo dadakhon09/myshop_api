@@ -19,7 +19,7 @@ class PartnerCreateAPIView(CreateAPIView):
     def get_permissions(self):
         if self.request.user.is_superuser:
             return [IsAdminUser, IsAuthenticated]
-        if self.request.user.userprofile.type == 1:
+        if self.request.user.userprofile.type == 0:
             return [IsMediaManager, IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -77,17 +77,6 @@ class PartnerTransferAPIView(CreateAPIView):
 
     def get_queryset(self):
         return Partner.objects.all()
-    #
-    # def perform_create(self, serializer):
-    #     instance = serializer.save()
-    #     user = User.objects.get(id=instance.data.get('user_id'))
-    #     partner = Partner.objects.get(id=instance.data.get('partner'))
-    #     partner.transferred = True
-    #     partner.transferred_date = datetime.datetime.now()
-    #     partner.save()
-    #     Action.objects.create(moder=self.request.user,
-    #                           action=f'partner {partner} transferred to user {user}',
-    #                           subject=partner)
 
 
 class PartnerUpdateAPIView(RetrieveUpdateAPIView):
