@@ -64,18 +64,19 @@ class UserListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
+    permission_classes = (IsAdminUser, IsAuthenticated)
 
 
 class UserUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = UserFullSerializer
     queryset = User.objects.all()
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class UserDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = UserFullSerializer
     queryset = User.objects.all()
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser, IsAuthenticated)
 

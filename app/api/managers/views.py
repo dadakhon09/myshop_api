@@ -13,7 +13,7 @@ from app.model import Diary, Partner
 class ManagerDetailAPIView(RetrieveAPIView):
     lookup_field = 'id'
     serializer_class = ManagerDetailSerializer
-    queryset = User.objects.filter(userprofile__type__exact=0)
+    queryset = User.objects.filter(userprofile__type__exact=1)
     permission_classes = (IsAdminUser, )
 
     # def get_permissions(self):
@@ -35,17 +35,17 @@ class ManagerDetailAPIView(RetrieveAPIView):
 class MediaManagerDetailAPIView(RetrieveAPIView):
     lookup_field = 'id'
     serializer_class = UserFullSerializer
-    queryset = User.objects.filter(userprofile__type__exact=1)
+    queryset = User.objects.filter(userprofile__type__exact=0)
     permission_classes = (IsAdminUser, )
 
 
 class MediaManagerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserSerializer
-    queryset = User.objects.filter(userprofile__type__exact=1)
+    queryset = User.objects.filter(userprofile__type__exact=0)
 
 
 class ManagerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserSerializer
-    queryset = User.objects.filter(userprofile__type__exact=0)
+    queryset = User.objects.filter(userprofile__type__exact=1)
