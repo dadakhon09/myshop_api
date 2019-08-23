@@ -18,3 +18,8 @@ class UserProfileSerializer(ModelSerializer):
         model = UserProfile
         fields = ('user', 'type')
 
+
+class UserFullSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'username')

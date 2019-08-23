@@ -4,6 +4,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAP
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+from app.model import Settings
 from app.model.action import Action
 from app.model.partner import Partner
 from app.api.partner.serializers import PartnerCreateSerializer, PartnerListSerializer, PartnerTransferSerializer, \
@@ -32,7 +33,10 @@ class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
     permission_classes = (IsMediaManager, )
-    queryset = Partner.objects.all().order_by('id')
+
+    def get_queryset(self):
+        Settings.objects.get_or_create(negotiation_durability=2)
+        return Partner.objects.all()
 
 
 class PartnerListByModerAPIView(ListAPIView):

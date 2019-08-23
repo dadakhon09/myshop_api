@@ -18,4 +18,4 @@ class Payment(models.Model):
         ordering = ['created']
 
     def __str__(self):
-        return self.contract.description
+        return str(self.cash)
