@@ -31,7 +31,7 @@ from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, Tarif
     TariffDetailAPIView
 from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIView, UserUpdateAPIView, UserDeleteAPIView
 
-schema_view = get_swagger_view(title='adsasasdasds')
+schema_view = get_swagger_view(title='Documentation')
 
 
 urlpatterns = [
