@@ -18,9 +18,9 @@ class PartnerCreateAPIView(CreateAPIView):
 
     def get_permissions(self):
         if self.request.user.is_superuser:
-            return [IsAdminUser, IsAuthenticated]
+            return []
         if self.request.user.userprofile.type == 0:
-            return [IsMediaManager, IsAuthenticated]
+            return [IsAuthenticated, IsMediaManager]
 
     def perform_create(self, serializer):
         instance = serializer.save()
@@ -32,7 +32,7 @@ class PartnerCreateAPIView(CreateAPIView):
 class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
-    permission_classes = (IsMediaManager, )
+    permission_classes = (IsMediaManager, IsAdminUser, IsAuthenticated )
 
     def get_queryset(self):
         Settings.objects.get_or_create(negotiation_durability=2)
