@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework_swagger.views import get_swagger_view
 
 from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, ActionCreateAPIView, ActionListAPIView, \
     ActionDetailAPIView, ActionListByManagerAPIView, ActionListByMediaManagerAPIView, ActionListByMediaManagerIdAPIView, \
@@ -30,7 +31,13 @@ from app.api.tariff.views import TariffUpdateAPIView, TariffDeleteAPIView, Tarif
     TariffDetailAPIView
 from app.api.users.views import UserLogin, UserLogout, UserCreate, UserListAPIView, UserUpdateAPIView, UserDeleteAPIView
 
+schema_view = get_swagger_view(title='adsasasdasds')
+
+
 urlpatterns = [
+    path('doc/', schema_view, name='schema_view'),
+
+
     path('login/', UserLogin.as_view(), name='login'),
     path('logout/', UserLogout.as_view(), name='logout'),
     path('create-user/', UserCreate.as_view(), name='create-user'),

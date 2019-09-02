@@ -21,7 +21,7 @@ class DayUpdateSerializer(ModelSerializer):
 class DayCreateSerializer(ModelSerializer):
     class Meta:
         model = Day
-        fields = 'id'
+        fields = ('id', )
 
 
 class DayStartSerializer(ModelSerializer):
