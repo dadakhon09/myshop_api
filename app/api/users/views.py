@@ -17,11 +17,13 @@ class UserCreate(APIView):
         data = request.data
         username = data['username']
         password = data['password']
+        first_name = data['first_name']
+        last_name = data['last_name']
         type = data['type']
 
         user_check = User.objects.filter(username=username)
         if not user_check:
-            new_user = User.objects.create_user(username=username, password=password)
+            new_user = User.objects.create_user(username=username, password=password, first_name=first_name, last_name=last_name)
             token, _ = Token.objects.get_or_create(user=new_user)
             new_user.userprofile.type = type
             new_user.userprofile.save()
