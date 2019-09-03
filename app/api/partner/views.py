@@ -21,6 +21,8 @@ class PartnerCreateAPIView(CreateAPIView):
             return [IsAdminUser, IsAuthenticated]
         if self.request.user.userprofile.type == 0:
             return [IsMediaManager, IsAuthenticated]
+        
+        
 
     def perform_create(self, serializer):
         instance = serializer.save()

@@ -54,17 +54,11 @@ urlpatterns = [
     path('partner/list/my/', PartnerListByModerAPIView.as_view(), name='partner-list-moder'),
     path('partner/list/transferred/', PartnerTransferredListAPIView.as_view(), name='partner-list-transferred'),
     # for notification
-<<<<<<< HEAD
-    path('process/update/<int:id>/', ProcessUpdateAPIView.as_view(), name='process-update'),
-    path('process/delete/<int:id>/', ProcessDeleteAPIView.as_view(), name='process-delete'),
-    path('process/create/', ProcessCreateAPIView.as_view(), name='process-create'), #'partner'
-=======
 
 
     path('process/list/<int:id>/update/', ProcessUpdateAPIView.as_view(), name='process-update'),
     path('process/list/<int:id>/delete/', ProcessDeleteAPIView.as_view(), name='process-delete'),
     path('process/create/', ProcessCreateAPIView.as_view(), name='process-create'),
->>>>>>> d4d42bf68554b3ef97548faf1ed44eac34492ed6
     path('process/list/today/', ProcessTodayListAPIView.as_view(), name='process-today-list'),
     path('process/list/all/', ProcessAllListAPIView.as_view(), name='process-all-list'),
     path('process/list/<int:id>/', ProcessDetailAPIView.as_view(), name='process-list-id'),
