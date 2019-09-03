@@ -53,11 +53,6 @@ class PartnerTransferSerializer(ModelSerializer):
 
 
 
-
-
-
-
-
 class PartnerUpdateSerializer(ModelSerializer):
     class Meta:
         model = Partner

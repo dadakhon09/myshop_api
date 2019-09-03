@@ -13,7 +13,7 @@ from app.model.day import Day
 class ContractCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ContractCreateSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -35,7 +35,7 @@ class ContractListAPIView(ListAPIView):
 class ContractUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = ContractUpdateSerializer
-    permission_classes = (IsAuthenticated)
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -49,7 +49,7 @@ class ContractUpdateAPIView(RetrieveUpdateAPIView):
 class ContractDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ContractListSerializer
-    permission_classes = (IsAuthenticated)
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Contract.objects.all()
