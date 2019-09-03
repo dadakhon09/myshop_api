@@ -7,17 +7,19 @@ from rest_framework.serializers import ModelSerializer
 from app.model import Action
 from app.model.partner import Partner
 from app.api.users.serializers import UserSerializer
+from app.api.negotiation.serializers import NegotiationListSerializer
 
 
 class PartnerListSerializer(ModelSerializer):
     moder = UserSerializer()
     last_moder = UserSerializer()
+    negotiation_set = NegotiationListSerializer(many=True)
 
     class Meta:
         model = Partner
         fields = (
             'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'created', 'moder',
-            'last_moder', 'transferred', 'transferred_date')
+            'last_moder', 'transferred', 'transferred_date', 'negotiation_set')
 
 
 class PartnerCreateSerializer(ModelSerializer):
