@@ -16,7 +16,7 @@ from app.api.media_plan.views import MediaPlanUpdateAPIView, MediaPlanDeleteAPIV
     MediaPlanListAPIView, MediaPLanDetailAPIView
 from app.api.negotiation.views import NegotiationUpdateAPIView, NegotiationDeleteAPIView, NegotiationCreateAPIView, \
     NegotiationListAPIView, NegotiationDetailAPIView, NegotiationListByPartnerAPIView, \
-    NegotiationListByDurabilityAPIView
+    NegotiationListByDurabilityAPIView, NegotiationContractsCount
 from app.api.partner.views import PartnerUpdateAPIView, PartnerTransferAPIView, PartnerDeleteAPIView, \
     PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView, PartnerListByModerAPIView, \
     PartnerTransferredListAPIView
@@ -128,6 +128,7 @@ urlpatterns = [
          name='negotiation-list-by-partner'),
     path('negotiation/list/<int:id>/', NegotiationDetailAPIView.as_view(), name='negotiation-list-id'),
     path('negotiation/list/exceeded/', NegotiationListByDurabilityAPIView.as_view(), name='negotiaion-list-exceeded'),
+    path('negotiation/list/partner/<int:partner_id>/contracts/', NegotiationContractsCount.as_view(), name='negotiaion-list-for-contracts-count'),
 
 
     path('tariff/list/<int:id>/update/', TariffUpdateAPIView.as_view(), name='tariff-update'),

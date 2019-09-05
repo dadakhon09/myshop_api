@@ -2,12 +2,10 @@ from rest_framework.serializers import ModelSerializer
 
 from app.api.contract.serializers import ContractListSerializer
 from app.model.negotiation import Negotiation
-# from app.api.partner.serializers import PartnerListSerializer
 
 
 class NegotiationListSerializer(ModelSerializer):
     contract = ContractListSerializer()
-    # partner = PartnerListSerializer()
 
     class Meta:
         model = Negotiation

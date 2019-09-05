@@ -54,6 +54,15 @@ class NegotiationListByPartnerAPIView(ListAPIView):
         return Negotiation.objects.filter(partner_id=pk)
 
 
+class NegotiationContractsCount(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = NegotiationListSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['partner_id']
+        return Negotiation.objects.filter(partner_id=pk, status=1)
+
+
 class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationUpdateSerializer
