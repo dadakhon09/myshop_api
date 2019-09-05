@@ -9,7 +9,7 @@ class ContractListSerializer(ModelSerializer):
 
     class Meta:
         model = Contract
-        fields = ('id', 'price', 'signing_date', 'activation_date', 'duration', 'tariff', 'tariff_price', 'description',
+        fields = ('id', 'price', 'signing_date', 'activation_date', 'duration', 'negotiation', 'tariff', 'tariff_price', 'description',
                   'created')
 
 

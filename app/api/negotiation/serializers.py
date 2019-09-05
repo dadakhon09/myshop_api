@@ -6,7 +6,7 @@ from app.model.negotiation import Negotiation
 
 
 class NegotiationListSerializer(ModelSerializer):
-    contract = ContractListSerializer(many=True)
+    contract = ContractListSerializer()
     # partner = PartnerListSerializer()
 
     class Meta:
