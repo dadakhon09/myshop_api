@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from app.model.partner import Partner
@@ -25,10 +27,10 @@ class Negotiation(models.Model):
         return self.description
 
     def get_end_date(self):
-        if self.process_set.filter(status='yescontract').count() > 0:
-            return self.process_set.get(status='yescontract').created
-        elif self.process_set.get(status='cancelled'):
-            return self.process_set.get(status='cancelled').created
+        if self.process_set.filter(status=0).count() > 0:
+            return self.process_set.filter(status=0).created
+        elif self.process_set.filter(status=2):
+            return self.process_set.filter(status=2).created
         else:
             return 'Идёт переговоры'
 
