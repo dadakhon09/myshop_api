@@ -7,8 +7,9 @@ from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from app.api.managers.serializers import userFullSerializer
 from app.model.users import UserProfile
-from app.api.users.serializers import UserProfileSerializer, UserFullSerializer
+from app.api.users.serializers import UserProfileSerializer
 
 
 @permission_classes((IsAdminUser, IsAuthenticated))
@@ -71,14 +72,14 @@ class UserListAPIView(ListAPIView):
 
 class UserUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
-    serializer_class = UserFullSerializer
+    serializer_class = userFullSerializer
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class UserDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
-    serializer_class = UserFullSerializer
+    serializer_class = userFullSerializer
     queryset = User.objects.all()
     permission_classes = (IsAdminUser, IsAuthenticated)
 
