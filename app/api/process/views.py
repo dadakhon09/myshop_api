@@ -100,10 +100,9 @@ class ProcessDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Process.objects.all()
 
-    def perform_destroy(self, serializer):
-        instance = serializer.save()
-        instance.save()
+    def perform_destroy(self, instance):
         Action.objects.create(moder=self.request.user, action=f'process {instance} deleted', subject=instance)
+        instance.delete()
 
 
 class ProcessDetailAPIView(ListAPIView):

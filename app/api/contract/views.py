@@ -56,7 +56,7 @@ class ContractDeleteAPIView(RetrieveDestroyAPIView):
 
     def perform_destroy(self, instance):
         Action.objects.create(moder=self.request.user, action=f'contract {instance} deleted', subject=instance)
-        return instance
+        instance.delete()
 
 
 class ContractDetailAPIView(ListAPIView):

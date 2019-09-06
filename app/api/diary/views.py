@@ -76,10 +76,9 @@ class DiaryDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Diary.objects.all()
 
-    def perform_destroy(self, serializer):
-        instance = serializer.save()
-        instance.save()
+    def perform_destroy(self, instance):
         Action.objects.create(moder=self.request.user, action=f'diary {instance} deleted', subject=instance)
+        instance.delete()
 
 
 class DiaryDetailAPIView(ListAPIView):

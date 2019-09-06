@@ -50,10 +50,9 @@ class TariffDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return Tariff.objects.all()
 
-    def perform_destroy(self, serializer):
-        instance = serializer.save()
-        instance.save()
+    def perform_destroy(self, instance):
         Action.objects.create(moder=self.request.user, action=f'tariff {instance} deleted', subject=instance)
+        instance.delete()
 
 
 class TariffDetailAPIView(ListAPIView):

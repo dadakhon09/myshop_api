@@ -103,4 +103,4 @@ class PartnerDeleteAPIView(RetrieveDestroyAPIView):
     def perform_destroy(self, instance):
         Action.objects.create(moder=self.request.user, action=f'partner {instance} deleted',
                               subject=instance)
-        return instance
+        instance.delete()

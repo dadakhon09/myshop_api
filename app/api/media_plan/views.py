@@ -51,10 +51,9 @@ class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     def get_queryset(self):
         return MediaPlan.objects.all()
 
-    def perform_destroy(self, serializer):
-        instance = serializer.save()
-        instance.save()
+    def perform_destroy(self, instance):
         Action.objects.create(moder=self.request.user, action=f'media plan {instance} deleted', subject=instance)
+        instance.delete()
 
 
 class MediaPLanDetailAPIView(ListAPIView):
