@@ -3,11 +3,8 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, RetrieveUpdate
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
-from app.api.diary.serializers import DiaryListSerializer
 from app.api.managers.serializers import userFullSerializer
-from app.api.partner.serializers import PartnerListSerializer
-from app.api.users.serializers import UserFullSerializer, UserSerializer
-from app.model import Diary, Partner
+from app.api.users.serializers import UserFullSerializer
 
 
 class Abc(ListAPIView):
@@ -20,15 +17,16 @@ class Abc(ListAPIView):
 
     def get_additional_info(self):
         qs = self.get_queryset()
-        print(qs)
-        serializer = self.get_serializer(qs, many=True)
+        page = self.paginate_queryset(qs)
+        serializer = self.get_serializer(page, many=True)
         # for user in qs:
         #     data = {
         #         "moder": serializer.data,
         #         "partner": PartnerListSerializer(Partner.objects.filter(moder=user), many=True).data,
         #         "diary": DiaryListSerializer(Diary.objects.filter(moder=user), many=True).data,
         #     }
-        return Response(serializer.data)
+        # return Response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
 
 class ManagerDetailAPIView(RetrieveAPIView):
