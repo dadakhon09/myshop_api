@@ -88,6 +88,7 @@ class PartnerUpdateAPIView(RetrieveUpdateAPIView):
 
     def perform_update(self, serializer):
         instance = serializer.save()
+        print(instance)
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'partner {instance} updated ',
                               subject=instance)

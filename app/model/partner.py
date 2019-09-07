@@ -1,8 +1,11 @@
 import datetime
 
+from django.contrib.contenttypes.fields import GenericRelation
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.db import models
+
+from app.model import Action
 
 
 class Partner(models.Model):
@@ -17,6 +20,7 @@ class Partner(models.Model):
     last_moder = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='last_moder')
     transferred = models.BooleanField(default=False)
     transferred_date = models.DateField(blank=True, null=True)
+    actions = GenericRelation(Action)
 
     class Meta:
         db_table = 'partners'
