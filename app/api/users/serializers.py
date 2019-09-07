@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
 from app.model import Partner, Diary
 from app.model.users import UserProfile
+
 
 #
 # class CustomPagination(LimitOffsetPagination):
@@ -34,7 +33,7 @@ class UserProfileSerializer(ModelSerializer):
 class UserFullSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'username')
+        fields = ('id', 'first_name', 'last_name', 'username', 'password')
 
     def to_representation(self, instance):
         from app.api.partner.serializers import PartnerListSerializer

@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.decorators import permission_classes
@@ -75,6 +76,16 @@ class UserUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = userFullSerializer
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, IsAdminUser)
+
+    def update(self, request, *args, **kwargs):
+        obj = User.objects.get(id=kwargs['id'])
+        obj.username = self.request.data['username']
+        obj.first_name = self.request.data['first_name']
+        obj.last_name = self.request.data['last_name']
+        obj.set_password(self.request.data.get("password"))
+        serializer = self.get_serializer(self.request.data)
+        obj.save()
+        return Response(serializer.data)
 
 
 class UserDeleteAPIView(RetrieveDestroyAPIView):
