@@ -96,6 +96,7 @@ class PartnerUpdateAPIView(RetrieveUpdateAPIView):
 class PartnerDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser, IsOwnerOrReadOnly)
 
     def get_queryset(self):
         return Partner.objects.all()
