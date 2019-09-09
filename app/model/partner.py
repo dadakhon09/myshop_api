@@ -20,7 +20,7 @@ class Partner(models.Model):
     last_moder = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='last_moder')
     transferred = models.BooleanField(default=False)
     transferred_date = models.DateField(blank=True, null=True)
-    actions = GenericRelation(Action)
+    #actions = GenericRelation(Action)
 
     class Meta:
         db_table = 'partners'
