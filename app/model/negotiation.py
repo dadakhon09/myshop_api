@@ -1,7 +1,9 @@
 import datetime
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
+from app.model import Action
 from app.model.partner import Partner
 
 
@@ -18,6 +20,7 @@ class Negotiation(models.Model):
     contract = models.OneToOneField('Contract', on_delete=models.CASCADE, blank=True, null=True)
     partner = models.ForeignKey(Partner, on_delete=models.CASCADE)
     status = models.IntegerField(choices=STATUS, blank=True, null=True)
+    actions = GenericRelation(Action)
 
     class Meta:
         db_table = 'negotiations'

@@ -10,7 +10,7 @@ from app.model.contract import Contract
 class MediaPlanCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanCreateSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return MediaPlan.objects.all()
@@ -32,7 +32,7 @@ class MediaPlanListAPIView(ListAPIView):
 class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanUpdateSerializer
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return MediaPlan.objects.all()
@@ -46,7 +46,7 @@ class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
 class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanListSerializer
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return MediaPlan.objects.all()

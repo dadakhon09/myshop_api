@@ -50,7 +50,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-        'app.permissions.IsOwnerOrReadOnly',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
