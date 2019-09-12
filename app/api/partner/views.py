@@ -16,14 +16,17 @@ class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
 
-    def get_permissions(self):
-        if self.request.user.is_superuser:
-            return []
-        if self.request.user.userprofile.type == 0:
-            return [IsMediaManager, IsAuthenticated]
+    # def get_permissions(self):
+    #     if self.request.user.is_superuser:
+    #         return []
+    #     elif self.request.user.userprofile.type == 0:
+    #         return [IsMediaManager, IsAuthenticated]
+    #     elif self.request.user.userprofile.type == 1:
+    #         return [IsAuthenticated, ]
     
     def perform_create(self, serializer):
         instance = serializer.save()
+        print(instance)
         instance.moder = self.request.user
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'partner {instance} created', subject=instance)
