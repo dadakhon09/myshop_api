@@ -10,6 +10,11 @@ class Day(models.Model):
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
 
+    @property
+    def sphere(self):
+        return 'Day'
+    
+
     class Meta:
         db_table = 'days'
 

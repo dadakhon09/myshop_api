@@ -17,9 +17,8 @@ class PartnerListSerializer(ModelSerializer):
     class Meta:
         model = Partner
         fields = (
-            'id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'created', 'moder',
+            'sphere','id', 'ooo', 'contact_name', 'stationary_phone', 'mobile_phone', 'comment', 'address', 'created', 'moder',
             'last_moder', 'transferred', 'transferred_date', 'negotiation_set')
-
 
 class PartnerCreateSerializer(ModelSerializer):
     class Meta:

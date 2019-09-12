@@ -28,6 +28,10 @@ class Partner(models.Model):
     def __str__(self):
         return self.ooo
 
+    @property
+    def sphere(self):
+        return 'Partner'
+    
     @staticmethod
     def todayMeetList(user):
         today = datetime.date.today()

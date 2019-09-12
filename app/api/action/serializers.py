@@ -22,7 +22,10 @@ class ContentObjectRelatedField(RelatedField):
     def to_representation(self, value):
         if isinstance(value, Partner):
             serializer = PartnerListSerializer(value)
-            return {'Partner': f'{serializer.data}'}
+            s = {'Partner': f'{serializer.data}'}
+            print(type(s))
+            print(s)
+            return s
         elif isinstance(value, Negotiation):
             serializer = NegotiationListSerializer(value)
             return {'Negotiation': f'{serializer.data}'}

@@ -22,6 +22,10 @@ class Negotiation(models.Model):
     status = models.IntegerField(choices=STATUS, blank=True, null=True)
     actions = GenericRelation(Action)
 
+    @property
+    def sphere(self):
+        return 'Negotiation'
+    
     class Meta:
         db_table = 'negotiations'
         ordering = ['id']

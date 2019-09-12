@@ -13,6 +13,10 @@ class Payment(models.Model):
     created = models.DateTimeField(auto_now=True)
     pay_day = models.DateField(blank=True, null=True)
 
+    @property
+    def sphere(self):
+        return 'Payment'
+    
     class Meta:
         db_table = 'payments'
         ordering = ['created']

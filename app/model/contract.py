@@ -17,6 +17,10 @@ class Contract(models.Model):
                                        null=True, blank=True)
     description = models.CharField(max_length=255)
 
+    @property
+    def sphere(self):
+        return 'Contract'
+    
     class Meta:
         db_table = 'contracts'
         ordering = ['id']

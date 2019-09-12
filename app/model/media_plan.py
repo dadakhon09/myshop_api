@@ -13,6 +13,10 @@ class MediaPlan(models.Model):
     description = models.TextField()
     created = models.DateTimeField(auto_now=True)
 
+    @property
+    def sphere(self):
+        return 'MediaPlan'
+    
     class Meta:
         db_table = 'mediaplans'
         ordering = ['id']
