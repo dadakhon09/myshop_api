@@ -68,14 +68,14 @@ class UserListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
-    permission_classes = (IsAdminUser, IsAuthenticated)
+    # permission_classes = (IsAdminUser, IsAuthenticated)
 
 
 class UserUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = userFullSerializer
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def update(self, request, *args, **kwargs):
         obj = User.objects.get(id=kwargs['id'])
@@ -92,5 +92,5 @@ class UserDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = userFullSerializer
     queryset = User.objects.all()
-    permission_classes = (IsAdminUser, IsAuthenticated)
+    # permission_classes = (IsAdminUser, IsAuthenticated)
 
