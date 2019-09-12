@@ -19,15 +19,8 @@ class PartnerCreateAPIView(CreateAPIView):
     # def get_permissions(self):
     #     if self.request.user.is_superuser:
     #         return []
-<<<<<<< HEAD
-    #     elif self.request.user.userprofile.type == 0:
-    #         return [IsMediaManager, IsAuthenticated]
-    #     elif self.request.user.userprofile.type == 1:
-    #         return [IsAuthenticated, ]
-=======
     #     if self.request.user.userprofile.type == 0:
     #         return [IsMediaManager, IsAuthenticated]
->>>>>>> ca6a17defe5035c3970f7b70f59ed750dc3b5c93
     
     def perform_create(self, serializer):
         instance = serializer.save()
