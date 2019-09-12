@@ -25,31 +25,31 @@ class ContentObjectRelatedField(RelatedField):
             return serializer.data
         elif isinstance(value, Negotiation):
             serializer = NegotiationListSerializer(value)
-            return {'Negotiation': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Contract):
             serializer = ContractListSerializer(value)
-            return {'Contract': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Day):
             serializer = DayListSerializer(value)
-            return {'Day': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Diary):
             serializer = DiaryListSerializer(value)
-            return {'Diary': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, MediaPlan):
             serializer = MediaPlanListSerializer(value)
-            return {'MediaPlan': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Payment):
             serializer = PaymentListSerializer(value)
-            return {'Payment': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Process):
             serializer = ProcessListSerializer(value)
-            return {'Process': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Settings):
             serializer = SettingsListSerializer(value)
-            return {'Settings': f'{serializer.data}'}
+            return serializer.data
         elif isinstance(value, Tariff):
             serializer = TariffListSerializer(value)
-            return {'Tariff': f'{serializer.data}'}
+            return serializer.data
         else:
             raise Exception('Unexpected type of tagged object')
 
