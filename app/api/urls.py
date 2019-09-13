@@ -102,14 +102,15 @@ urlpatterns = [
     path('contract/list/<int:id>/', ContractDetailAPIView.as_view(), name='contract-list-id'),
 
 
+    path('day/list/my/', DayListMyAPIView.as_view(), name='day-list-my'),
+    path('day/list/my/start/', DayGetStartedAPIView.as_view(), name='day-start'),
+    path('day/list/my/end/', DayGetEndedAPIView.as_view(), name='day-end'),
     path('day/list/<int:id>/update/', DayUpdateAPIView.as_view(), name='day-update'),
     path('day/list/<int:id>/delete/', DayDeleteAPIView.as_view(), name='day-delete'),
     path('day/create/', DayCreateAPIView.as_view(), name='day-create'),
     path('day/list/all/', DayListAllAPIView.as_view(), name='day-list'),
     path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),
-    path('day/list/my/', DayListMyAPIView.as_view(), name='day-list-my'),
-    path('day/list/my/start/', DayGetStartedAPIView.as_view(), name='day-start'),
-    path('day/list/my/end/', DayGetEndedAPIView.as_view(), name='day-end'),
+
 
 
     path('diary/list/<int:id>/update/', DiaryUpdateAPIView.as_view(), name='diary-update'),
