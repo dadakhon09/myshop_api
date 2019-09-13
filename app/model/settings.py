@@ -9,6 +9,10 @@ class Settings(models.Model):
                                                  validators=[MinValueValidator(Decimal('0.01'))], default=2, null=True,
                                                  blank=True, unique=True)
 
+    @property
+    def sphere(self):
+        return 'Settings'
+    
     class Meta:
         db_table = 'settings'
 

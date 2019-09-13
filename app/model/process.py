@@ -20,6 +20,10 @@ class Process(models.Model):
     description = models.TextField()
     status = models.IntegerField(choices=STATUS, default=0)
 
+    @property
+    def sphere(self):
+        return 'Process'
+    
     class Meta:
         db_table = 'processes'
         ordering = ['id']
