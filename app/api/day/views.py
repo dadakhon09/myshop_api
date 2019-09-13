@@ -107,12 +107,12 @@ class DayGetStartedAPIView(APIView):
         #
         # return self.get_paginated_response(serializer.data)
 
-        # Action.objects.create(moder=self.request.user, action=f'day {day} started', subject=day)
+        Action.objects.create(moder=self.request.user, action=f'day {d} started', subject=d)
 
         return Response(day.data)
 
 
-class DayGetEndedAPIView(UpdateAPIView):
+class DayGetEndedAPIView(APIView):
     # lookup_field = 'pk'
     # serializer_class = DayEndSerializer
     #
@@ -148,6 +148,6 @@ class DayGetEndedAPIView(UpdateAPIView):
         #
         # return self.get_paginated_response(serializer.data)
 
-        # Action.objects.create(moder=self.request.user, action=f'day {day} started', subject=day)
+        Action.objects.create(moder=self.request.user, action=f'day {d} ended', subject=d)
 
         return Response(day.data)
