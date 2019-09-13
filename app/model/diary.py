@@ -18,6 +18,10 @@ class Diary(models.Model):
     process = models.ForeignKey(Process, related_name='action', on_delete=models.CASCADE, blank=True, null=True)
     day = models.ForeignKey(Day, related_name='diary', on_delete=models.CASCADE, blank=True, null=True)
 
+    @property
+    def sphere(self):
+        return 'Diary'
+    
     class Meta:
         db_table = 'diaries'
 

@@ -27,4 +27,4 @@ class DiaryUpdateSerializer(ModelSerializer):
 class DiaryCreateSerializer(ModelSerializer):
     class Meta:
         model = Diary
-        fields = ('id', 'cause', 'partner', 'destination_date', 'description')
+        fields = ('id', 'cause', 'other', 'partner', 'destination_date', 'description')
