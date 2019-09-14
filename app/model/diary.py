@@ -7,7 +7,7 @@ from app.model.process import Process
 
 
 class Diary(models.Model):
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     moder = models.ForeignKey(User, related_name='diary_owner', on_delete=models.CASCADE, null=True)
     cause = models.CharField(max_length=255)
     partner = models.ForeignKey(Partner, related_name='action_with', on_delete=models.CASCADE, blank=True, null=True)

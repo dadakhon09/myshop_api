@@ -10,7 +10,7 @@ class Payment(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
     cash = models.DecimalField(decimal_places=0, max_digits=12, validators=[MinValueValidator(Decimal('0.01'))],
                                null=True, blank=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     pay_day = models.DateField(blank=True, null=True)
 
     @property
