@@ -32,7 +32,7 @@ class DiaryCreateAPIView(CreateAPIView):
 
         elif self.request.data.get('other'):
             instance.other = self.request.data['other']
-        dict()
+
         instance.moder = self.request.user
         day = Day.objects.get(moder=self.request.user, day_date=datetime.today())
         instance.day = day

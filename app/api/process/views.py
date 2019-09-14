@@ -29,7 +29,8 @@ class ProcessCreateAPIView(CreateAPIView):
         description = self.request.data['description']
         n = Negotiation.objects.get(id=negotiation_id)
         p = Partner.objects.get(id=n.partner_id)
-        print(p)
+        n.status = instance.status
+        n.save()
         instance.negotiation = n
         instance.moder = self.request.user
         instance.day = datetime.datetime.today()
