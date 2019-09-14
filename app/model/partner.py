@@ -15,7 +15,7 @@ class Partner(models.Model):
     mobile_phone = PhoneNumberField(blank=True, null=True)
     comment = models.TextField(blank=True)
     address = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     moder = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     last_moder = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='last_moder')
     transferred = models.BooleanField(default=False)

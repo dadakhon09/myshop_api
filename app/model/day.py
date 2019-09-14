@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Day(models.Model):
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     day_date = models.DateField(blank=True, null=True)
     moder = models.ForeignKey(User, related_name='day_owner', on_delete=models.CASCADE, null=True)
     done = models.BooleanField(default=False)

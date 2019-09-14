@@ -9,7 +9,7 @@ class Contract(models.Model):
                                 null=True, blank=True)
     signing_date = models.DateField(null=True, blank=True)
     activation_date = models.DateField(null=True, blank=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     duration = models.DecimalField(decimal_places=0, max_digits=12, validators=[MinValueValidator(Decimal('0.01'))],
                                    null=True, blank=True)
     tariff = models.ForeignKey("Tariff", on_delete=models.SET_NULL, null=True, blank=True)

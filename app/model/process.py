@@ -15,7 +15,7 @@ class Process(models.Model):
     moder = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     cause = models.CharField(max_length=255)
     negotiation = models.ForeignKey(Negotiation, on_delete=models.CASCADE, null=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     destination_date = models.DateField(null=True, blank=True)
     description = models.TextField()
     status = models.IntegerField(choices=STATUS, default=0)

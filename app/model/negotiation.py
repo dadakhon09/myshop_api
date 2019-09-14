@@ -15,7 +15,7 @@ STATUS = (
 
 
 class Negotiation(models.Model):
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=255, blank=True)
     contract = models.OneToOneField('Contract', on_delete=models.CASCADE, blank=True, null=True)
     partner = models.ForeignKey(Partner, on_delete=models.CASCADE)

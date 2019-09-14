@@ -26,12 +26,13 @@ class DiaryCreateAPIView(CreateAPIView):
         destination_date = self.request.data['destination_date']
         description = self.request.data['description']
 
-        if self.request.data['other']:
-            instance.other = self.request.data['other']
-        elif self.request.data['partner_id']:
+        if self.request.data.get('partner_id'):
             partner_id = self.request.data['partner_id']
             instance.partner = Partner.objects.get(id=partner_id)
-        
+
+        elif self.request.data.get('other'):
+            instance.other = self.request.data['other']
+
         instance.moder = self.request.user
         day = Day.objects.get(moder=self.request.user, day_date=datetime.today())
         instance.day = day
