@@ -7,7 +7,7 @@ from app.api.action.views import ActionUpdateAPIView, ActionDeleteAPIView, Actio
 from app.api.contract.views import ContractUpdateAPIView, ContractDeleteAPIView, ContractCreateAPIView, \
     ContractListAPIView, ContractDetailAPIView
 from app.api.day.views import DayUpdateAPIView, DayDeleteAPIView, DayCreateAPIView, \
-    DayListMyAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView, DayListAllAPIView
+    DayListMyAPIView, DayDetailAPIView, DayGetStartedAPIView, DayGetEndedAPIView, DayListAllAPIView, DayListTodayAPIView
 from app.api.diary.views import DiaryUpdateAPIView, DiaryDeleteAPIView, DiaryCreateAPIView, DiaryListMyAPIView, \
     DiaryDetailAPIView, DiaryListTodayAPIView
 from app.api.managers.views import ManagerDetailAPIView, MediaManagerDetailAPIView, MediaManagerListAPIView, \
@@ -109,6 +109,7 @@ urlpatterns = [
     path('day/list/<int:id>/delete/', DayDeleteAPIView.as_view(), name='day-delete'),
     path('day/create/', DayCreateAPIView.as_view(), name='day-create'),
     path('day/list/all/', DayListAllAPIView.as_view(), name='day-list'),
+    path('day/list/all/today/', DayListTodayAPIView.as_view(), name='day-list-today'),
     path('day/list/<int:id>/', DayDetailAPIView.as_view(), name='day-list-id'),
 
 

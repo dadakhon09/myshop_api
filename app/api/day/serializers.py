@@ -12,6 +12,14 @@ class DayListSerializer(ModelSerializer):
         fields = ('id', 'created', 'day_date', 'moder', 'done', 'start_time', 'end_time')
 
 
+class DayListTodaySerializer(ModelSerializer):
+    moder = UserSerializer()
+
+    class Meta:
+        model = Day
+        fields = ('id', 'moder', 'start_time', 'end_time')
+
+
 class DayUpdateSerializer(ModelSerializer):
     class Meta:
         model = Day

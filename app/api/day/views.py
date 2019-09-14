@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from app.api.day.serializers import DayCreateSerializer, DayListSerializer, DayUpdateSerializer, DayEndSerializer, \
-    DayStartSerializer
+    DayStartSerializer, DayListTodaySerializer
 from app.api.users.serializers import UserSerializer
 from app.model import Diary
 from app.model.action import Action
@@ -35,6 +35,14 @@ class DayListAllAPIView(ListAPIView):
 
     def get_queryset(self):
         return Day.objects.all()
+
+
+class DayListTodayAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = DayListTodaySerializer
+
+    def get_queryset(self):
+        return Day.objects.filter(day_date=datetime.today())
 
 
 class DayListMyAPIView(ListAPIView):
@@ -101,7 +109,10 @@ class DayGetEndedAPIView(APIView):
 
         d = Day.objects.get(moder=self.request.user, day_date=datetime.today())
 
-        if d.start_time:
+        if d.start_time and d.end_time:
+            return Response('You have already ended your day', status=400)
+
+        elif d.start_time:
             diaries = Diary.objects.filter(moder=self.request.user, destination_date=datetime.today())
 
             for p in diaries:
