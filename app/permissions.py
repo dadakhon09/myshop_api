@@ -38,7 +38,7 @@ class IsMediaManagerOrReadOnly(BasePermission):
 
 class IsManager(BasePermission):
     def has_permission(self, request, view):
-        if request.user.userprofile.type == 1 and request.method == 'GET':
+        if request.user.userprofile.type == 1:
             return True
         else:
             return False

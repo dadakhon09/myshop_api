@@ -15,7 +15,7 @@ from app.permissions import IsManagerOrReadOnly, IsMediaManager, NotManager, Not
 class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
-    permission_classes = (IsAuthenticated, IsMediaManager)
+    permission_classes = (IsAuthenticated, IsManager)
 
     # def get_permissions(self):
     #     if self.request.user.is_superuser:
@@ -51,7 +51,7 @@ class PartnerListByModerAPIView(ListAPIView):
 
 
 class PartnerTransferredListAPIView(ListAPIView):
-    lookup_field = 'id'4444444444444
+    lookup_field = 'id'
     serializer_class = PartnerListSerializer
     permission_classes = (IsAuthenticated, IsManager)
 
