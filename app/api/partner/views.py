@@ -51,7 +51,7 @@ class PartnerListByModerAPIView(ListAPIView):
 
 
 class PartnerTransferredListAPIView(ListAPIView):
-    lookup_field = 'id'
+    lookup_field = 'id'4444444444444
     serializer_class = PartnerListSerializer
     permission_classes = (IsAuthenticated, IsManager)
 
