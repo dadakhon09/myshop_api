@@ -9,12 +9,13 @@ from app.model.action import Action
 from app.model.partner import Partner
 from app.api.partner.serializers import PartnerCreateSerializer, PartnerListSerializer, PartnerTransferSerializer, \
     PartnerUpdateSerializer
-from app.permissions import IsOwnerOrReadOnly, IsMediaManager
+from app.permissions import IsManagerOrReadOnly, IsMediaManager, NotManager, NotMediaManager, IsManager
 
 
 class PartnerCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerCreateSerializer
+    permission_classes = (IsAuthenticated, IsMediaManager)
 
     # def get_permissions(self):
     #     if self.request.user.is_superuser:
@@ -32,7 +33,7 @@ class PartnerCreateAPIView(CreateAPIView):
 class PartnerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
-    permission_classes = (IsMediaManager, IsAdminUser, IsAuthenticated )
+    permission_classes = (IsAuthenticated, NotManager)
 
     def get_queryset(self):
         Settings.objects.get_or_create(negotiation_durability=2)
@@ -42,6 +43,7 @@ class PartnerListAPIView(ListAPIView):
 class PartnerListByModerAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
+    permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         p = Partner.objects.filter(moder=self.request.user)
@@ -51,6 +53,7 @@ class PartnerListByModerAPIView(ListAPIView):
 class PartnerTransferredListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
+    permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         p = Partner.objects.filter(moder=self.request.user, transferred=True)
@@ -60,6 +63,7 @@ class PartnerTransferredListAPIView(ListAPIView):
 class PartnerDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         d = Partner.objects.get(id=self.kwargs['id'])
@@ -73,7 +77,7 @@ class PartnerDetailAPIView(ListAPIView):
 class PartnerTransferAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerTransferSerializer
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, NotMediaManager)
 
     def get_queryset(self):
         return Partner.objects.all()
@@ -82,13 +86,13 @@ class PartnerTransferAPIView(CreateAPIView):
 class PartnerUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = PartnerUpdateSerializer
+    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Partner.objects.all()
 
     def perform_update(self, serializer):
         instance = serializer.save()
-        print(instance)
         instance.save()
         Action.objects.create(moder=self.request.user, action=f'partner {instance} updated ',
                               subject=instance)
@@ -97,6 +101,7 @@ class PartnerUpdateAPIView(RetrieveUpdateAPIView):
 class PartnerDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer
+    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     # def get_permissions(self):
     #     if self.request.user.is_superuser:

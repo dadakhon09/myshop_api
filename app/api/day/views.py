@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveUpdateAPIView, CreateAPIView, \
     RetrieveAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,13 +14,13 @@ from app.api.users.serializers import UserSerializer
 from app.model import Diary
 from app.model.action import Action
 from app.model.day import Day
-
+from app.permissions import IsManager, IsManagerOrReadOnly, NotMediaManager
 
 class DayCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DayCreateSerializer
     queryset = Day.objects.all()
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsManager)
 
     def perform_create(self, serializer):
         instance = serializer.save()
@@ -32,6 +32,7 @@ class DayCreateAPIView(CreateAPIView):
 class DayListAllAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Day.objects.all()
@@ -40,6 +41,7 @@ class DayListAllAPIView(ListAPIView):
 class DayListTodayAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListTodaySerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Day.objects.filter(day_date=datetime.today())
@@ -48,6 +50,7 @@ class DayListTodayAPIView(ListAPIView):
 class DayListMyAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
+    permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         p = Day.objects.filter(moder=self.request.user)
@@ -57,6 +60,7 @@ class DayListMyAPIView(ListAPIView):
 class DayUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = DayUpdateSerializer
+    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Day.objects.all()
@@ -70,6 +74,7 @@ class DayUpdateAPIView(RetrieveUpdateAPIView):
 class DayDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
+    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Day.objects.all()
@@ -82,13 +87,17 @@ class DayDeleteAPIView(RetrieveDestroyAPIView):
 class DayDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DayListSerializer
+    permission_classes = (IsAuthenticated, NotMediaManager)
 
     def get_queryset(self):
         p = Day.objects.filter(id=self.kwargs['id'])
         return p
 
 
+
 class DayGetStartedAPIView(APIView):
+    permission_classes = (IsAuthenticated, IsManager)
+
     def post(self, request):
 
         d = Day.objects.get(moder=self.request.user, day_date=datetime.today())
@@ -104,7 +113,10 @@ class DayGetStartedAPIView(APIView):
         return Response(day.data)
 
 
+
 class DayGetEndedAPIView(APIView):
+    permission_classes = (IsAuthenticated, IsManager)
+    
     def post(self, request):
 
         d = Day.objects.get(moder=self.request.user, day_date=datetime.today())

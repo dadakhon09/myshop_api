@@ -10,7 +10,7 @@ from app.api.settings.serializers import SettingsCreateSerializer, SettingsListS
 class SettingsCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsCreateSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Settings.objects.all()
@@ -24,7 +24,7 @@ class SettingsCreateAPIView(CreateAPIView):
 class SettingsListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
-    # permission_classes = (IsAuthenticated, IsAdminUser )
+    permission_classes = (IsAuthenticated, IsAdminUser )
 
     def get_queryset(self):
         return Settings.objects.all()
@@ -33,7 +33,7 @@ class SettingsListAPIView(ListAPIView):
 class SettingsUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
-    # permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Settings.objects.filter(id=1)
@@ -47,7 +47,7 @@ class SettingsUpdateAPIView(RetrieveUpdateAPIView):
 class SettingsDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
-    # permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Settings.objects.all()
@@ -60,7 +60,7 @@ class SettingsDeleteAPIView(RetrieveDestroyAPIView):
 class SettingsDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = SettingsListSerializer
-    # permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         p = Settings.objects.filter(id=self.kwargs['id'])

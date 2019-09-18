@@ -1,17 +1,18 @@
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from app.model.action import Action
 from app.model.payment import Payment
 from app.api.payment.serializers import PaymentCreateSerializer, PaymentListSerializer, PaymentUpdateSerializer
+from app.permissions import IsMediaManagerOrReadOnly, IsMediaManager
 
 
 class PaymentCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = PaymentCreateSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsMediaManager)
 
     def get_queryset(self):
         return Payment.objects.all()
@@ -36,6 +37,7 @@ class PaymentCreateAPIView(CreateAPIView):
 class PaymentUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = PaymentUpdateSerializer
+    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return Payment.objects.all()
@@ -49,6 +51,7 @@ class PaymentUpdateAPIView(RetrieveUpdateAPIView):
 class PaymentListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PaymentListSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Payment.objects.all()
@@ -57,6 +60,7 @@ class PaymentListAPIView(ListAPIView):
 class PaymentDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = PaymentListSerializer
+    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return Payment.objects.all()
@@ -69,6 +73,7 @@ class PaymentDeleteAPIView(RetrieveDestroyAPIView):
 class PaymentDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PaymentListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         p = Payment.objects.filter(id=self.kwargs['id'])
