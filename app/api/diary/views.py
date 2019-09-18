@@ -8,13 +8,13 @@ from app.model import Process, Partner, Negotiation
 from app.model.action import Action
 from app.model.day import Day
 from app.model.diary import Diary
-from app.permissions import IsOwnerOrReadOnly
+from app.permissions import IsManager, IsManagerOrReadOnly, NotMediaManager
 
 
 class DiaryCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DiaryCreateSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         return Diary.objects.all()
@@ -45,6 +45,7 @@ class DiaryCreateAPIView(CreateAPIView):
 class DiaryListMyAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
+    permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         d, _ = Day.objects.get_or_create(moder=self.request.user, day_date=datetime.today())
@@ -55,7 +56,7 @@ class DiaryListMyAPIView(ListAPIView):
 class DiaryListTodayAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
-    # permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         p = Diary.objects.filter(moder=self.request.user, destination_date=datetime.today())
@@ -65,6 +66,7 @@ class DiaryListTodayAPIView(ListAPIView):
 class DiaryUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = DiaryUpdateSerializer
+    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Diary.objects.all()
@@ -78,6 +80,7 @@ class DiaryUpdateAPIView(RetrieveUpdateAPIView):
 class DiaryDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
+    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Diary.objects.all()
@@ -90,6 +93,7 @@ class DiaryDeleteAPIView(RetrieveDestroyAPIView):
 class DiaryDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = DiaryListSerializer
+    permission_classes = (IsAuthenticated, NotMediaManager)
 
     def get_queryset(self):
         p = Diary.objects.filter(id=self.kwargs['id'])

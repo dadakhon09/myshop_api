@@ -8,12 +8,13 @@ from app.model import Payment
 from app.model.action import Action
 from app.model.contract import Contract
 from app.model.day import Day
+from app.permissions import IsMediaManagerOrReadOnly, IsMediaManager
 
 
 class ContractCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ContractCreateSerializer
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -27,6 +28,7 @@ class ContractCreateAPIView(CreateAPIView):
 class ContractListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ContractListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -35,7 +37,7 @@ class ContractListAPIView(ListAPIView):
 class ContractUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = ContractUpdateSerializer
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -49,7 +51,7 @@ class ContractUpdateAPIView(RetrieveUpdateAPIView):
 class ContractDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ContractListSerializer
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -62,6 +64,7 @@ class ContractDeleteAPIView(RetrieveDestroyAPIView):
 class ContractDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ContractListSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         p = Contract.objects.filter(id=self.kwargs['id'])

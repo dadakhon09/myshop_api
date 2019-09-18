@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
+from rest_framework.response import Response
 
 from app.model import Action
 from app.model.partner import Partner
@@ -35,11 +36,11 @@ class PartnerTransferSerializer(ModelSerializer):
     def create(self, validated_data):
         request = self.context['request']
         partners = request.data.getlist('partner_id')
-        user = User.objects.get(id=request.data.get('user_id'))
+        user = User.objects.get(id=request.data.get('manager_id'))
         for partner in partners:
             p = Partner.objects.get(id=int(partner))
             if p.moder.id == user.id:
-                continue
+                return Response('You cant transfer to yourself')
             p.last_moder = p.moder
             p.moder = user
             p.transferred = True
@@ -48,7 +49,8 @@ class PartnerTransferSerializer(ModelSerializer):
             Action.objects.create(moder=user,
                                   action=f'partner {p} transferred to user {user}',
                                   subject=p)
-        return request
+
+        return Response(f'Transferred successfully to {user.username}', status=201)
 
 
 class PartnerUpdateSerializer(ModelSerializer):
