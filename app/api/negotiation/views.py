@@ -14,7 +14,7 @@ from app.permissions import IsManager, NotMediaManager, IsManagerOrReadOnly
 class NegotiationCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationCreateSerializer
-    permission_classes = (IsAuthenticated, IsManager)
+    # permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         return Negotiation.objects.all()
@@ -28,7 +28,7 @@ class NegotiationCreateAPIView(CreateAPIView):
 class NegotiationListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Negotiation.objects.all()
@@ -37,7 +37,7 @@ class NegotiationListAPIView(ListAPIView):
 class NegotiationListByDurabilityAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         s = Settings.objects.get(id=1)
@@ -49,7 +49,7 @@ class NegotiationListByDurabilityAPIView(ListAPIView):
 class NegotiationListByPartnerAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
-    permission_classes = (IsAuthenticated, NotMediaManager)
+    # permission_classes = (IsAuthenticated, NotMediaManager)
 
     def get_queryset(self):
         pk = self.kwargs['id']
@@ -68,7 +68,7 @@ class NegotiationContractsCount(ListAPIView):
 class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationUpdateSerializer
-    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Negotiation.objects.all()
@@ -82,7 +82,7 @@ class NegotiationUpdateAPIView(RetrieveUpdateAPIView):
 class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
-    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Negotiation.objects.all()
@@ -95,7 +95,7 @@ class NegotiationDeleteAPIView(RetrieveDestroyAPIView):
 class NegotiationDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = NegotiationListSerializer
-    permission_classes = (IsAuthenticated, NotMediaManager)
+    # permission_classes = (IsAuthenticated, NotMediaManager)
 
     def get_queryset(self):
         p = Negotiation.objects.filter(id=self.kwargs['id'])

@@ -33,7 +33,7 @@ class ManagerDetailAPIView(RetrieveAPIView):
     lookup_field = 'id'
     serializer_class = UserFullSerializer
     queryset = User.objects.filter(userprofile__type__exact=1)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -50,20 +50,20 @@ class MediaManagerDetailAPIView(RetrieveAPIView):
     lookup_field = 'id'
     serializer_class = userFullSerializer
     queryset = User.objects.filter(userprofile__type__exact=0)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class MediaManagerListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = userFullSerializer
     queryset = User.objects.filter(userprofile__type__exact=0)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class ManagerListAPIView(Abc):
     serializer_class = UserFullSerializer
     queryset = User.objects.filter(userprofile__type__exact=1)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get(self, request, *args, **kwargs):
         return self.get_additional_info()

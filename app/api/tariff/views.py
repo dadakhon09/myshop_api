@@ -9,7 +9,7 @@ from app.api.tariff.serializers import TariffCreateSerializer, TariffListSeriali
 class TariffCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = TariffCreateSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Tariff.objects.all()
@@ -23,7 +23,7 @@ class TariffCreateAPIView(CreateAPIView):
 class TariffListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Tariff.objects.all()
@@ -32,7 +32,7 @@ class TariffListAPIView(ListAPIView):
 class TariffUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Tariff.objects.all()
@@ -46,7 +46,7 @@ class TariffUpdateAPIView(RetrieveUpdateAPIView):
 class TariffDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         return Tariff.objects.all()
@@ -59,7 +59,7 @@ class TariffDeleteAPIView(RetrieveDestroyAPIView):
 class TariffDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = TariffListSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get_queryset(self):
         p = Tariff.objects.filter(id=self.kwargs['id'])
