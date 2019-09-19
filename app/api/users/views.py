@@ -35,7 +35,7 @@ class UserCreate(APIView):
             return Response("We have already the same username")
 
 
-# @permission_classes((AllowAny,))
+@permission_classes((AllowAny,))
 class UserLogin(APIView):
     def post(self, request):
         data = request.data
