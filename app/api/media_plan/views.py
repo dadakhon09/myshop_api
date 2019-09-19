@@ -11,7 +11,7 @@ from app.permissions import IsMediaManager, IsMediaManagerOrReadOnly
 class MediaPlanCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanCreateSerializer
-    permission_classes = (IsAuthenticated, IsMediaManager)
+    # permission_classes = (IsAuthenticated, IsMediaManager)
 
     def get_queryset(self):
         return MediaPlan.objects.all()
@@ -25,7 +25,7 @@ class MediaPlanCreateAPIView(CreateAPIView):
 class MediaPlanListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanListSerializer
-    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return MediaPlan.objects.all()
@@ -34,7 +34,7 @@ class MediaPlanListAPIView(ListAPIView):
 class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanUpdateSerializer
-    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return MediaPlan.objects.all()
@@ -48,7 +48,7 @@ class MediaPlanUpdateAPIView(RetrieveUpdateAPIView):
 class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanListSerializer
-    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         return MediaPlan.objects.all()
@@ -61,7 +61,7 @@ class MediaPlanDeleteAPIView(RetrieveDestroyAPIView):
 class MediaPLanDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = MediaPlanListSerializer
-    permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsMediaManagerOrReadOnly)
 
     def get_queryset(self):
         p = MediaPlan.objects.filter(id=self.kwargs['id'])

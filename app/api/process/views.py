@@ -16,7 +16,7 @@ now = datetime.datetime.now()
 class ProcessCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = ProcessCreateSerializer
-    permission_classes = (IsAuthenticated, IsManager)
+    # permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         return Process.objects.all()
@@ -44,7 +44,7 @@ class ProcessCreateAPIView(CreateAPIView):
 class ProcessTodayListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         p = Process.objects.filter(moder=self.request.user, destination_date=now.today())
@@ -54,7 +54,7 @@ class ProcessTodayListAPIView(ListAPIView):
 class ProcessListByModerAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         p = Process.objects.filter(moder=self.request.user)
@@ -65,20 +65,20 @@ class ProcessAllListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
     queryset = Process.objects.all()
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class EventAllListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
     queryset = Process.objects.filter(destination_date__gt=datetime.datetime.today())
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, IsAdminUser)
 
 
 class EventMyListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
-    permission_classes = (IsAuthenticated, IsManager)
+    # permission_classes = (IsAuthenticated, IsManager)
 
     def get_queryset(self):
         return Process.objects.filter(moder=self.request.user, destination_date__gt=datetime.datetime.today())
@@ -87,7 +87,7 @@ class EventMyListAPIView(ListAPIView):
 class ProcessUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     serializer_class = ProcessUpdateSerializer
-    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Process.objects.all()
@@ -101,7 +101,7 @@ class ProcessUpdateAPIView(RetrieveUpdateAPIView):
 class ProcessDeleteAPIView(RetrieveDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
-    permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
+    # permission_classes = (IsAuthenticated, IsManagerOrReadOnly)
 
     def get_queryset(self):
         return Process.objects.all()
@@ -114,7 +114,7 @@ class ProcessDeleteAPIView(RetrieveDestroyAPIView):
 class ProcessDetailAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = ProcessListSerializer
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         p = Process.objects.filter(id=self.kwargs['id'])
