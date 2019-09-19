@@ -5,17 +5,6 @@ from app.model import Partner, Diary
 from app.model.users import UserProfile
 
 
-#
-# class CustomPagination(LimitOffsetPagination):
-#     def get_paginated_response(self, data):
-#         return Response({
-#             'count': self.count,
-#             'next': self.get_next_link(),
-#             'previous': self.get_previous_link(),
-#             'results': data
-#         })
-
-
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
@@ -29,11 +18,29 @@ class UserProfileSerializer(ModelSerializer):
         model = UserProfile
         fields = ('user', 'type')
 
+class UserWithPartnerSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')
+
+    def to_representation(self, instance):
+        from app.api.partner.serializers import PartnerIdSerializer
+        # from app.api.diary.serializers import DiaryListSerializer
+        ret = super(UserWithPartnerSerializer, self).to_representation(instance)
+        p = Partner.objects.filter(moder__username=ret.get('username'))
+        ps = PartnerIdSerializer(p, many=True)
+        # d = Diary.objects.filter(moder__username=ret.get('username'))
+        # ds = DiaryListSerializer(d, many=True)
+        # print(ps)
+        ret['partner'] = ps.data
+        # ret['diary'] = ds.data
+        return ret
+
 
 class UserFullSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'username', 'password')
+        fields = ('id', 'first_name', 'last_name', 'username')
 
     def to_representation(self, instance):
         from app.api.partner.serializers import PartnerListSerializer
