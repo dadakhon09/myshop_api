@@ -51,6 +51,18 @@ class PartnerListByModerAPIView(ListAPIView):
         return p
 
 
+class PartnerListByIdAPIView(ListAPIView):
+    lookup_field = 'id'
+    serializer_class = PartnerListSerializer
+    # permission_classes = (IsAuthenticated, IsManager)
+
+    def get_queryset(self):
+        qs = Partner.objects.all()
+        if self.request.GET.get('manager_id'):
+            qs = qs.filter(moder_id=self.request.GET.get('manager_id'))
+        return qs
+
+
 class PartnerTransferredListAPIView(ListAPIView):
     lookup_field = 'id'
     serializer_class = PartnerListSerializer

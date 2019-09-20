@@ -18,24 +18,6 @@ class UserProfileSerializer(ModelSerializer):
         model = UserProfile
         fields = ('user', 'type')
 
-class UserWithPartnerSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username')
-
-    def to_representation(self, instance):
-        from app.api.partner.serializers import PartnerIdSerializer
-        # from app.api.diary.serializers import DiaryListSerializer
-        ret = super(UserWithPartnerSerializer, self).to_representation(instance)
-        p = Partner.objects.filter(moder__username=ret.get('username'))
-        ps = PartnerIdSerializer(p, many=True)
-        # d = Diary.objects.filter(moder__username=ret.get('username'))
-        # ds = DiaryListSerializer(d, many=True)
-        # print(ps)
-        ret['partner'] = ps.data
-        # ret['diary'] = ds.data
-        return ret
-
 
 class UserFullSerializer(ModelSerializer):
     class Meta:

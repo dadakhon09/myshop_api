@@ -19,7 +19,7 @@ from app.api.negotiation.views import NegotiationUpdateAPIView, NegotiationDelet
     NegotiationListByDurabilityAPIView, NegotiationContractsCount
 from app.api.partner.views import PartnerUpdateAPIView, PartnerTransferAPIView, PartnerDeleteAPIView, \
     PartnerCreateAPIView, PartnerListAPIView, PartnerDetailAPIView, PartnerListByModerAPIView, \
-    PartnerTransferredListAPIView
+    PartnerTransferredListAPIView, PartnerListByIdAPIView
 from app.api.payment.views import PaymentUpdateAPIView, PaymentDeleteAPIView, PaymentCreateAPIView, PaymentListAPIView, \
     PaymentDetailAPIView
 from app.api.process.views import ProcessUpdateAPIView, ProcessDeleteAPIView, ProcessCreateAPIView, \
@@ -59,6 +59,7 @@ urlpatterns = [
     path('partner/list/all/', PartnerListAPIView.as_view(), name='partner-list'),
     path('partner/list/<int:id>/', PartnerDetailAPIView.as_view(), name='partner-list-id'),
     path('partner/list/my/', PartnerListByModerAPIView.as_view(), name='partner-list-moder'),
+    path('partner/list/', PartnerListByIdAPIView.as_view(), name='partner-list-id'),
     path('partner/list/transferred/', PartnerTransferredListAPIView.as_view(), name='partner-list-transferred'),
     # for notification
 

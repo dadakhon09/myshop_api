@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from app.api.managers.serializers import userFullSerializer
 from app.api.users.serializers import UserFullSerializer
+from app.permissions import NotMediaManager
 
 
 class Abc(ListAPIView):
@@ -25,7 +26,6 @@ class Abc(ListAPIView):
         #         "partner": PartnerListSerializer(Partner.objects.filter(moder=user), many=True).data,
         #         "diary": DiaryListSerializer(Diary.objects.filter(moder=user), many=True).data,
         #     }
-        # return Response(serializer.data)
         return self.get_paginated_response(serializer.data)
 
 
@@ -63,7 +63,7 @@ class MediaManagerListAPIView(ListAPIView):
 class ManagerListAPIView(Abc):
     serializer_class = UserFullSerializer
     queryset = User.objects.filter(userprofile__type__exact=1)
-    # permission_classes = (IsAuthenticated, IsAdminUser)
+    # permission_classes = (IsAuthenticated, NotMediaManager)
 
     def get(self, request, *args, **kwargs):
         return self.get_additional_info()
