@@ -36,12 +36,15 @@ class PartnerTransferSerializer(ModelSerializer):
 
     def create(self, validated_data):
         request = self.context['request']
-        partners = request.data.getlist('partner_id')
+        partners = list(request.data.getlist('partner_id'))
         user = User.objects.get(id=request.data.get('manager_id'))
+
         for partner in partners:
             p = Partner.objects.get(id=int(partner))
+
             if p.moder.id == user.id:
                 return Response('You cant transfer to yourself')
+
             p.last_moder = p.moder
             p.moder = user
             p.transferred = True
