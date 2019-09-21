@@ -126,7 +126,7 @@ class DayGetEndedAPIView(APIView):
             diaries = Diary.objects.filter(moder=self.request.user, destination_date=datetime.today())
 
             for p in diaries:
-                if p.result == 'None':  # and p.day.day_date == datetime.today().date():
+                if p.result == 'None':
                     return Response('You cant leave now, first finish all your work', status=400)
 
             d.end_time = datetime.today()
