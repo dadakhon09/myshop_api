@@ -38,7 +38,10 @@ class PartnerListAPIView(ListAPIView):
 
     def get_queryset(self):
         Settings.objects.get_or_create(negotiation_durability=2)
-        return Partner.objects.all()
+        qs = Partner.objects.all()
+        if self.request.GET.get('q'):
+            qs = qs.filter(ooo__icontains=self.request.GET.get('q'))
+        return qs
 
 
 class PartnerListByModerAPIView(ListAPIView):
@@ -48,6 +51,8 @@ class PartnerListByModerAPIView(ListAPIView):
 
     def get_queryset(self):
         p = Partner.objects.filter(moder=self.request.user)
+        if self.request.GET.get('q'):
+            p = p.filter(ooo__icontains=self.request.GET.get('q'))
         return p
 
 
@@ -60,6 +65,8 @@ class PartnerListByIdAPIView(ListAPIView):
         qs = Partner.objects.all()
         if self.request.GET.get('manager_id'):
             qs = qs.filter(moder_id=self.request.GET.get('manager_id'))
+        if self.request.GET.get('q'):
+            qs = qs.filter(ooo__icontains=self.request.GET.get('q'))
         return qs
 
 

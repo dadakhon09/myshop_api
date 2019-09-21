@@ -16,6 +16,7 @@ from app.model.action import Action
 from app.model.day import Day
 from app.permissions import IsManager, IsManagerOrReadOnly, NotMediaManager
 
+
 class DayCreateAPIView(CreateAPIView):
     lookup_field = 'id'
     serializer_class = DayCreateSerializer
@@ -103,12 +104,12 @@ class DayGetStartedAPIView(APIView):
 
         if not d.start_time:
             d.start_time = datetime.today()
+        else:
+            return Response('You have already started your day')
 
         day = DayListSerializer(d)
         d.save()
-
         Action.objects.create(moder=self.request.user, action=f'day {d} started', subject=d)
-
         return Response(day.data)
 
 

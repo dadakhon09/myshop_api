@@ -2,12 +2,14 @@ amqp==2.5.1
 Babel==2.7.0
 backcall==0.1.0
 billiard==3.6.1.0
+celery==4.3.0
 certifi==2019.6.16
 chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 decorator==4.4.0
 Django==2.2.4
+django-compat==1.0.15
 django-cors-headers==3.0.2
 django-phonenumber-field==3.0.1
 django-rest-swagger==2.2.0

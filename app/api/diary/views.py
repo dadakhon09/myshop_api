@@ -50,6 +50,8 @@ class DiaryListMyAPIView(ListAPIView):
     def get_queryset(self):
         d, _ = Day.objects.get_or_create(moder=self.request.user, day_date=datetime.today())
         p = Diary.objects.filter(moder=self.request.user)
+        if self.request.GET.get('date'):
+            p = p.filter(destination_date=self.request.GET.get('date'))
         return p
 
 
@@ -61,6 +63,16 @@ class DiaryListTodayAPIView(ListAPIView):
     def get_queryset(self):
         p = Diary.objects.filter(moder=self.request.user, destination_date=datetime.today())
         return p
+
+
+# class DiaryListByDateAPIView(ListAPIView):
+#     serializer_class = DiaryListSerializer
+#
+#     def get_queryset(self):
+#         qs = Diary.objects.all().filter()
+#         if self.request.GET.get('date'):
+#             qs = qs.filter(moder_id=self.request.GET.get('manager_id'))
+#         return qs
 
 
 class DiaryUpdateAPIView(RetrieveUpdateAPIView):
