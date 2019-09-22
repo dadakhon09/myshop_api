@@ -17,7 +17,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "django_cron",
+    'django_cron',
+    # 'django_crontab',
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'corsheaders',
@@ -28,14 +29,18 @@ INSTALLED_APPS = [
 ]
 
 CRON_CLASSES = [
-    "cron.cron.MyCronJob",
+    'cron.cron.MyCronJob',
 ]
+#
+# CRONJOBS = [
+#     ('*/1 * * * *', 'crontab.crontab.my_scheduled_job'),
+# ]
 
-ALLOW_PARALLEL_RUNS = True
-DJANGO_CRON_LOCK_BACKEND = "django_cron.backends.lock.cache.CacheLock"
-DJANGO_CRON_LOCKFILE_PATH = "/tmp"
-DJANGO_CRON_LOCK_TIME = 24 * 60 * 60
-DJANGO_CRON_CACHE = "default"
+# ALLOW_PARALLEL_RUNS = True
+# DJANGO_CRON_LOCK_BACKEND = "django_cron.backends.lock.cache.CacheLock"
+# DJANGO_CRON_LOCKFILE_PATH = "/tmp"
+# DJANGO_CRON_LOCK_TIME = 24 * 60 * 60
+# DJANGO_CRON_CACHE = "default"
 # DJANGO_CRON_DELETE_LOGS_OLDER_THAN = 100
 
 MIDDLEWARE = [

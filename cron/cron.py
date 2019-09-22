@@ -1,12 +1,21 @@
+from datetime import datetime
+
+from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 from django_cron import CronJobBase, Schedule
+
+from app.model.day import Day
 
 
 class MyCronJob(CronJobBase):
-    RUN_EVERY_MINS = 0.1
-    RUN_AT_TIMES = ['17:52']
+    RUN_AT_TIMES = ['15:55']
 
-    schedule = Schedule(run_every_mins=RUN_EVERY_MINS, run_at_times=RUN_AT_TIMES)
-    code = 'cron.MyCronJob'    # a unique code
+    schedule = Schedule(run_at_times=RUN_AT_TIMES)
+    code = 'cron.my_cron_job'
 
     def do(self):
-        print(1111111111111111111111111111111111111)
+        days = Day.objects.filter(end_time__isnull=True)
+        print(days)
+        for d in days:
+            d.end_time = datetime.now()
+            d.save()
