@@ -100,21 +100,21 @@ CORS_ORIGIN_ALLOW_ALL = True
 WSGI_APPLICATION = 'wsgi.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'myshop',
-#         'USER': 'dadakhon',
-#         'PASSWORD': '1',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'myshop',
+        'USER': 'dadakhon',
+        'PASSWORD': '1',
+    }
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [
