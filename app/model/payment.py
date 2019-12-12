@@ -1,4 +1,4 @@
-from _decimal import Decimal
+from _pydecimal import Decimal
 
 from django.core.validators import MinValueValidator
 from django.db import models
