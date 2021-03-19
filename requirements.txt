@@ -13,7 +13,7 @@ django-compat==1.0.15
 django-cors-headers==3.0.2
 django-phonenumber-field==3.0.1
 django-rest-swagger==2.2.0
-djangorestframework==3.10.2
+djangorestframework==3.11.2
 idna==2.8
 importlib-metadata==0.23
 ipython==7.8.0
